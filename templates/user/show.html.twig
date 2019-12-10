@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                   Informations utilisateur <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fa fa-edit"></i></a>
+                </div>
+                <div class="card-body ">
+
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ user.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Username</th>
+                            <td>{{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>Roles</th>
+                            <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Password crypté</th>
+                            <td>{{ user.password }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <form method="post" action="{{ path('user_delete', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
