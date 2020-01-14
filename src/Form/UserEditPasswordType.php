@@ -13,7 +13,7 @@ class UserEditPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('password', TextType::class, ['data' => null, 'attr' => ['placeholder' => 'Mot de passe...', 'class' => 'form-control']]);
+            ->add('password', TextType::class, ['data' => null, "empty_data" => "", 'attr' => ['placeholder' => 'Mot de passe...', 'class' => 'form-control']]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

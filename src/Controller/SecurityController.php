@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserCreateType;
 use App\Form\UserEditPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,13 +35,32 @@ class SecurityController extends AbstractController
     /**
      * @Route("/password", name="app_password", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function password(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserEditPasswordType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form["password"]->getData() == "" || $form["password"]->getData() == null) {
+                $form->addError(new FormError('Password vide'));
+
+                return $this->render('security/password.html.twig', [
+                    'user' => $user,
+                    'form' => $form->createView(),
+                ]);
+            }
+
+            if (strlen($form["password"]->getData()) < 6) {
+                $form->addError(new FormError('Password trop petit, la taille minimum est de 6 caractères'));
+
+                return $this->render('security/password.html.twig', [
+                    'user' => $user,
+                    'form' => $form->createView(),
+                ]);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $password = $passwordEncoder->encodePassword($user, $form["password"]->getData());
             $user->setPassword($password);
