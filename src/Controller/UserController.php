@@ -8,6 +8,7 @@ use App\Form\UserEditPasswordType;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +45,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash("success","Utilisateur créé");
             return $this->redirectToRoute('user_index');
         }
 
@@ -74,6 +76,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash("success","Utilisateur modifié");
             return $this->redirectToRoute('user_index');
         }
 
@@ -84,7 +87,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/editpassword", name="user_edit", methods={"GET","POST"})
+     * @Route("/{id}/editpassword", name="user_edit_password", methods={"GET","POST"})
      */
     public function editpassword(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -92,10 +95,30 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form["password"]->getData() == "" || $form["password"]->getData() == null) {
+                $form->addError(new FormError('Mot de passe vide'));
+
+                return $this->render('user/editpassword.html.twig', [
+                    'user' => $user,
+                    'form' => $form->createView(),
+                ]);
+            }
+
+            if (strlen($form["password"]->getData()) < 6) {
+                $form->addError(new FormError('Mot de passe trop petit, la taille minimum est de 6 caractères'));
+
+                return $this->render('user/editpassword.html.twig', [
+                    'user' => $user,
+                    'form' => $form->createView(),
+                ]);
+            }
+
             $password = $passwordEncoder->encodePassword($user, $form["password"]->getData());
             $user->setPassword($password);
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash("success","Utilisateur modifié");
             return $this->redirectToRoute('user_index');
         }
 
@@ -106,21 +129,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, User $user): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('user_index');
-    }
-
-    /**
-     * @Route("/delete/{id}", name="user_delete_force")
+     * @Route("/delete/{id}", name="user_delete_force", methods={"DELETE"})
      */
     public function deleteforce(User $user): Response
     {
@@ -128,6 +137,7 @@ class UserController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
 
+        $this->addFlash("success","Utilisateur supprimé");
         return $this->redirectToRoute('user_index');
     }
 }

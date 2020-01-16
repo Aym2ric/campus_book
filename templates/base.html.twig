@@ -5,7 +5,7 @@
     <link rel="icon" href="{{ asset('assets') }}/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        Centralisation des accords cadre - {% block title %}{% endblock %}
+        {{ nomdusite }} - {% block title %}{% endblock %}
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!-- Icons -->
@@ -23,40 +23,39 @@
     <div class="main-panel" id="main-panel">
         {{ render(path('navbar')) }}
         <div class="content">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
             {% block body %}
             {% endblock %}
         </div>
-        <footer class="footer">
+        <!--<footer class="footer">
             <div class="container-fluid">
                 <nav>
                     <ul>
                         <li>
-                            <a href="https://www.creative-tim.com">
-                                Creative Tim
+                            <a href="#">
+                                Page 1
                             </a>
                         </li>
                         <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
+                            <a href="#">
+                                Page 2
                             </a>
                         </li>
                         <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
+                            <a href="#">
+                                Page 3
                             </a>
                         </li>
                     </ul>
                 </nav>
                 <div class="copyright" id="copyright">
-                    &copy;
-                    <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-                    </script>, Designed by
-                    <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by
-                    <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
                 </div>
             </div>
-        </footer>
+        </footer>-->
     </div>
 </div>
 <!--   Core JS Files   -->

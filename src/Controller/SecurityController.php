@@ -44,7 +44,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($form["password"]->getData() == "" || $form["password"]->getData() == null) {
-                $form->addError(new FormError('Password vide'));
+                $form->addError(new FormError('Mot de passe vide'));
 
                 return $this->render('security/password.html.twig', [
                     'user' => $user,
@@ -53,7 +53,7 @@ class SecurityController extends AbstractController
             }
 
             if (strlen($form["password"]->getData()) < 6) {
-                $form->addError(new FormError('Password trop petit, la taille minimum est de 6 caractères'));
+                $form->addError(new FormError('Mot de passe trop petit, la taille minimum est de 6 caractères'));
 
                 return $this->render('security/password.html.twig', [
                     'user' => $user,
@@ -67,6 +67,7 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash("success","Mot de passe modifié");
             return $this->redirectToRoute('index');
         }
 
