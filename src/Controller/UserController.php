@@ -96,7 +96,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($form["password"]->getData() == "" || $form["password"]->getData() == null) {
+           /* if ($form["password"]->getData() == "" || $form["password"]->getData() == null) {
                 $form->addError(new FormError('Mot de passe vide'));
 
                 return $this->render('user/editpassword.html.twig', [
@@ -112,7 +112,7 @@ class UserController extends AbstractController
                     'user' => $user,
                     'form' => $form->createView(),
                 ]);
-            }
+            }*/
 
             $password = $passwordEncoder->encodePassword($user, $form["password"]->getData());
             $user->setPassword($password);

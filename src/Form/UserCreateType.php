@@ -10,14 +10,15 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserCreateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ['attr' => ['placeholder' => 'Username...', 'class' => 'form-control']])
-            ->add('password', PasswordType::class, ['attr' => ['placeholder' => 'Mot de passe...', 'class' => 'form-control']])
+            ->add('username', TextType::class, ["empty_data" => "", "constraints" => [new NotBlank()], 'attr' => ['placeholder' => 'Username...', 'class' => 'form-control']])
+            ->add('password', PasswordType::class, ["empty_data" => "", "constraints" => [new NotBlank()], 'attr' => ['placeholder' => 'Mot de passe...', 'class' => 'form-control']])
             ->add('roles', ChoiceType::class, ['choices' =>
                 ['ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN', 'ROLE_USER' => 'ROLE_USER'],
                 'expanded' => true, 'multiple' => true, 'attr' => ['class' => 'form-group']]);

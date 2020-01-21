@@ -13,9 +13,9 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        if(!$this->getUser()) {
+       /* if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
-        }
+        }*/
         return $this->render("default/index.html.twig");
     }
 

@@ -11,7 +11,9 @@
                 </div>
                 <div class="card-body ">
 
-                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                     <div class="row">
                         <div class="col-md-6 pr-1">
                             <div class="form-group">
