@@ -5,4 +5,5 @@ twig:
     exception_controller: null
     globals:
         nomdusite: '%app.nomdusite%'
+        descriptiondusite: '%app.descriptiondusite%'
     form_themes: ['bootstrap_4_horizontal_layout.html.twig']

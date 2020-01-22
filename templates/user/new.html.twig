@@ -1,8 +1,63 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
-{% block title %}Créer un utilisateur{% endblock %}
+{% block title %}Créer Utilisateur{% endblock %}
 
 {% block body %}
+
+        <!-- BREADCRUMBS -->
+        <div class="row pb-4">
+            <div class="col-auto">
+                <i class="fa fa-user circular circular-success"></i>
+            </div>
+            <div class="col pt-3">
+                <h1 class="h1 bdc-title">Créer Utilisateur</h1>
+                <span class="text-grey">Gestion des utilisateurs</span>
+            </div>
+            <div class="col text-right">
+                <a href="{{ path('user_index') }}" class="btn btn-success-light text-white btn-md"><i class="fa fa-table"></i> <span
+                            class="px-2">Liste</span></a>
+            </div>
+        </div>
+        <!-- BREADCRUMBS -->
+
+        <!-- BOX FILTRES -->
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="box">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne"
+                                            aria-expanded="false" aria-controls="collapseOne">
+                                        <i class="fa fa-sort-down align-text-top"></i> <span class="ml-2">Filtres</span>
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    Formulaire
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- BOX FILTRES -->
+
+        <!-- TABLEAU LISTING OBJETS -->
+        <div class="row">
+            <div class="col-md-12">
+
+            </div>
+        </div>
+        <!-- TABLEAU LISTING OBJETS -->
+
+
+
     <div class="row">
         <div class="col-md-12">
             <div class="card ">
