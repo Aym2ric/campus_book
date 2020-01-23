@@ -15,8 +15,14 @@ class UserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ['attr' => ['placeholder' => 'Username...', 'class' => 'form-control']])
-            ->add('roles', ChoiceType::class, ['choices' => ['ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN', 'ROLE_USER' => 'ROLE_USER'], 'expanded' => true, 'multiple' => true, 'attr' => ['class' => '']]);
+            ->add('username', TextType::class, [
+                "required" => true,
+                'attr' => ['placeholder' => 'Username...', 'class' => 'form-control']
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => ['ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN', 'ROLE_USER' => 'ROLE_USER'],
+                'expanded' => true, 'multiple' => true, 'attr' => ['class' => 'form-group']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

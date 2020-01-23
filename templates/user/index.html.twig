@@ -13,9 +13,15 @@
             <span class="text-grey">Gestion des utilisateurs</span>
         </div>
         <div class="col text-right">
-            <a href="{{ path('user_new') }}" class="btn btn-success-light text-white btn-md"><i class="fa fa-plus"></i>
-                <span
-                        class="px-2">Créer</span></a>
+            <a href="{{ path('user_new') }}" class="btn btn-success-light btn-md">
+                <i class="fa fa-plus"></i>
+                <span class="px-2 font-weight-normal">Créer</span></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            {{ wo_render_breadcrumbs() }}
         </div>
     </div>
     <!-- BREADCRUMBS -->
@@ -37,7 +43,25 @@
 
                         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
-                                Formulaire
+                                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}, 'method': 'GET'}) }}
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="text-grey">Username</label>
+                                            {{ form_widget(form.username) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+
+                                <a href="{{ app.request.pathinfo }}" class="btn btn-grey-light">Réinitialiser</a>
+                                <button class="btn btn-success-light ml-2">Filtrer</button>
+                                {{ form_end(form) }}
+
                             </div>
                         </div>
                     </div>

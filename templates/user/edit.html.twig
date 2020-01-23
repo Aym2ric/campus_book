@@ -14,9 +14,15 @@
             <span class="text-grey">Gestion des utilisateurs</span>
         </div>
         <div class="col text-right">
-            <a href="{{ path('user_index') }}" class="btn btn-success-light text-white btn-md"><i
-                        class="fa fa-table"></i> <span
-                        class="px-2">Liste</span></a>
+            <a href="{{ path('user_index') }}" class="btn btn-success-light btn-md">
+                <i class="fa fa-table"></i>
+                <span class="px-2 font-weight-normal">Liste</span></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            {{ wo_render_breadcrumbs() }}
         </div>
     </div>
     <!-- BREADCRUMBS -->
@@ -35,6 +41,7 @@
                             <div class="form-group">
                                 <label class="text-grey required">Username</label>
                                 {{ form_widget(form.username) }}
+                                {{ form_errors(form.username) }}
                             </div>
                         </div>
                     </div>
@@ -71,11 +78,21 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="text-grey required">Mot de passe</label>
-                                {{ form_widget(formPassword.password) }}
+                                {{ form_widget(formPassword.password.first) }}
+                                {{ form_errors(formPassword.password.first) }}
                             </div>
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="text-grey required">Répéter le mot de passe</label>
+                                {{ form_widget(formPassword.password.second) }}
+                                {{ form_errors(formPassword.password.second) }}
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 

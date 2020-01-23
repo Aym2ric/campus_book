@@ -18,13 +18,18 @@ class UserCreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ["required" => true, "constraints" => [new NotBlank()],
-                'attr' => ['placeholder' => 'Username...', 'class' => 'form-control']])
-            ->add('password', PasswordType::class, ["required" => true, "constraints" => [new NotBlank()],
-                'attr' => ['placeholder' => 'Mot de passe...', 'class' => 'form-control']])
-            ->add('roles', ChoiceType::class, ['choices' =>
-                ['ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN', 'ROLE_USER' => 'ROLE_USER'],
-                'expanded' => true, 'multiple' => true, 'attr' => ['class' => 'form-group']]);
+            ->add('username', TextType::class, [
+                "required" => true,
+                'attr' => ['placeholder' => 'Username...', 'class' => 'form-control']
+            ])
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class, 'required' => true,
+                'options' => ['attr' => ['class' => 'form-control']]
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => ['ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN', 'ROLE_USER' => 'ROLE_USER'],
+                'expanded' => true, 'multiple' => true, 'attr' => ['class' => 'form-group']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -4753,11 +4753,9 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    padding: .75rem 1rem;
-    margin-bottom: 1rem;
+    padding: 0;
     list-style: none;
-    background-color: #e9ecef;
-    border-radius: .25rem
+    font-weight: 500;
 }
 
 .breadcrumb-item + .breadcrumb-item {
@@ -4768,7 +4766,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     display: inline-block;
     padding-right: .5rem;
     color: #6c757d;
-    content: "/"
 }
 
 .breadcrumb-item + .breadcrumb-item:hover::before {
@@ -11177,14 +11174,26 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
     right: 0
 }
 
-.breadcrumb {
-    background-color: rgba(0, 0, 0, .05)
+.breadcrumb li {
+    color:#000000;
+}
+
+.breadcrumb li a:hover {
+    color: #1abb9c;
+}
+
+.breadcrumb li a {
+    color: #9a9a9a;
 }
 
 .breadcrumb > li + li:before {
-    content: '/ '
 }
 
+.breadcrumb .separator {
+    font-weight: bold;
+    color:#818181;
+    padding: 0px 1em;
+}
 .navbar {
     min-height: 3.5rem;
     display: -ms-flexbox;
@@ -16231,9 +16240,15 @@ textarea.md-input {
     background-color: #ececec;
 }
 .btn-success-light {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     border-color: #1abb9c;
     background-color: #1abb9c;
+}
+
+.btn-success-light:hover {
+    color: #FFFFFF !important;
+    border-color: #15937b;
+    background-color: #15937b;
 }
 
 .table tr {
