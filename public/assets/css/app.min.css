@@ -2626,7 +2626,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
 .btn-danger {
-    color: #fff;
+    color: #fff !important;
     background-color: #dc3545;
     border-color: #dc3545
 }
@@ -16157,7 +16157,7 @@ textarea.md-input {
 }
 
 .content-main {
-    padding: 2em;
+  /*  padding: 2em;*/
 }
 
 #content {
@@ -16251,4 +16251,9 @@ textarea.md-input {
 .form-group .required:after {
     content:" *";
     color:red;
+}
+
+.box {
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,0.03);
+    border: 1px solid rgba(34,36,38,0.1);
 }

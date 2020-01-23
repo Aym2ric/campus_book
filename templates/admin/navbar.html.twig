@@ -35,13 +35,13 @@
                         <img src="{{ asset('assets/images/50x50.png')}}"/>
                     </span>
                     <span class="ml-2">John</span>
-                    <span class="ml-2"><i class="fa fa-arrow-down"></i></span>
+                    <span class="ml-2"><i class="fa fa-sort-down align-text-top"></i></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right pt-0 mt-2 animate fadeIn">
-                    <a class="dropdown-item" href="index.html">
+                    <a class="dropdown-item" href="{{ path('app_password') }}">
                         <span><i class="fa fa-user fa-2x"></i> Mon compte</span>
                     </a>
-                    <a class="dropdown-item" href="index.html">
+                    <a class="dropdown-item" href="{{ path('app_logout') }}">
                         <span><i class="fa fa-sign-out fa-2x"></i> Déconnexion</span>
                     </a>
                 </div>

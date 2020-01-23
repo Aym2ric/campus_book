@@ -56,20 +56,11 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
-     */
-    public function show(User $user): Response
-    {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        // Informations générales
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
@@ -80,58 +71,46 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
-    }
+        // Changement du mot de passe
+        $formPassword = $this->createForm(UserEditPasswordType::class, $user);
+        $formPassword->handleRequest($request);
 
-    /**
-     * @Route("/{id}/editpassword", name="user_edit_password", methods={"GET","POST"})
-     */
-    public function editpassword(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
-    {
-        $form = $this->createForm(UserEditPasswordType::class, $user);
-        $form->handleRequest($request);
+        if ($formPassword->isSubmitted() && $formPassword->isValid()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-           /* if ($form["password"]->getData() == "" || $form["password"]->getData() == null) {
-                $form->addError(new FormError('Mot de passe vide'));
-
-                return $this->render('user/editpassword.html.twig', [
-                    'user' => $user,
-                    'form' => $form->createView(),
-                ]);
-            }
-
-            if (strlen($form["password"]->getData()) < 6) {
-                $form->addError(new FormError('Mot de passe trop petit, la taille minimum est de 6 caractères'));
-
-                return $this->render('user/editpassword.html.twig', [
-                    'user' => $user,
-                    'form' => $form->createView(),
-                ]);
-            }*/
-
-            $password = $passwordEncoder->encodePassword($user, $form["password"]->getData());
+            $password = $passwordEncoder->encodePassword($user, $formPassword["password"]->getData());
             $user->setPassword($password);
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash("success","Utilisateur modifié");
+            $this->addFlash("success","Mot de passe modifié");
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/editpassword.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+            'formPassword' => $formPassword->createView(),
         ]);
     }
 
     /**
-     * @Route("/delete/{id}", name="user_delete_force", methods={"DELETE"})
+     * @Route("/delete/ajax/", name="user_delete_ajax", methods={"POST"})
      */
-    public function deleteforce(User $user): Response
+    public function delete_ajax(Request $request): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->findOneBy(["id"=> $request->request->get("userId")]);
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        $this->addFlash("success","Utilisateur supprimé");
+
+        return $this->json(["etat" => true]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="user_delete", methods={"DELETE"})
+     */
+    public function delete(User $user): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);

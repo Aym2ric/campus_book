@@ -1,55 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8"/>
-    <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>
-        {{ nomdusite }} - Login
-    </title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-          name='viewport'/>
-    <!-- Fonts and icons -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <!-- CSS Files -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('assets/css/now-ui-dashboard.css?v=1.3.0') }}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+    <title>{{ nomdusite }} | Connexion</title>
+    <meta name="description" content="{{ descriptiondusite }}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
+    <link rel="apple-touch-icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <meta name="apple-mobile-web-app-title" content="Flatkit">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" sizes="196x196" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ asset('assets/font-awesome/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}">
 </head>
 
-<body class="">
-<br/>
-<div class="content">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header"><h1>Connexion</h1></div>
-                <div class="card-body">
-                    <!-- Start formulaire de connexion -->
+<body class="pace-done" ui-class="">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99"
+         style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div class="d-flex flex-column flex">
+    <div id="content-body">
+        <div class="row py-5 justify-content-center w-100">
+            <div class="col-3 col-lg-3">
+                <img class="py-4" style="width:inherit;" src="{{ asset('assets/images/logo.png') }}"/>
+
+                <div class="box p-5">
+                    <!-- FORMULAIRE DE CONNEXION -->
                     <form method="post" novalidate>
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
 
-                        {% if app.user %}
-                            <div class="mb-3">
-                                You are logged in as {{ app.user.username }}, <a
-                                        href="{{ path('app_logout') }}">Logout</a>
-                            </div>
-                        {% endif %}
+                        <div class="form-group">
+                            <label for="inputUsername" class="required text-grey">Username</label>
+                            <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                                   class="form-control" placeholder="Username..." required autofocus>
+                        </div>
 
-                        <div class="alert alert-primary">Veuillez-vous connecter</div>
-                        <label for="inputUsername">Username</label>
-                        <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
-                               class="form-control" placeholder="Username..." required autofocus>
-                        <br/>
-                        <label for="inputPassword">Mot de passe</label>
-                        <input type="password" placeholder="Mot de passe..." name="password" id="inputPassword"
-                               class="form-control"
-                               required>
-
+                        <div class="form-group">
+                            <label for="inputPassword" class="required text-grey">Mot de passe</label>
+                            <input type="password" placeholder="Mot de passe..." name="password" id="inputPassword"
+                                   class="form-control"
+                                   required>
+                        </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                         {#
@@ -64,36 +64,15 @@
                         #}
 
                         <br/>
-                        <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
+                        <button class="btn btn-block btn-success-light" type="submit">Connexion</button>
                     </form>
-                    <!-- End formulaire de connexion -->
-
-
+                    <!-- FORMULAIRE DE CONNEXION -->
                 </div>
+
             </div>
         </div>
-        <div class="col-md-2"></div>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="text-center">
-            &copy; {{ "now"|date("Y") }}, produit par
-            <span  class="text-primary">{{ nomdusite }}</span>.
-        </div>
-    </div>
-</footer>
-<!--   Core JS Files   -->
-<script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
-<!-- Chart JS -->
-<script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-<!--  Notifications Plugin    -->
-<script src="{{ asset('assets/js/plugins/bootstrap-notify.js') }}"></script>
-<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="{{ asset('assets/js/now-ui-dashboard.min.js?v=1.3.0') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/app.min.js') }}"></script>
 </body>
-</html>
+</html>	

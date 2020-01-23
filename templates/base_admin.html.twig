@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta charset="utf-8">
@@ -18,13 +18,22 @@
 </head>
 <body>
 <div class="app" id="app">
-    <!-- MENU --->
+    <!-- MENU -->
     {{ render(path('admin_menu')) }}
-    <!-- MENU --->
+    <!-- MENU -->
     <div id="content" class="app-content box-shadow-0" role="main">
         {{ render(path('admin_navbar')) }}
         <div class="content-main" id="content-main">
+            <div class="padding">
+            <!-- FLASHS -->
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <!-- FLASHS -->
             {% block body %}{% endblock %}
+            </div>
         </div>
         <div class="footer-custom">
             <hr/>
@@ -32,5 +41,7 @@
     </div>
 </div>
 <script src="{{ asset('assets/js/app.min.js') }}"></script>
+{% block javascript %}
+{% endblock %}
 </body>
 </html>

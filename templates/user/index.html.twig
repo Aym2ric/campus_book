@@ -13,7 +13,8 @@
             <span class="text-grey">Gestion des utilisateurs</span>
         </div>
         <div class="col text-right">
-            <a href="{{ path('user_new') }}" class="btn btn-success-light text-white btn-md"><i class="fa fa-plus"></i> <span
+            <a href="{{ path('user_new') }}" class="btn btn-success-light text-white btn-md"><i class="fa fa-plus"></i>
+                <span
                         class="px-2">Créer</span></a>
         </div>
     </div>
@@ -53,6 +54,7 @@
             <table class="table table-bordered bg-white">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Username</th>
                     <th>Roles</th>
                     <th>Actions</th>
@@ -61,23 +63,26 @@
                 <tbody>
                 {% for user in users %}
                     <tr>
+                        <td class="text-center"><input type="checkbox"/></td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-grey-light btn-md"><i
-                                            class="fa fa-eye"></i> <span class="font-weight-normal">Voir</span></a>
                                 <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-grey btn-md"><i
-                                            class="fa fa-edit"></i> <span class="font-weight-normal">Modifier</span></a>
-                                <a href="{{ path('user_delete_force', {'id': user.id}) }}"
-                                   class="btn btn-danger btn-md text-white"><i class="fa fa-trash"></i> <span
-                                            class="font-weight-normal">Supprimer</span></a>
+                                            class="fa fa-pencil"></i> <span
+                                            class="font-weight-normal">Modifier</span></a>
+
+                                <button class="btn btn-danger btn-md open-modal-delete" data-toggle="modal" data-target="#modal-delete" data-id="{{ user.id }}" data-user="{{ user.username }}">
+                                    <i class="fa fa-trash"></i>
+                                    <span class="font-weight-normal">Supprimer</span>
+                                </button>
+
                             </div>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                             <div class="alert alert-danger">Aucun résultat trouvé</div>
                         </td>
                     </tr>
@@ -87,5 +92,57 @@
         </div>
     </div>
     <!-- TABLEAU LISTING OBJETS -->
+
+
+    <div id="modal-delete" class="modal" data-backdrop="true" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">Modal</h5></div>
+                <div class="modal-body text-center p-lg">
+                    <p>Êtes-vous sûr de vouloir supprimer l'utilisateur <span id="modal-username-delete"></span> ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="delete-modal-delete" class="btn btn-success-light">Confirmer</button>
+                    <button type="button" class="btn danger p-x-md" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DELETE -->
+
+    <!-- MODAL DELETE -->
+
+    <!-- JQUERY DELETE -->
+    {% block javascript %}
+        <script type="text/javascript">
+            var userId = null;
+            $(".open-modal-delete").on("click", function () {
+                userId = null;
+                $("#modal-username-delete").text($(this).attr("data-user"));
+                userId = $(this).attr("data-id");
+            });
+
+            $("#delete-modal-delete").on("click", function () {
+                $.ajax({
+                    url: "{{ path('user_delete_ajax') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "userId": userId
+                    },
+                    async: true,
+                    success: function (data) {
+                        userId = null;
+                        $("#modal-delete").modal('hide');
+                        location.reload();
+                    }
+                });
+                userId = null;
+            });
+        </script>
+    {% endblock %}
+    <!-- JQUERY DELETE -->
+
 {% endblock %}
 
