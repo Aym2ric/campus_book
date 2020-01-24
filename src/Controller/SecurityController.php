@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 class SecurityController extends AbstractController
 {
@@ -35,8 +37,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/password", name="app_password", methods={"GET","POST"})
      */
-    public function password(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function password(Request $request, Breadcrumbs $breadcrumbs, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
+        $breadcrumbs->addItem("Mon Compte", $this->generateUrl('app_password'));
+        $breadcrumbs->addItem("Changement de mot de passe");
+
+
         $user = $this->getUser();
         $form = $this->createForm(UserEditPasswordType::class, $user);
         $form->handleRequest($request);

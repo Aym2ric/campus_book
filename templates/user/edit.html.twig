@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="text-grey required">Username</label>
+                                <label class="text-grey is-required">Username</label>
                                 {{ form_widget(form.username) }}
                                 {{ form_errors(form.username) }}
                             </div>
@@ -49,18 +49,25 @@
 
                 <div class="box p-4">
                     <div class="row">
-                        <div class="col-md-12 pr-1">
+                        <div class="col-6 col-lg-6">
                             <div class="form-group">
-                                <label class="text-grey required">Rôles</label>
+                                <label class="text-grey is-required">Activer</label>
+                                {{ form_widget(form.enabled) }}
+                                {{ form_errors(form.enabled) }}
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="text-grey is-required">Rôles</label>
                                 {{ form_widget(form.roles) }}
+                                {{ form_errors(form.roles) }}
                             </div>
                         </div>
                     </div>
-
-                    <button class="btn btn-success-light">Sauvegarder</button>
-                    {{ form_end(form) }}
-
                 </div>
+
+                <button class="btn btn-success-light">Sauvegarder</button>
+                {{ form_end(form) }}
 
             </div>
         </div>
@@ -77,7 +84,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="text-grey required">Mot de passe</label>
+                                <label class="text-grey is-required">Mot de passe</label>
                                 {{ form_widget(formPassword.password.first) }}
                                 {{ form_errors(formPassword.password.first) }}
                             </div>
@@ -87,7 +94,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="text-grey required">Répéter le mot de passe</label>
+                                <label class="text-grey is-required">Répéter le mot de passe</label>
                                 {{ form_widget(formPassword.password.second) }}
                                 {{ form_errors(formPassword.password.second) }}
                             </div>
@@ -97,8 +104,8 @@
                 </div>
 
                 <button class="btn btn-success-light">Sauvegarder</button>
-
                 {{ form_end(formPassword) }}
+
             </div>
         </div>
     </div>

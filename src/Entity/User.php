@@ -36,6 +36,16 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $enabled;
+
+    public function __construct()
+    {
+        $this->setRoles(["ROLE_USER"]);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -101,6 +111,22 @@ class User implements UserInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param mixed $enabled
+     */
+    public function setEnabled($enabled): void
+    {
+        $this->enabled = $enabled;
+    }
+
+    /**
      * @see UserInterface
      */
     public function eraseCredentials()
@@ -108,4 +134,5 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
 }

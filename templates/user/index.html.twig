@@ -34,14 +34,16 @@
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">
-                                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne"
-                                        aria-expanded="false" aria-controls="collapseOne">
+                                <button class="btn {% if isForm %} collapsed {% endif %}" data-toggle="collapse"
+                                        data-target="#collapseOne"
+                                        aria-expanded="{% if isForm %} true {% else %} false {% endif %}"
+                                        aria-controls="collapseOne">
                                     <i class="fa fa-sort-down align-text-top"></i> <span class="ml-2">Filtres</span>
                                 </button>
                             </h5>
                         </div>
 
-                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div id="collapseOne" class="collapse {% if isForm %} show {% endif %}" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
                                 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}, 'method': 'GET'}) }}
 
@@ -53,8 +55,16 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="text-grey">Rôles</label>
+                                            {{ form_widget(form.roles) }}
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="text-grey">Activé</label>
+                                            {{ form_widget(form.enabled) }}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -72,31 +82,50 @@
     </div>
     <!-- BOX FILTRES -->
 
+    <!-- PAGINATOR TOP -->
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="box">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PAGINATOR TOP -->
     <!-- TABLEAU LISTING OBJETS -->
     <div class="row">
         <div class="col-12 col-lg-12">
             <table class="table table-bordered bg-white">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>Username</th>
-                    <th>Roles</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'Username', 'q.username') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'Rôles', 'q.roles') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'Activé', 'q.enabled') }}</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
+                {% for user in pagination %}
                     <tr>
-                        <td class="text-center"><input type="checkbox"/></td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>
+                            {% if user.enabled %}
+                                <i class="badge badge-success">Oui</i>
+                            {% else %}
+                                <i class="badge badge-danger">Non</i>
+                            {% endif %}
+                        </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-grey btn-md"><i
                                             class="fa fa-pencil"></i> <span
                                             class="font-weight-normal">Modifier</span></a>
 
-                                <button class="btn btn-danger btn-md open-modal-delete" data-toggle="modal" data-target="#modal-delete" data-id="{{ user.id }}" data-user="{{ user.username }}">
+                                <button class="btn btn-danger btn-md open-modal-delete" data-toggle="modal"
+                                        data-target="#modal-delete" data-id="{{ user.id }}"
+                                        data-user="{{ user.username }}">
                                     <i class="fa fa-trash"></i>
                                     <span class="font-weight-normal">Supprimer</span>
                                 </button>
@@ -116,7 +145,17 @@
         </div>
     </div>
     <!-- TABLEAU LISTING OBJETS -->
-
+    <!-- PAGINATOR BOT -->
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="box">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PAGINATOR BOT -->
 
     <div id="modal-delete" class="modal" data-backdrop="true" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">

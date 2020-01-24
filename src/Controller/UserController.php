@@ -8,6 +8,9 @@ use App\Form\UserCreateType;
 use App\Form\UserEditPasswordType;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -27,39 +30,61 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index", methods={"GET", "POST"})
      */
-    public function index(UserRepository $userRepository, FormFactoryInterface $formFactory, FilterBuilderUpdaterInterface $filterBuilderUpdater, Breadcrumbs $breadcrumbs, Request $request): Response
+    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, PaginatorInterface $paginator, FormFactoryInterface $formFactory, FilterBuilderUpdaterInterface $filterBuilderUpdater, Breadcrumbs $breadcrumbs, Request $request): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
         $breadcrumbs->addItem("Utilisateurs", $this->generateUrl('user_index'));
         $breadcrumbs->addItem("Liste");
 
+        $isForm = false;
+
         $form = $formFactory->create(UserFilterType::class);
+        $queryBuilder = $entityManager->getRepository(User::class)->createQueryBuilder('q');
 
         if ($request->query->has($form->getName())) {
-            // Récupération des valeurs du formulaires
+            // Sauvegarde les champs sélectionnés du formulaire
             $form->submit($request->query->get($form->getName()));
 
-            // Initialisation du QueryBuilder (Constructeur de requête)
-            $entityManager = $this->getDoctrine()->getManager();
-            $filterBuilder = $entityManager->getRepository(User::class)->createQueryBuilder('e');
+            // Test Username
+            if(!empty($request->query->get("user_filter")["username"])) {
+                $queryBuilder->andWhere('q.username = :username')
+                    ->setParameter("username", $request->query->get("user_filter")["username"]);
+            }
 
-            // Construction de la requête en fonction des paramètres du formulaire
-            $filterBuilderUpdater->addFilterConditions($form, $filterBuilder);
+            // Test Rôles
+            if(!empty($request->query->get("user_filter")["roles"])) {
+                $i = 0;
+                foreach($request->query->get("user_filter")["roles"] as $role) {
+                    $i++;
+                    $queryBuilder->andWhere('q.roles LIKE ?'.$i.'')
+                        ->setParameter($i, '%'.$role.'%');
+                }
+            }
 
-            // Récupère le DQL et execute la requête
-            $query = $entityManager->createQuery($filterBuilder->getDql());
-            $users = $query->getResult();
+            // Test Enabled
+            if(!empty($request->query->get("user_filter")["enabled"])) {
+                $queryBuilder->andWhere('q.enabled = :enabled')
+                    ->setParameter("enabled", $request->query->get("user_filter")["enabled"]);
+            }
 
-            return $this->render('user/index.html.twig', [
-                'form' => $form->createView(),
-                'users' => $users,
-            ]);
+            // On renvoie true pour confirmer a la vue qu'il y a une recherche en cours
+            // Afin de déplier automatiquement la box du formulaire
+            $isForm = true;
         }
 
+        //var_dump($queryBuilder->getDql());
+        $query = $queryBuilder->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            5 /*limit per page*/
+        );
 
         return $this->render('user/index.html.twig', [
             'form' => $form->createView(),
-            'users' => $userRepository->findAll(),
+            'pagination' => $pagination,
+            'isForm' => $isForm,
         ]);
     }
 
@@ -73,6 +98,7 @@ class UserController extends AbstractController
         $breadcrumbs->addItem("Créer");
 
         $user = new User();
+
         $form = $this->createForm(UserCreateType::class, $user);
 
         $form->handleRequest($request);

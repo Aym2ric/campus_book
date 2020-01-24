@@ -19,7 +19,7 @@ class UserEditPasswordType extends AbstractType
         $builder
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class, 'required' => true,
-                'options' => ['attr' => ['class' => 'form-control']]
+                'options' => ['attr' => ['class' => 'form-control', 'placeholder' => 'Mot de passe...']]
             ]);
     }
 
