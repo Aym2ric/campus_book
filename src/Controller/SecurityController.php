@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserCreateType;
 use App\Form\UserEditPasswordType;
+use App\Form\UserEditYourPasswordType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,31 +39,39 @@ class SecurityController extends AbstractController
     /**
      * @Route("/password", name="app_password", methods={"GET","POST"})
      */
-    public function password(Request $request, Breadcrumbs $breadcrumbs, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function password(Request $request, EntityManagerInterface $entityManager, Breadcrumbs $breadcrumbs, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
         $breadcrumbs->addItem("Mon Compte", $this->generateUrl('app_password'));
         $breadcrumbs->addItem("Changement de mot de passe");
 
-
         $user = $this->getUser();
-        $form = $this->createForm(UserEditPasswordType::class, $user);
+        $form = $this->createForm(UserEditYourPasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $password = $passwordEncoder->encodePassword($user, $form["password"]->getData());
-            $user->setPassword($password);
-            $entityManager->persist($user);
-            $entityManager->flush();
+            if ($passwordEncoder->isPasswordValid($user, $form["oldpassword"]->getData())) {
+                // Ancien mot de passe correct
+                $password = $passwordEncoder->encodePassword($user, $form["password"]->getData());
+                $user->setPassword($password);
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $this->addFlash("success","Mot de passe modifié");
-            return $this->redirectToRoute('index');
+                $this->addFlash("success", "Mot de passe modifié");
+                return $this->redirectToRoute('app_password');
+
+            } else {
+                // Ancien mot de passe incorrect
+                $form->get("oldpassword")->addError(new FormError("Ancien mot de passe incorrect."));
+
+                return $this->render('security/password.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
         }
 
         return $this->render('security/password.html.twig', [
-            'user' => $user,
             'form' => $form->createView(),
         ]);
     }

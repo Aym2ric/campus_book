@@ -43,7 +43,8 @@
                             </h5>
                         </div>
 
-                        <div id="collapseOne" class="collapse {% if isForm %} show {% endif %}" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div id="collapseOne" class="collapse {% if isForm %} show {% endif %}"
+                             aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
                                 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}, 'method': 'GET'}) }}
 
@@ -69,7 +70,7 @@
                                 </div>
 
                                 <a href="{{ app.request.pathinfo }}" class="btn btn-grey-light">Réinitialiser</a>
-                                <button class="btn btn-success-light ml-2">Filtrer</button>
+                                <button type="submit" class="btn btn-success-light ml-2">Filtrer</button>
                                 {{ form_end(form) }}
 
                             </div>
@@ -171,41 +172,37 @@
             </div>
         </div>
     </div>
-
-    <!-- MODAL DELETE -->
-
-    <!-- MODAL DELETE -->
-
-    <!-- JQUERY DELETE -->
-    {% block javascript %}
-        <script type="text/javascript">
-            var userId = null;
-            $(".open-modal-delete").on("click", function () {
-                userId = null;
-                $("#modal-username-delete").text($(this).attr("data-user"));
-                userId = $(this).attr("data-id");
-            });
-
-            $("#delete-modal-delete").on("click", function () {
-                $.ajax({
-                    url: "{{ path('user_delete_ajax') }}",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        "userId": userId
-                    },
-                    async: true,
-                    success: function (data) {
-                        userId = null;
-                        $("#modal-delete").modal('hide');
-                        location.reload();
-                    }
-                });
-                userId = null;
-            });
-        </script>
-    {% endblock %}
-    <!-- JQUERY DELETE -->
-
 {% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        /* JQUERY DELETE */
+        var userId = null;
+        $(".open-modal-delete").on("click", function () {
+            userId = null;
+            $("#modal-username-delete").text($(this).attr("data-user"));
+            userId = $(this).attr("data-id");
+        });
+
+        $("#delete-modal-delete").on("click", function () {
+            $.ajax({
+                url: "{{ path('user_delete_ajax') }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "userId": userId
+                },
+                async: true,
+                success: function (data) {
+                    userId = null;
+                    $("#modal-delete").modal('hide');
+                    location.reload();
+                }
+            });
+            userId = null;
+        });
+        /* JQUERY DELETE */
+    </script>
+{% endblock %}
+
 

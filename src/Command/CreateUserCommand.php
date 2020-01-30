@@ -55,6 +55,7 @@ EOT
         $user = (new User())
             ->setUsername($username)
             ->setRoles($superadmin ? ['ROLE_SUPER_ADMIN'] : ['ROLE_USER']);
+        $user->setEnabled(true);
         $password = $this->passwordEncoder->encodePassword($user, $password);
         $user->setPassword($password);
         $this->entityManager->persist($user);

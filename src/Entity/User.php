@@ -29,10 +29,17 @@ class User implements UserInterface
      */
     private $roles = [];
 
+
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $password;
 
@@ -58,7 +65,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
 
     public function setUsername(?string $username): self
@@ -92,7 +99,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(?string $password): self
