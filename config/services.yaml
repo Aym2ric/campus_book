@@ -6,6 +6,7 @@
 parameters:
     app.nomdusite: "NOM DU SITE"
     app.descriptiondusite: "META DESCRIPTION DU SITE"
+    app.path.product_images: /uploads/images/products
 
 services:
     # default configuration for services in *this* file
