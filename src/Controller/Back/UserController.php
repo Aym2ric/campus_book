@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\User;
 use App\Filter\UserFilterType;
@@ -8,27 +8,33 @@ use App\Form\UserCreateType;
 use App\Form\UserEditPasswordType;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
+ * Class UserController
+ * @package App\Controller
  * @Route("/admin/user")
  */
 class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET", "POST"})
+     * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param PaginatorInterface $paginator
+     * @param FormFactoryInterface $formFactory
+     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
+     * @param Breadcrumbs $breadcrumbs
+     * @param Request $request
+     * @return Response
      */
     public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, PaginatorInterface $paginator, FormFactoryInterface $formFactory, FilterBuilderUpdaterInterface $filterBuilderUpdater, Breadcrumbs $breadcrumbs, Request $request): Response
     {
@@ -90,6 +96,10 @@ class UserController extends AbstractController
 
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param Breadcrumbs $breadcrumbs
+     * @return Response
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, Breadcrumbs $breadcrumbs): Response
     {
@@ -122,6 +132,11 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param User $user
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param Breadcrumbs $breadcrumbs
+     * @return Response
      */
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, Breadcrumbs $breadcrumbs): Response
     {
@@ -163,6 +178,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/delete/ajax/", name="user_delete_ajax", methods={"POST"})
+     * @param Request $request
+     * @return Response
      */
     public function delete_ajax(Request $request): Response
     {
@@ -178,6 +195,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="user_delete", methods={"DELETE"})
+     * @param User $user
+     * @return Response
      */
     public function delete(User $user): Response
     {

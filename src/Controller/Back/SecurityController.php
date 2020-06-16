@@ -1,43 +1,29 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
-use App\Entity\User;
-use App\Form\UserCreateType;
-use App\Form\UserEditPasswordType;
 use App\Form\UserEditYourPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
+/**
+ * Class SecurityController
+ * @package App\Controller\Back
+ */
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
-     */
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
-    }
-
-    /**
      * @Route("/password", name="app_password", methods={"GET","POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Breadcrumbs $breadcrumbs
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return Response
      */
     public function password(Request $request, EntityManagerInterface $entityManager, Breadcrumbs $breadcrumbs, UserPasswordEncoderInterface $passwordEncoder): Response
     {

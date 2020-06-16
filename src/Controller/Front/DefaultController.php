@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
-
+/**
+ * Class DefaultController
+ * @package App\Controller\Front
+ */
 class DefaultController extends AbstractController
 {
     /**
@@ -13,10 +15,7 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-       /* if(!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }*/
-        return $this->render("default/index.html.twig");
+        return $this->render("front/default/index.html.twig");
     }
 
     /**
@@ -24,7 +23,7 @@ class DefaultController extends AbstractController
      */
     public function menu()
     {
-        return $this->render("menu.html.twig");
+        return $this->render("front/default/menu.html.twig");
     }
 
     /**
@@ -32,7 +31,7 @@ class DefaultController extends AbstractController
      */
     public function navbar()
     {
-        return $this->render("navbar.html.twig");
+        return $this->render("front/default/navbar.html.twig");
     }
 
 }

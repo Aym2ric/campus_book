@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Class AdminController
+ * @package App\Controller\Back
  * @Route("/admin")
  */
 class AdminController extends AbstractController
@@ -15,7 +16,7 @@ class AdminController extends AbstractController
      */
     public function index()
     {
-        return $this->render('admin/index.html.twig');
+        return $this->render('back/admin/index.html.twig');
     }
 
     /**
@@ -23,7 +24,7 @@ class AdminController extends AbstractController
      */
     public function components()
     {
-        return $this->render('admin/components.html.twig');
+        return $this->render('back/admin/components.html.twig');
     }
 
     /**
@@ -31,7 +32,7 @@ class AdminController extends AbstractController
      */
     public function menu()
     {
-        return $this->render("admin/menu.html.twig");
+        return $this->render("back/admin/menu.html.twig");
     }
 
     /**
@@ -39,8 +40,6 @@ class AdminController extends AbstractController
      */
     public function navbar()
     {
-        return $this->render("admin/navbar.html.twig");
+        return $this->render("back/admin/navbar.html.twig");
     }
-
-
 }

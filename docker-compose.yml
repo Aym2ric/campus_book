@@ -2,9 +2,9 @@ version: '3'
 services:
     apache:
         build: .docker/apache
-        container_name: start_apache
+        container_name: ddev_apache
         ports:
-          - 8020:80
+          - 80:80
         volumes:
           - .docker/config/vhosts:/etc/apache2/sites-enabled
           - .:/home/wwwroot/sf4
@@ -14,30 +14,19 @@ services:
     mysql:
         image: mysql
         command: "--default-authentication-plugin=mysql_native_password"
-        container_name: start_mysql
+        container_name: ddev_mysql
         volumes:
             - .docker/data/db:/var/lib/mysql
         environment:
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: sf4
             MYSQL_DATABASE: sf4
             MYSQL_USER: sf4
             MYSQL_PASSWORD: sf4
 
     php:
         build: .docker/php
-        container_name: start_php
+        container_name: ddev_php
         volumes:
           - .:/home/wwwroot/sf4
         depends_on:
           - mysql
-
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: start_phpmyadmin
-        environment:
-          PMA_HOST: mysql
-          PMA_PORT: 3306
-        ports:
-            - 8021:80
-        links:
-            - mysql
