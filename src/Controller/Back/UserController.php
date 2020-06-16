@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class UserController
@@ -87,7 +88,7 @@ class UserController extends AbstractController
             5 /*limit per page*/
         );
 
-        return $this->render('user/index.html.twig', [
+        return $this->render('back/user/index.html.twig', [
             'form' => $form->createView(),
             'pagination' => $pagination,
             'isForm' => $isForm,
@@ -124,7 +125,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/new.html.twig', [
+        return $this->render('back/user/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
@@ -169,7 +170,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('back/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
             'formPassword' => $formPassword->createView(),

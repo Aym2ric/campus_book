@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class SecurityController
@@ -57,7 +58,7 @@ class SecurityController extends AbstractController
             }
         }
 
-        return $this->render('security/password.html.twig', [
+        return $this->render('back/security/password.html.twig', [
             'form' => $form->createView(),
         ]);
     }
