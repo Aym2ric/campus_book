@@ -78,6 +78,12 @@ class Livre
      */
     private $bloquerProchaineReservation = false;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="livres")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->historiques = new ArrayCollection();
@@ -244,5 +250,17 @@ class Livre
     public function setHash($hash): void
     {
         $this->hash = $hash;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
+
+    public function setType(?Type $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }

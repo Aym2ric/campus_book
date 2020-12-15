@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ThemeRepository;
+use App\Repository\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ThemeRepository::class)
+ * @ORM\Entity(repositoryClass=TypeRepository::class)
  */
-class Theme
+class Type
 {
     /**
      * @ORM\Id
@@ -25,19 +25,19 @@ class Theme
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Livre::class, mappedBy="theme")
+     * @ORM\OneToMany(targetEntity=Livre::class, mappedBy="type")
      */
     private $livres;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="themes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Theme::class, mappedBy="type")
      */
-    private $type;
+    private $themes;
 
     public function __construct()
     {
         $this->livres = new ArrayCollection();
+        $this->themes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,7 +69,7 @@ class Theme
     {
         if (!$this->livres->contains($livre)) {
             $this->livres[] = $livre;
-            $livre->setTheme($this);
+            $livre->setType($this);
         }
 
         return $this;
@@ -79,22 +79,40 @@ class Theme
     {
         if ($this->livres->removeElement($livre)) {
             // set the owning side to null (unless already changed)
-            if ($livre->getTheme() === $this) {
-                $livre->setTheme(null);
+            if ($livre->getType() === $this) {
+                $livre->setType(null);
             }
         }
 
         return $this;
     }
 
-    public function getType(): ?Type
+    /**
+     * @return Collection|Theme[]
+     */
+    public function getThemes(): Collection
     {
-        return $this->type;
+        return $this->themes;
     }
 
-    public function setType(?Type $type): self
+    public function addTheme(Theme $theme): self
     {
-        $this->type = $type;
+        if (!$this->themes->contains($theme)) {
+            $this->themes[] = $theme;
+            $theme->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): self
+    {
+        if ($this->themes->removeElement($theme)) {
+            // set the owning side to null (unless already changed)
+            if ($theme->getType() === $this) {
+                $theme->setType(null);
+            }
+        }
 
         return $this;
     }
