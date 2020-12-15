@@ -4,7 +4,7 @@ services:
     build: .docker/apache
     container_name: campusbook_apache
     ports:
-      - 80:80
+      - 8222:80
     volumes:
       - .docker/config/vhosts:/etc/apache2/sites-enabled
       - .:/home/wwwroot/sf4
@@ -30,3 +30,14 @@ services:
       - .:/home/wwwroot/sf4
     depends_on:
       - mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql:mysql
+    ports:
+      - 8223:80
+    environment:
+      PMA_HOSTS: campusbook_mysql
+      MYSQL_USERNAME: sf4
+      MYSQL_ROOT_PASSWORD: sf4

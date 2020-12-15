@@ -43,47 +43,19 @@ class UserController extends AbstractController
         $breadcrumbs->addItem("Utilisateurs", $this->generateUrl('user_index'));
         $breadcrumbs->addItem("Liste");
 
+        $form = $this->createForm(UserFilterType::class);
+        $form->handleRequest($request);
+
         $isForm = false;
+        $search = $userRepository->search();
 
-        $form = $formFactory->create(UserFilterType::class);
-        $queryBuilder = $entityManager->getRepository(User::class)->createQueryBuilder('q');
-
-        if ($request->query->has($form->getName())) {
-            // Sauvegarde les champs sélectionnés du formulaire
-            $form->submit($request->query->get($form->getName()));
-
-            // Test Username
-            if(!empty($request->query->get("user_filter")["username"])) {
-                $queryBuilder->andWhere('q.username = :username')
-                    ->setParameter("username", $request->query->get("user_filter")["username"]);
-            }
-
-            // Test Rôles
-            if(!empty($request->query->get("user_filter")["roles"])) {
-                $i = 0;
-                foreach($request->query->get("user_filter")["roles"] as $role) {
-                    $i++;
-                    $queryBuilder->andWhere('q.roles LIKE ?'.$i.'')
-                        ->setParameter($i, '%'.$role.'%');
-                }
-            }
-
-            // Test Enabled
-            if(!empty($request->query->get("user_filter")["enabled"])) {
-                $queryBuilder->andWhere('q.enabled = :enabled')
-                    ->setParameter("enabled", $request->query->get("user_filter")["enabled"]);
-            }
-
-            // On renvoie true pour confirmer a la vue qu'il y a une recherche en cours
-            // Afin de déplier automatiquement la box du formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $userRepository->search($form->getData());
             $isForm = true;
         }
 
-        //var_dump($queryBuilder->getDql());
-        $query = $queryBuilder->getQuery();
-
         $pagination = $paginator->paginate(
-            $query, /* query NOT result */
+            $search->getQuery(), /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             5 /*limit per page*/
         );

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -16,12 +17,14 @@ class CreateUserCommand extends Command
 {
     private $passwordEncoder;
     private $entityManager;
+
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {
         parent::__construct();
         $this->passwordEncoder = $passwordEncoder;
         $this->entityManager = $entityManager;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -44,6 +47,7 @@ You can create a super admin via the super-admin flag:
 EOT
             );
     }
+
     /**
      * {@inheritdoc}
      */
@@ -62,6 +66,7 @@ EOT
         $this->entityManager->flush();
         $output->writeln(sprintf('Created user <comment>%s</comment>', $username));
     }
+
     /**
      * {@inheritdoc}
      */
