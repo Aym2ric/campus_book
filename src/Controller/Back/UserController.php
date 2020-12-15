@@ -28,16 +28,18 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET", "POST"})
-     * @param EntityManagerInterface $entityManager
      * @param UserRepository $userRepository
      * @param PaginatorInterface $paginator
-     * @param FormFactoryInterface $formFactory
-     * @param FilterBuilderUpdaterInterface $filterBuilderUpdater
      * @param Breadcrumbs $breadcrumbs
      * @param Request $request
      * @return Response
      */
-    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, PaginatorInterface $paginator, FormFactoryInterface $formFactory, FilterBuilderUpdaterInterface $filterBuilderUpdater, Breadcrumbs $breadcrumbs, Request $request): Response
+    public function index(
+        UserRepository $userRepository,
+        PaginatorInterface $paginator,
+        Breadcrumbs $breadcrumbs,
+        Request $request
+    ): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
         $breadcrumbs->addItem("Utilisateurs", $this->generateUrl('user_index'));
@@ -74,7 +76,11 @@ class UserController extends AbstractController
      * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, Breadcrumbs $breadcrumbs): Response
+    public function new(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        Breadcrumbs $breadcrumbs
+    ): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
         $breadcrumbs->addItem("Utilisateurs", $this->generateUrl('user_index'));
@@ -111,7 +117,12 @@ class UserController extends AbstractController
      * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
-    public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, Breadcrumbs $breadcrumbs): Response
+    public function edit(
+        Request $request,
+        User $user,
+        UserPasswordEncoderInterface $passwordEncoder,
+        Breadcrumbs $breadcrumbs
+    ): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
         $breadcrumbs->addItem("Utilisateurs", $this->generateUrl('user_index'));
@@ -150,34 +161,17 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/delete/ajax/", name="user_delete_ajax", methods={"POST"})
-     * @param Request $request
-     * @return Response
-     */
-    public function delete_ajax(Request $request): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->getRepository(User::class)->findOneBy(["id"=> $request->request->get("userId")]);
-        $entityManager->remove($user);
-        $entityManager->flush();
-
-        $this->addFlash("success","Utilisateur supprimé");
-
-        return $this->json(["etat" => true]);
-    }
-
-    /**
-     * @Route("/delete/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/{id}/delete", name="user_delete", methods={"GET","POST"})
      * @param User $user
+     * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function delete(User $user): Response
+    public function delete(User $user, EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);
         $entityManager->flush();
 
-        $this->addFlash("success","Utilisateur supprimé");
+        $this->addFlash("success", "Utilisateur supprimé.");
         return $this->redirectToRoute('user_index');
     }
 }

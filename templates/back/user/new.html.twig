@@ -35,13 +35,30 @@
                     <div class="box-header p-0 pb-2 mb-3"><h3>Informations générales</h3></div>
                     {{ form_errors(form) }}
 
-                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                    {{ form_start(form) }}
                     <div class="row">
                         <div class="col-12 col-lg-12">
                             <div class="form-group">
-                                <label class="text-grey is-required">Username</label>
+                                <label class="text-grey is-required">Email</label>
                                 {{ form_widget(form.username) }}
                                 {{ form_errors(form.username) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label class="text-grey is-required">Nom</label>
+                                {{ form_widget(form.nom) }}
+                                {{ form_errors(form.nom) }}
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 pl-1">
+                            <div class="form-group">
+                                <label class="text-grey is-required">Prénom</label>
+                                {{ form_widget(form.prenom) }}
+                                {{ form_errors(form.prenom) }}
                             </div>
                         </div>
                     </div>

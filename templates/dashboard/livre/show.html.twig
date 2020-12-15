@@ -1,0 +1,34 @@
+{% extends 'dashboard/base_dashboard.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <p><b>Nom</b>: {{ livre.nom }}</p>
+    <p><b>Auteur</b>: {{ livre.auteur }}</p>
+    <p><b>Date de sortie</b>: {{ livre.dateSortie|date('d-m-Y') }}</p>
+    <p><b>Etat</b>: {{ livre.etat }}</p>
+    <p><b>Reservé par</b>:
+        {% if livre.reserverPar is not null %}
+            {{ livre.reserverPar.username }}
+            {{ livre.reserverPar.prenom }}
+            {{ livre.reserverPar.nom }}
+        {% endif %}
+    </p>
+
+    {% if livre.reserverPar is not null and (livre.reserverPar is same as(app.user) or is_granted('ROLE_SUPER_ADMIN')) %}
+        <p><b>RENDRE CE LIVRE EN SCANNANT LE QR CODE</b> <br/>
+
+            <a href="{{ path('dashboard_livre_reserver', {'hash': livre.hash}) }}">URL QR CODE</a></p>
+    {% elseif livre.reserverPar is null %}
+
+        <p><b>RESERVE EN SCANNANT LE QR CODE</b> <br/>
+            <a href="{{ path('dashboard_livre_reserver', {'hash': livre.hash}) }}">URL QR CODE</a></p>
+    {% else %}
+        <p>Livre déjà réservé</p>
+    {% endif %}
+
+
+{% endblock %}
+
+
+

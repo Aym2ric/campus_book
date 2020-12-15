@@ -32,6 +32,15 @@
                 <img class="py-4" style="width:inherit;" src="{{ asset('assets/images/logo.png') }}"/>
 
                 <div class="box p-5">
+                    <!-- FLASHS -->
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <!-- FLASHS -->
+                    <h4>Connexion</h4>
+                    <hr/>
                     <!-- FORMULAIRE DE CONNEXION -->
                     <form method="post" novalidate>
                         {% if error %}

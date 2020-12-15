@@ -6,8 +6,10 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -60,6 +62,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 ->setParameter('username', '%' . $formData['username'] . '%');
         }
 
+        if (isset($formData['nom']) && $formData['nom'] != null) {
+            $qb
+                ->andWhere('u.nom LIKE :nom')
+                ->setParameter('nom', '%' . $formData['nom'] . '%');
+        }
+
+        if (isset($formData['prenom']) && $formData['prenom'] != null) {
+            $qb
+                ->andWhere('u.prenom LIKE :prenom')
+                ->setParameter('prenom', '%' . $formData['prenom'] . '%');
+        }
+
         if (isset($formData['roles']) && $formData['roles'] != null) {
             $qb
                 ->andWhere('u.roles = :roles')
@@ -67,7 +81,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         if (isset($formData['enabled'])) {
-            if ($formData == true) {
+            if ($formData['enabled'] == true) {
                 $qb
                     ->andWhere('u.enabled = 1');
             } else {

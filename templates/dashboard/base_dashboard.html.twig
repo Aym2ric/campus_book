@@ -1,0 +1,31 @@
+<head>
+    <title>{{ nomdusite }} | {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+<h1 class="h1 bdc-title">Dashboard</h1>
+<span class="text-grey">Votre tableau de bord - {{ app.user.username }}</span>
+
+<hr/>
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+    <a href="{{ path('admin_index') }}">Switch Administration</a>
+{% endif %}
+<a href="{{ path('dashboard_index') }}">Accueil</a>
+    <a href="{{ path('dashboard_livre_index') }}">Livres</a>
+    <a href="{{ path('dashboard_livre_reserved') }}">Mes Livres</a>
+
+<a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+<hr/>
+<!-- FLASHS -->
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+<!-- FLASHS -->
+{% block body %}
+
+{% endblock %}
+</body>
+
+

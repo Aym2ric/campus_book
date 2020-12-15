@@ -79,7 +79,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function checkCredentials($credentials, UserInterface $user)
     {
         // Vérification que l'user n'est pas désactivé
-        if($user->getEnabled() == false) {
+        if ($user->getEnabled() == false) {
             return false;
         }
 
@@ -96,12 +96,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
 
-            return new RedirectResponse($targetPath);
+        if (in_array("ROLE_SUPER_ADMIN", $token->getUser()->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('admin_index'));
+        } else {
+            return new RedirectResponse($this->urlGenerator->generate('dashboard_index'));
         }
-
-        return new RedirectResponse($this->urlGenerator->generate('index'));
     }
 
     protected function getLoginUrl()

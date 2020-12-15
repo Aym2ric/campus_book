@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class UserCreateType extends AbstractType
+class UserRegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -49,29 +49,6 @@ class UserCreateType extends AbstractType
                         'class' => 'form-control',
                         'placeholder' => 'Mot de passe...'
                     ]
-                ]
-            ])
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
-                    'ROLE_USER' => 'ROLE_USER'
-                ],
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => [
-                    'class' => 'form-group'
-                ]
-            ])
-            ->add('enabled', ChoiceType::class, [
-                'choices' => [
-                    'Oui' => true,
-                    'Non' => false
-                ],
-                'data' => true,
-                'expanded' => true,
-                'multiple' => false,
-                'attr' => [
-                    'class' => 'form-group'
                 ]
             ]);
 

@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Livre
 {
+
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -35,7 +38,7 @@ class Livre
     private $dateSortie;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $description;
 
@@ -43,6 +46,11 @@ class Livre
      * @ORM\Column(type="string", length=255)
      */
     private $etat;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $hash;
 
     /**
      * @ORM\Column(type="integer")
@@ -64,6 +72,11 @@ class Livre
      * @ORM\OneToMany(targetEntity=Historique::class, mappedBy="livre")
      */
     private $historiques;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $bloquerProchaineReservation = false;
 
     public function __construct()
     {
@@ -199,5 +212,37 @@ class Livre
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBloquerProchaineReservation()
+    {
+        return $this->bloquerProchaineReservation;
+    }
+
+    /**
+     * @param mixed $bloquerProchaineReservation
+     */
+    public function setBloquerProchaineReservation($bloquerProchaineReservation): void
+    {
+        $this->bloquerProchaineReservation = $bloquerProchaineReservation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param mixed $hash
+     */
+    public function setHash($hash): void
+    {
+        $this->hash = $hash;
     }
 }

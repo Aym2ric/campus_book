@@ -40,7 +40,39 @@
         </div>
     </div>
 </div>
+
+<!-- DELETE MODAL -->
+<div id="modalDelete" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h4 class="modal-title">Suppression</h4></div>
+            <div class="modal-body text-center p-lg">
+                <h5>Êtes-vous sûr de vouloir supprimer l'objet ?</h5>
+                <br/>
+                <p id="modalDeleteLabel"></p>
+                <p>En attente de votre confirmation.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" id="modalLinkDelete" class="btn btn-danger">Confirmer</a>
+                <button type="button" class="btn btn-grey p-x-md" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- DELETE MODAL. -->
+
 <script src="{{ asset('assets/js/app.min.js') }}"></script>
+<script type="text/javascript">
+    function deleteElement(element) {
+        let modalDeleteLabel = document.getElementById("modalDeleteLabel");
+        modalDeleteLabel.innerText = element.getAttribute('data-delete-label');
+
+        let urlDelete = element.getAttribute('data-delete-path')
+
+        let modalLinkDelete = document.getElementById("modalLinkDelete");
+        modalLinkDelete.setAttribute("href", urlDelete);
+    }
+</script>
 {% block javascript %}
 {% endblock %}
 </body>

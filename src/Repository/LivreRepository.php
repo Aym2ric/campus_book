@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat\LivreEtat;
 use App\Entity\Livre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,6 +19,54 @@ class LivreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Livre::class);
     }
+
+    public function search($formData = [])
+    {
+        $qb = $this->createQueryBuilder('l');
+
+        if (isset($formData['nom']) && $formData['nom'] != null) {
+            $qb
+                ->andWhere('l.nom LIKE :nom')
+                ->setParameter('nom', '%' . $formData['nom'] . '%');
+        }
+
+        if (isset($formData['etat']) && $formData['etat'] != null) {
+            $qb
+                ->andWhere('l.etat = :etat')
+                ->setParameter('etat', $formData['etat']);
+        }
+
+        if (isset($formData['bloquerProchaineReservation'])) {
+            if ($formData['bloquerProchaineReservation'] == true) {
+                $qb
+                    ->andWhere('l.bloquerProchaineReservation = 1');
+            } else {
+                $qb
+                    ->andWhere('l.bloquerProchaineReservation = 0');
+            }
+        }
+
+        return $qb;
+    }
+
+    public function livresDisponibles()
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->andWhere('l.etat = :etat')
+            ->setParameter('etat', LivreEtat::DISPONIBLE);
+
+        return $qb;
+    }
+
+    public function livresParUtilisateur(string $userId)
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->andWhere('l.reserverPar = :reserverPar')
+            ->setParameter('reserverPar', $userId);
+
+        return $qb;
+    }
+
 
     // /**
     //  * @return Livre[] Returns an array of Livre objects

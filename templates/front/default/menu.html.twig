@@ -15,14 +15,12 @@
                     <p>Tableau de bord</p>
                 </a>
             </li>
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li>
                 <a href="{{ path('user_index') }}">
                     <i class="fa fa-user"></i>
                     <p>Utilisateurs</p>
                 </a>
             </li>
-            {% endif %}
         </ul>
     </div>
 </div>

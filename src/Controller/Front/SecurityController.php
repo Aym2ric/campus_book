@@ -2,8 +2,16 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\User;
+use App\Form\UserCreateType;
+use App\Form\UserRegisterType;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,5 +38,44 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('front/security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    /**
+     * @Route("/register", name="app_register")
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $entityManager
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param Request $request
+     * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function register(
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        UserPasswordEncoderInterface $passwordEncoder,
+        Request $request
+    )
+    {
+        $user = new User();
+        $user->setEnabled(false);
+
+        $form = $this->createForm(UserRegisterType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash("success","Demande de création de compte enregistrée, votre compte sera activé par les administrateurs prochainement.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('front/security/register.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
     }
 }

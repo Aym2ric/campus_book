@@ -1,19 +1,19 @@
 {% extends 'back/base_admin.html.twig' %}
 
-{% block title %}Liste des utilisateurs{% endblock %}
+{% block title %}Liste des livres{% endblock %}
 
 {% block body %}
     <!-- BREADCRUMBS -->
     <div class="row pb-4">
         <div class="col-auto">
-            <i class="fa fa-user circular circular-success"></i>
+            <i class="fa fa-book circular circular-success"></i>
         </div>
         <div class="col pt-3">
-            <h1 class="h1 bdc-title">Liste des utilisateurs</h1>
-            <span class="text-grey">Gestion des utilisateurs</span>
+            <h1 class="h1 bdc-title">Liste des livres</h1>
+            <span class="text-grey">Gestion des livres</span>
         </div>
         <div class="col text-right">
-            <a href="{{ path('user_new') }}" class="btn btn-success-light btn-md">
+            <a href="{{ path('livre_new') }}" class="btn btn-success-light btn-md">
                 <i class="fa fa-plus"></i>
                 <span class="px-2 font-weight-normal">Créer</span></a>
         </div>
@@ -48,24 +48,17 @@
                             <div class="card-body">
                                 {{ form_start(form) }}
 
-
-                                {{ form_row(form.username) }}
-
                                 {{ form_row(form.nom) }}
 
-                                {{ form_row(form.prenom) }}
-
-                                {{ form_row(form.roles) }}
+                                {{ form_row(form.etat) }}
 
                                 <div class="custom-control custom-switch">
-                                    {{ form_row(form.enabled) }}
+                                {{ form_row(form.bloquerProchaineReservation) }}
                                 </div>
-
-
+                                
                                 <a href="{{ app.request.pathinfo }}" class="btn btn-grey-light">Réinitialiser</a>
                                 <button type="submit" class="btn btn-success-light ml-2">Filtrer</button>
                                 {{ form_end(form) }}
-
                             </div>
                         </div>
                     </div>
@@ -94,49 +87,47 @@
                 <thead>
                 <tr>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Email', 'u.username') }}
+                        {{ knp_pagination_sortable(pagination, 'Nom', 'l.nom') }}
                     </th>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Nom', 'u.nom') }}
+                        {{ knp_pagination_sortable(pagination, 'Etat', 'l.etat') }}
                     </th>
                     <th>
-                        {{ knp_pagination_sortable(pagination, 'Prénom', 'u.prenom') }}
+                        Réserver par
                     </th>
-                    <th>{{ knp_pagination_sortable(pagination, 'Rôles', 'u.roles') }}</th>
-                    <th>{{ knp_pagination_sortable(pagination, 'Activé', 'u.enabled') }}</th>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Bloquer prochaine réservation ?', 'l.bloquerProchaineReservation') }}
+                    </th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for user in pagination %}
+                {% for livre in pagination %}
                     <tr>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.nom }}</td>
-                        <td>{{ user.prenom }}</td>
+                        <td>{{ livre.nom }}</td>
+                        <td>{{ livre.etat }}</td>
                         <td>
-                            {% for role in user.roles %}
-                                <span class="badge badge-success">{{ role }}</span>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% if user.enabled %}
-                                <i class="badge badge-success">Oui</i>
+                            {% if livre.reserverPar is not null %}
+                                {{ livre.reserverPar.username }}<br/>
+                                {{ livre.reserverPar.prenom }}
+                                {{ livre.reserverPar.nom }}
                             {% else %}
-                                <i class="badge badge-danger">Non</i>
+                                N/A
                             {% endif %}
                         </td>
+                        <td>{{ livre.bloquerProchaineReservation ? '<span class="badge badge-danger">Oui</span>' : '<span class="badge badge-success">Non</span>' }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-grey btn-md"><i
+                                <a href="{{ path('livre_edit', {'id': livre.id}) }}" class="btn btn-grey btn-md"><i
                                             class="fa fa-pencil"></i> <span
                                             class="font-weight-normal">Modifier</span></a>
 
                                 <button class="btn btn-danger btn-md open-modal-delete"
                                         data-toggle="modal" data-target="#modalDelete"
                                         onclick="deleteElement(this)"
-                                        data-delete-path="{{ path('user_delete', {'id': user.id}) }}"
-                                        data-delete-id="{{ user.id }}"
-                                        data-delete-label="{{ user.username }}">
+                                        data-delete-path="{{ path('livre_delete', {'id': livre.id}) }}"
+                                        data-delete-id="{{ livre.id }}"
+                                        data-delete-label="{{ livre.nom }}">
                                     <i class="fa fa-trash"></i>
                                     <span class="font-weight-normal">Supprimer</span>
                                 </button>

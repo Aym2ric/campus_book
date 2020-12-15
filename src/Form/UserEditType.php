@@ -17,18 +17,47 @@ class UserEditType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                "required" => true,
-                'attr' => ['placeholder' => 'Username...', 'class' => 'form-control']
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Username...',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('nom', TextType::class, [
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Nom...',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('prenom', TextType::class, [
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Prénom...',
+                    'class' => 'form-control'
+                ]
             ])
             ->add('roles', ChoiceType::class, [
-                'choices' => ['ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN', 'ROLE_USER' => 'ROLE_USER'],
-                'expanded' => true, 'multiple' => true, 'attr' => ['class' => 'form-group']
+                'choices' => [
+                    'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
+                    'ROLE_USER' => 'ROLE_USER'
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'form-group'
+                ]
             ])
             ->add('enabled', ChoiceType::class, [
-                'choices' => ['OUI' => true, 'NON' => false],
-                "empty_data" => false,
-                'expanded' => true, 'multiple' => false,
-                'attr' => ['class' => 'form-group']
+                'choices' => [
+                    'OUI' => true, 'NON' => false
+                ],
+                'empty_data' => false,
+                'expanded' => true,
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'form-group'
+                ]
             ]);
     }
 
