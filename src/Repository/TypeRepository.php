@@ -19,6 +19,19 @@ class TypeRepository extends ServiceEntityRepository
         parent::__construct($registry, Type::class);
     }
 
+    public function search($formData = [])
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        if (isset($formData['nom']) && $formData['nom'] != null) {
+            $qb
+                ->andWhere('t.nom LIKE :nom')
+                ->setParameter('nom', '%' . $formData['nom'] . '%');
+        }
+
+        return $qb;
+    }
+
     // /**
     //  * @return Type[] Returns an array of Type objects
     //  */

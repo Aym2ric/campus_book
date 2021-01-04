@@ -1,0 +1,135 @@
+{% extends 'back/base_admin.html.twig' %}
+
+{% block title %}Liste des types{% endblock %}
+
+{% block body %}
+    <!-- BREADCRUMBS -->
+    <div class="row pb-4">
+        <div class="col-auto">
+            <i class="fa fa-book circular circular-success"></i>
+        </div>
+        <div class="col pt-3">
+            <h1 class="h1 bdc-title">Liste des types</h1>
+            <span class="text-grey">Gestion des types</span>
+        </div>
+        <div class="col text-right">
+            <a href="{{ path('type_new') }}" class="btn btn-success-light btn-md">
+                <i class="fa fa-plus"></i>
+                <span class="px-2 font-weight-normal">Créer</span></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            {{ wo_render_breadcrumbs() }}
+        </div>
+    </div>
+    <!-- BREADCRUMBS -->
+
+    <!-- BOX FILTRES -->
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="box">
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn {% if isForm %} collapsed {% endif %}" data-toggle="collapse"
+                                        data-target="#collapseOne"
+                                        aria-expanded="{% if isForm %} true {% else %} false {% endif %}"
+                                        aria-controls="collapseOne">
+                                    <i class="fa fa-sort-down align-text-top"></i> <span class="ml-2">Filtres</span>
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse {% if isForm %} show {% endif %}"
+                             aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                {{ form_start(form) }}
+
+                                {{ form_row(form.nom) }}
+                                
+                                <a href="{{ app.request.pathinfo }}" class="btn btn-grey-light">Réinitialiser</a>
+                                <button type="submit" class="btn btn-success-light ml-2">Filtrer</button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- BOX FILTRES -->
+
+    <!-- PAGINATOR TOP -->
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="box">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PAGINATOR TOP -->
+    <!-- TABLEAU LISTING OBJETS -->
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <table class="table table-bordered bg-white">
+                <thead>
+                <tr>
+                    <th>
+                        {{ knp_pagination_sortable(pagination, 'Nom', 't.nom') }}
+                    </th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for type in pagination %}
+                    <tr>
+                        <td>{{ type.nom }}</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{{ path('type_edit', {'id': type.id}) }}" class="btn btn-grey btn-md"><i
+                                            class="fa fa-pencil"></i> <span
+                                            class="font-weight-normal">Modifier</span></a>
+
+                                <button class="btn btn-danger btn-md open-modal-delete"
+                                        data-toggle="modal" data-target="#modalDelete"
+                                        onclick="deleteElement(this)"
+                                        data-delete-path="{{ path('type_delete', {'id': type.id}) }}"
+                                        data-delete-id="{{ type.id }}"
+                                        data-delete-label="{{ type.nom }}">
+                                    <i class="fa fa-trash"></i>
+                                    <span class="font-weight-normal">Supprimer</span>
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="999">
+                            <div class="alert alert-danger">Aucun résultat trouvé</div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- TABLEAU LISTING OBJETS -->
+    <!-- PAGINATOR BOT -->
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="box">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PAGINATOR BOT -->
+{% endblock %}
