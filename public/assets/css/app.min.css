@@ -16272,3 +16272,12 @@ textarea.md-input {
     box-shadow: 0 2px 4px 0 rgba(34,36,38,0.03);
     border: 1px solid rgba(34,36,38,0.1);
 }
+
+.vich-image img {
+    margin-top:1.5em;
+    max-width: 200px;
+}
+
+.max-width-200px {
+    max-width: 200px !important;
+}

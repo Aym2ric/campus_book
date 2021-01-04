@@ -6,7 +6,7 @@
 parameters:
     app.nomdusite: "CAMPUS BOOK"
     app.descriptiondusite: "META DESCRIPTION DU SITE"
-    app.path.product_images: /uploads/images/products
+    app.path.product_images: /vich/upload/image/
 
 services:
     # default configuration for services in *this* file

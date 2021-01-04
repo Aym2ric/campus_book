@@ -21,7 +21,7 @@ class ThemeType extends AbstractType
             "attr" => [
                 "placeholder" => "Nom..."
             ],
-            'required' => false
+            'required' => true
         ]);
     }
 

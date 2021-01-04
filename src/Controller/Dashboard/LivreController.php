@@ -87,17 +87,17 @@ class LivreController extends AbstractController
     public function reserver(Livre $livre, EntityManagerInterface $entityManager): Response
     {
         dump(LivreEtat::DISPONIBLE);
-        if($livre->getEtat() === LivreEtat::DISPONIBLE) {
+        if ($livre->getEtat() === LivreEtat::DISPONIBLE) {
 
             $livre->setEtat(LivreEtat::PRETE);
             $livre->setReserverPar($this->getUser());
             $entityManager->flush();
 
-            $this->addFlash("success","Livre réserver avec succès.");
+            $this->addFlash("success", "Livre réserver avec succès.");
             return $this->redirectToRoute('dashboard_livre_show', ['hash' => $livre->getHash()]);
         }
 
-        $this->addFlash("success","Impossible de réserver ce livre  .");
+        $this->addFlash("success", "Impossible de réserver ce livre  .");
         return $this->redirectToRoute('dashboard_livre_show', ['hash' => $livre->getHash()]);
     }
 
@@ -109,23 +109,23 @@ class LivreController extends AbstractController
      */
     public function rendre(Livre $livre, EntityManagerInterface $entityManager): Response
     {
-        if($livre->getEtat() == LivreEtat::PRETE) {
+        if ($livre->getEtat() == LivreEtat::PRETE) {
 
             $livre->setEtat(LivreEtat::DISPONIBLE);
             $livre->setReserverPar(null);
 
             // STOCK = n'est pas remis a disposition si prochaine réservation bloqué
-            if($livre->getBloquerProchaineReservation() == true) {
+            if ($livre->getBloquerProchaineReservation() == true) {
                 $livre->setEtat(LivreEtat::STOCK);
             }
 
             $entityManager->flush();
 
-            $this->addFlash("success","Livre rendu avec succès.");
+            $this->addFlash("success", "Livre rendu avec succès.");
             return $this->redirectToRoute('dashboard_livre_show', ['id' => $livre->getId()]);
         }
 
-        $this->addFlash("success","Impossible de rendre ce livre.");
+        $this->addFlash("success", "Impossible de rendre ce livre.");
         return $this->redirectToRoute('dashboard_livre_show', ['id' => $livre->getId()]);
     }
 }

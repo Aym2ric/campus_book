@@ -1,16 +1,16 @@
 {% extends 'back/base_admin.html.twig' %}
 
-{% block title %}Créer un Type{% endblock %}
+{% block title %}Modifier un Thème{% endblock %}
 
 {% block body %}
 
     <!-- BREADCRUMBS -->
     <div class="row pb-4">
         <div class="col-auto">
-            <i class="fa fa-folder-open circular circular-success"></i>
+            <i class="fa fa-sticky-note circular circular-success"></i>
         </div>
         <div class="col pt-3">
-            <h1 class="h1 bdc-title">Créer un Type</h1>
+            <h1 class="h1 bdc-title">Modifier un Thème</h1>
             <span class="text-grey">Gestion des types</span>
         </div>
         <div class="col text-right">
@@ -33,13 +33,21 @@
             <div class="box p-4">
 
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-6 col-sm-12">
                         <div class="box p-4">
                             <div class="box-header p-0 pb-2 mb-3"><h3>Informations générales</h3></div>
+
                             {{ form_errors(form) }}
 
                             {{ form_start(form) }}
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="text-grey">Type</label>
+                                        <input type="text" class="form-control text-grey" value="{{ theme.type.nom }}" disabled/>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="text-grey is-required">Nom</label>
@@ -50,6 +58,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-12">
                         <button type="submit" class="btn btn-success-light">Sauvegarder</button>
                         {{ form_end(form) }}

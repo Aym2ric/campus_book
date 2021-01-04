@@ -6,6 +6,7 @@ use App\Entity\Type;
 use App\Form\TypeType;
 use App\Repository\TypeRepository;
 use App\Filter\TypeFilterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,15 +68,26 @@ class TypeController extends AbstractController
 
     /**
      * @Route("/new", name="type_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param Breadcrumbs $breadcrumbs
+     * @param EntityManagerInterface $entityManager
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(
+        Request $request,
+        Breadcrumbs $breadcrumbs,
+        EntityManagerInterface $entityManager
+    ): Response
     {
+        $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
+        $breadcrumbs->addItem("Types", $this->generateUrl('type_index'));
+        $breadcrumbs->addItem("Créer");
+
         $type = new Type();
         $form = $this->createForm(TypeType::class, $type);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($type);
             $entityManager->flush();
 
@@ -86,71 +98,66 @@ class TypeController extends AbstractController
             'type' => $type,
             'form' => $form->createView(),
         ]);
-   
-    }
 
- /**
-     * @Route("/{id}/new/theme", name="type_new_theme", methods={"GET","POST"})
-     */
-    public function newTheme(Request $request, Type $id): Response
-    {
-        $theme = new Theme();
-        $theme->setType($id);
-        
-        $form = $this->createForm(ThemeType::class, $theme);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($theme);
-            $entityManager->flush();
-            $this->addFlash("success", "Theme ajouté.");
-
-            return $this->redirectToRoute('type_index');
-        }
-            
-        return $this->render('back/type/newTheme.html.twig', [
-            'theme' => $theme,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="type_show", methods={"GET"})
-     */
-    public function show(Type $type): Response
-    {
-        return $this->render('back/type/show.html.twig', [
-            'type' => $type,
-        ]);
     }
 
     /**
      * @Route("/{id}/edit", name="type_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Breadcrumbs $breadcrumbs
+     * @param EntityManagerInterface $entityManager
+     * @param Type $type
+     * @return Response
      */
-    public function edit(Request $request, Type $type): Response
+    public function edit(
+        Request $request,
+        Breadcrumbs $breadcrumbs,
+        EntityManagerInterface $entityManager,
+        Type $type): Response
     {
+        $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
+        $breadcrumbs->addItem("Types", $this->generateUrl('type_index'));
+        $breadcrumbs->addItem("Modifier");
+
         $form = $this->createForm(TypeType::class, $type);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('type_index');
+        }
+
+        // Formulaire créer un thème
+        $theme = new Theme();
+        $theme->setType($type);
+        $formTheme = $this->createForm(ThemeType::class, $theme);
+        $formTheme->handleRequest($request);
+
+        if ($formTheme->isSubmitted() && $formTheme->isValid()) {
+            $entityManager->persist($theme);
+            $entityManager->flush();
+
+            $this->addFlash("success", "Thème créé.");
+            return $this->redirectToRoute('type_edit', ['id' => $theme->getType()->getId()]);
         }
 
         return $this->render('back/type/edit.html.twig', [
             'type' => $type,
             'form' => $form->createView(),
+            'theme' => $theme,
+            'formTheme' => $formTheme->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}/delete", name="type_delete", methods={"GET", "POST"})
+     * @param Type $type
+     * @param EntityManagerInterface $entityManager
+     * @return Response
      */
-    public function delete(Request $request, Type $type): Response
+    public function delete(Type $type, EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($type);
         $entityManager->flush();
 

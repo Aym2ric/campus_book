@@ -7,9 +7,11 @@ use App\Filter\LivreFilterType;
 use App\Form\LivreCreateType;
 use App\Form\LivreEditType;
 use App\Repository\LivreRepository;
+use App\Repository\ThemeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -146,5 +148,34 @@ class LivreController extends AbstractController
 
         $this->addFlash("success", "Livre supprimé.");
         return $this->redirectToRoute('livre_index');
+    }
+
+
+    /**
+     * @Route("/ajax/themesFromType", name="livre_ajax_themes_from_type", methods={"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function themesFromType(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ThemeRepository $themeRepository
+    )
+    {
+        $themes = $themeRepository->createQueryBuilder("q")
+            ->where("q.type = :type_id")
+            ->setParameter("type_id", $request->query->get("type_id"))
+            ->getQuery()
+            ->getResult();
+
+        $responseArray = array();
+        foreach($themes as $theme){
+            $responseArray[] = array(
+                "id" => $theme->getId(),
+                "nom" => $theme->getNom()
+            );
+        }
+
+        return new JsonResponse($responseArray);
     }
 }

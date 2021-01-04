@@ -98,9 +98,23 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label class="text-grey is-required">Type</label>
+                                        {{ form_widget(form.type) }}
+                                        {{ form_errors(form.type) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label class="text-grey is-required">Thème</label>
                                         {{ form_widget(form.theme) }}
                                         {{ form_errors(form.theme) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="text-grey is-required">Image</label>
+                                        {{ form_widget(form.imageFile) }}
+                                        {{ form_errors(form.imageFile) }}
                                     </div>
                                 </div>
 
@@ -119,4 +133,34 @@
         </div>
     </div>
     <!-- FORMULAIRE ADD OBJETS -->
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $('#livre_create_type').change(function () {
+            var typeSelector = $(this);
+
+            $.ajax({
+                url: "{{ path('livre_ajax_themes_from_type') }}",
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    type_id: typeSelector.val()
+                },
+                success: function (themes) {
+                    var themeSelect = $("#livre_create_theme");
+                    themeSelect.html('');
+                    themeSelect.append('<option value> Veuillez choisir un Thème de ' + typeSelector.find("option:selected").text() + ' ...</option>');
+
+
+                    $.each(themes, function (key, theme) {
+                        themeSelect.append('<option value="' + theme.id + '">' + theme.nom + '</option>');
+                    });
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            });
+        });
+    </script>
 {% endblock %}
