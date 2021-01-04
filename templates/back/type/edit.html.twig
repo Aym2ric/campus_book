@@ -1,16 +1,16 @@
 {% extends 'back/base_admin.html.twig' %}
 
-{% block title %}Modifier un type{% endblock %}
+{% block title %}Modifier un Type{% endblock %}
 
 {% block body %}
 
     <!-- BREADCRUMBS -->
     <div class="row pb-4">
         <div class="col-auto">
-            <i class="fa fa-book circular circular-success"></i>
+            <i class="fa fa-folder-open circular circular-success"></i>
         </div>
         <div class="col pt-3">
-            <h1 class="h1 bdc-title">Créer un type</h1>
+            <h1 class="h1 bdc-title">Modifier un Type</h1>
             <span class="text-grey">Gestion des types</span>
         </div>
         <div class="col text-right">
@@ -50,6 +50,19 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-md-6 col-sm-12 ">
+                        <div class="box p-4">
+                            <div class="box-header p-0 pb-2 mb-3"><h3>Thèmes</h3></div>
+                            <ul>
+                                {% for theme in type.themes %}
+                                    <li>{{ theme.nom }} Modifier NOM | SUPPRIMER </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
                     <div class="col-12">
                         <button type="submit" class="btn btn-success-light">Sauvegarder</button>
                         {{ form_end(form) }}
