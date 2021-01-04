@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+use App\Entity\Theme;
+use App\Form\ThemeType;
+
 
 /**
  * @Route("/admin/type")
@@ -81,6 +84,33 @@ class TypeController extends AbstractController
 
         return $this->render('back/type/new.html.twig', [
             'type' => $type,
+            'form' => $form->createView(),
+        ]);
+   
+    }
+
+ /**
+     * @Route("/{id}/new/theme", name="type_new_theme", methods={"GET","POST"})
+     */
+    public function newTheme(Request $request, Type $id): Response
+    {
+        $theme = new Theme();
+        $theme->setType($id);
+        
+        $form = $this->createForm(ThemeType::class, $theme);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($theme);
+            $entityManager->flush();
+            $this->addFlash("success", "Theme ajouté.");
+
+            return $this->redirectToRoute('type_index');
+        }
+            
+        return $this->render('back/type/newTheme.html.twig', [
+            'theme' => $theme,
             'form' => $form->createView(),
         ]);
     }

@@ -1,6 +1,6 @@
 {% extends 'back/base_admin.html.twig' %}
 
-{% block title %}creer un type{% endblock %}
+{% block title %}Ajouter un Theme{% endblock %}
 
 {% block body %}
 
@@ -10,7 +10,7 @@
             <i class="fa fa-book circular circular-success"></i>
         </div>
         <div class="col pt-3">
-            <h1 class="h1 bdc-title">Créer un type</h1>
+            <h1 class="h1 bdc-title">Ajouter un Theme</h1>
             <span class="text-grey">Gestion des types</span>
         </div>
         <div class="col text-right">
@@ -33,9 +33,10 @@
             <div class="box p-4">
 
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-6 col-sm-12">
                         <div class="box p-4">
                             <div class="box-header p-0 pb-2 mb-3"><h3>Informations générales</h3></div>
+                            
                             {{ form_errors(form) }}
 
                             {{ form_start(form) }}
@@ -49,6 +50,15 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                     <div class="col-md-6 col-sm-12">
+                     <div class="box p-4">
+                     <div class="box-header p-0 pb-2 mb-3"><h3>Type: {{ theme.type.nom }} </h3></div>
+                     {% for t in theme.type.themes %}
+                     {{ t.nom }}
+                     {% endfor %}
+                     
+                     </div>
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-success-light">Sauvegarder</button>
