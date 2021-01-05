@@ -106,7 +106,7 @@ class LivreEditType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Image...'
+                    'placeholder' => 'Image...',
                 ],
                 'allow_delete' => false,
                 'download_label' => false,
