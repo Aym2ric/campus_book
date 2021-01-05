@@ -1,31 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+
+<!-- Mirrored from www.bootstrapdash.com/demo/serein/template/demo/vertical-default-light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Jan 2021 09:17:57 GMT -->
 <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ nomdusite }} | {% block title %}{% endblock %}</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('assets/font-awesome/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/serein/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/serein/css/vendor.bundle.addons.css') }}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ asset('assets/serein/css/style.css') }}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}" />
 </head>
-
 <body>
-<h1 class="h1 bdc-title">Dashboard</h1>
-<span class="text-grey">Votre tableau de bord - {{ app.user.username }}</span>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    {% include('dashboard/default/navbar.html.twig') %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial -->
+        <!-- partial:partials/_sidebar.html -->
+        {% include('dashboard/default/menu.html.twig') %}
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- FLASHS -->
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <!-- FLASHS -->
+                {% block body %}
 
-<hr/>
-{% if is_granted('ROLE_SUPER_ADMIN') %}
-    <a href="{{ path('admin_index') }}">Switch Administration</a>
-{% endif %}
-<a href="{{ path('dashboard_index') }}">Accueil</a>
-    <a href="{{ path('dashboard_livre_index') }}">Livres</a>
-    <a href="{{ path('dashboard_livre_reserved') }}">Mes Livres</a>
+                {% endblock %}
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
 
-<a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
-<hr/>
-<!-- FLASHS -->
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
     </div>
-{% endfor %}
-<!-- FLASHS -->
-{% block body %}
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
 
-{% endblock %}
+<!-- plugins:js -->
+<script src="{{ asset('assets/serein/js/vendor.bundle.base.js') }}"></script>
+<script src="{{ asset('assets/serein/js/vendor.bundle.addons.js') }}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="{{ asset('assets/serein/js/off-canvas.js') }}"></script>
+<script src="{{ asset('assets/serein/js/hoverable-collapse.js') }}"></script>
+<script src="{{ asset('assets/serein/js/template.js') }}"></script>
+<script src="{{ asset('assets/serein/js/settings.js') }}"></script>
+<script src="{{ asset('assets/serein/js/todolist.js') }}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{{ asset('assets/serein/js/dashboard.js') }}"></script>
+<!-- End custom js for this page-->
 </body>
+</html>
 
 

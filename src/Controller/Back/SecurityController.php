@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class SecurityController
  * @package App\Controller\Back
+ * @Route("/admin")
  */
 class SecurityController extends AbstractController
 {
@@ -45,14 +46,14 @@ class SecurityController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                $this->addFlash("success", "Mot de passe modifié");
+                $this->addFlash("success", "Mot de passe modifié.");
                 return $this->redirectToRoute('app_password');
 
             } else {
                 // Ancien mot de passe incorrect
                 $form->get("oldpassword")->addError(new FormError("Ancien mot de passe incorrect."));
 
-                return $this->render('security/password.html.twig', [
+                return $this->render('back/security/password.html.twig', [
                     'form' => $form->createView(),
                 ]);
             }
