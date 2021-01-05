@@ -25,7 +25,7 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 class TypeController extends AbstractController
 {
     /**
-     * @Route("/", name="type_index", methods={"GET", "POST"})
+     * @Route("/", name="dashboard_type_index", methods={"GET", "POST"})
      * @param TypeRepository $typeRepository
      * @param PaginatorInterface $paginator
      * @param Breadcrumbs $breadcrumbs
@@ -47,7 +47,8 @@ class TypeController extends AbstractController
         $form->handleRequest($request);
 
         $isForm = false;
-        $search = $typeRepository->search();
+        // $search = $typeRepository->search();
+        $search = $typeRepository->searchTypeNbBook();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $typeRepository->search($form->getData());
