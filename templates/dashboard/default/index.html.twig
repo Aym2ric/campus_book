@@ -3,7 +3,37 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <p>Index</p>
+    <!-- BREADCRUMBS -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+                        <div class="row">
+                            <div class="col-auto">
+                                <i class="fa fa-home circular circular-success"></i>
+                            </div>
+                            <div class="col pt-4">
+                                <h4 class="card-title">Dashboard</h4>
+                                <p class="text-muted">Votre tableau de bord</p>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="breadcrumbs-container bg-light">
+                {{ wo_render_breadcrumbs() }}
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMBS -->
 {% endblock %}
 
 
