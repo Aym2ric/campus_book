@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : campusbook_mysql
--- Généré le : lun. 04 jan. 2021 à 10:49
+-- Généré le : mar. 05 jan. 2021 à 13:47
 -- Version du serveur :  8.0.19
 -- Version de PHP : 7.4.1
 
@@ -18,9 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-
 DROP DATABASE sf4;
-
 CREATE DATABASE sf4;
 USE sf4;
 
@@ -62,15 +60,19 @@ CREATE TABLE `livre` (
   `etat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nb_jours_pret` int NOT NULL,
-  `bloquer_prochaine_reservation` tinyint(1) NOT NULL
+  `bloquer_prochaine_reservation` tinyint(1) NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `livre`
 --
 
-INSERT INTO `livre` (`id`, `reserver_par_id`, `theme_id`, `type_id`, `nom`, `auteur`, `date_sortie`, `description`, `etat`, `hash`, `nb_jours_pret`, `bloquer_prochaine_reservation`) VALUES
-(1, NULL, 20, 1, 'Php Et Mysql Pour Les Nuls', 'Janet Valade', '2017-08-31', 'Php pour les nuls', 'disponible', '23113d123zed1az463z', 10, 0);
+INSERT INTO `livre` (`id`, `reserver_par_id`, `theme_id`, `type_id`, `nom`, `auteur`, `date_sortie`, `description`, `etat`, `hash`, `nb_jours_pret`, `bloquer_prochaine_reservation`, `image`, `updated_at`) VALUES
+(1, 1, 4, 2, 'MARVEL STUDIOS', 'Marvel', '1821-01-01', 'L\'ENCYCLOPÉDIE LA PLUS COMPLÈTE POUR TOUT CONNAÎTRE DES SUPER-HÉROS MARVEL De A comme Abomination à Z comme Zzzax, ce recueil raconte l\'histoire des plus grandes créations de Marvel : les héros iconiques (Spider-Man, Captain America, Wolverine...), les équipes légendaires (les Quatre Fantastiques, les Avengers, les X-Men...), les ennemis de toujours (Thanos, Ultron, Fatalis...), mais aussi et surtout les centaines de personnages secondaires qui font le sel et la richesse des univers développés par ce prestigieux éditeur depuis 80 ans. Avec près de 450 pages couleurs, 2400 fiches et 3400 illustrations par les meilleurs dessinateurs, cet ouvrage de référence est indispensable à tous les amateurs de comics et de culture populaire.', 'disponible', '5ff424bedd8f2', 50, 0, 'marvel.jpg', '2021-01-05 14:42:06'),
+(2, NULL, 4, 2, 'Marvel Action - Avengers : Danger inconnu', 'Marvel', '1821-01-01', 'L\'A.I.M., un groupe de scientifiques maléfiques travaillant avec des super-vilains, a réussi à prendre le contrôle d\'un Avenger. Le reste de l\'équipe va devoir lutter contre l\'un des leurs au moment où l\'un de leur pire adversaire est relâché dans la nature !', 'disponible', '5ff46cf65573e', 50, 0, 'sam^$.jpg', '2021-01-05 14:43:18'),
+(3, NULL, 3, 1, 'L\'ange de Cassel', 'Pat Caron', '1821-01-01', 'Un esprit un peu rebelle, passe un accord bienveillant avec Dieu et vient à se passionner pour un tout petit bout de Flandre, mais il se retrouve successivement plongé, bien malgré lui, dans l’épicentre de plusieurs guerres historiques, toutes sur cette même terre.\r\nIl n’y comprend pas grand-chose car sa mission contractuelle était justement d’extirper la guerre du vocabulaire et des actions des hommes.\r\nSix guerres déjà, mais pourra-t-il éviter la septième ? Peut-être en négociant quelques amendements ou extensions à l’accord initial ?', 'disponible', '5ff46d493e337', 60, 0, 'pat caron.jpg', '2021-01-05 14:44:41');
 
 -- --------------------------------------------------------
 
@@ -89,17 +91,10 @@ CREATE TABLE `theme` (
 --
 
 INSERT INTO `theme` (`id`, `type_id`, `nom`) VALUES
-(12, 2, 'Policier'),
-(13, 2, 'Littérature'),
-(14, 2, 'Romantique'),
-(15, 3, 'Supers Héros'),
-(16, 3, 'Horreur'),
-(17, 4, 'Kodomo'),
-(18, 4, 'Hentaï'),
-(19, 4, 'Shojo'),
-(20, 1, 'DEV'),
-(21, 1, 'OPS'),
-(22, 1, 'DEV/OPS');
+(2, 1, 'Policier'),
+(3, 1, 'Historique'),
+(4, 2, 'Marvel'),
+(5, 2, 'DC Comics');
 
 -- --------------------------------------------------------
 
@@ -117,10 +112,8 @@ CREATE TABLE `type` (
 --
 
 INSERT INTO `type` (`id`, `nom`) VALUES
-(1, 'Revue technique'),
-(2, 'Roman'),
-(3, 'BD'),
-(4, 'Manga');
+(1, 'Roman'),
+(2, 'BD');
 
 -- --------------------------------------------------------
 
@@ -143,8 +136,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `roles`, `password`, `enabled`, `nom`, `prenom`) VALUES
-(1, 'adm@adm.adm', '[\"ROLE_SUPER_ADMIN\"]', '$argon2i$v=19$m=65536,t=4,p=1$WDdWeUJ5anAzQ1k2bGlvVg$zGDUwROmufHmNNEhqNhStDGgF85ajTDX+SYeYPFwMkc', 1, NULL, NULL),
-(2, 'test@test.test', '[\"ROLE_USER\"]', '$argon2i$v=19$m=65536,t=4,p=1$UkFOU3cxNjROZEdPR0dNVQ$Obu21Dcesn3DS3l1rtwumPssmX7B/NRfb3matVwH43A', 1, NULL, NULL);
+(1, 'adm@adm.adm', '[\"ROLE_SUPER_ADMIN\"]', '$argon2i$v=19$m=65536,t=4,p=1$MEJuNHFMSHlMOGtCZHpQbg$TRk4No7MI6k4manJHy5EZHGkblFNtQvkuJ3hDEajr0Q', 1, NULL, NULL),
+(3, 'test@test.test', '[\"ROLE_USER\"]', '$argon2i$v=19$m=65536,t=4,p=1$RTBqRG5xbHFmS1ZtTmNQbA$ztKd2qicVlT2e1ud5G66lgPzbEsaYfn9jyYmygculpE', 1, NULL, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -201,25 +194,25 @@ ALTER TABLE `historique`
 -- AUTO_INCREMENT pour la table `livre`
 --
 ALTER TABLE `livre`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `theme`
 --
 ALTER TABLE `theme`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `type`
 --
 ALTER TABLE `type`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Contraintes pour les tables déchargées

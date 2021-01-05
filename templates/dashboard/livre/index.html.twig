@@ -3,26 +3,23 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <ul>
-    {% for livre in pagination %}
-        <li>{{ livre.nom }} de <b>{{ livre.auteur }}</b> sortie le <i>{{ livre.dateSortie|date('d-m-Y') }}</i> <br/>
-        état : {{ livre.etat }} - <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}">VOIR</a>
-        <br/>
 
-            <b>Reservé par</b>:
-            {% if livre.reserverPar is not null %}
-                {{ livre.reserverPar.username }}
-                {{ livre.reserverPar.prenom }}
-                {{ livre.reserverPar.nom }}
-                {% else %}
-                PERSONNE
-            {% endif %}
-            <br/>
-            <br/>
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="card-columns">
+
+        {% for livre in pagination %}
+            <div class="card">
+                <div class="bg-dark text-center">
+                    <img class="card-img-top" src="{{ vich_uploader_asset(livre, 'imageFile') }}" alt="Card image cap">
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ livre.nom }}</h4>
+                    <p class="card-text">{{ livre.description }}</p>
+                </div>
+                <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}" class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></button>
+            </div>
+        {% endfor %}
+
+    </div>
+
+
 {% endblock %}
-
-
-

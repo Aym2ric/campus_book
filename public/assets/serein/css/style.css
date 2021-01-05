@@ -13687,7 +13687,6 @@ input[type="button"].btn-block {
 }
 
 .card-img-top {
-  width: 100%;
   border-top-left-radius: calc(0.25rem - 1px);
   border-top-right-radius: calc(0.25rem - 1px);
 }
@@ -28597,4 +28596,14 @@ div.tagsinput span.tag a {
   color: #7571f9;
   background: #7571f91c;
 }
+.text-black {
+color:#000000;
 
+}
+.bg-black{
+background-color:#000000;
+  }
+
+.w-100{
+ width:100% !important;
+ }
