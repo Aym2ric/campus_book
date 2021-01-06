@@ -3,43 +3,73 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <ul>
-        <!-- partial -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row portfolio-grid">
-                                        {% for type in pagination %}
-                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                            <a href="{{ path('dashboard_livre_index') }}">
-                                                <figure class="effect-text-in">
-                                                    <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
-                                                    <figcaption>
-                                                        <h4>{{ type.nom }}</h4>
-                                                        {% if type.nbLivres == 1  %}
-                                                            <p>{{ type.nbLivres }} livre</p>
-                                                        {% elseif type.nbLivres > 1 %}
-                                                            <p>{{ type.nbLivres }} livres</p>
-                                                        {% else %}
-                                                            <p>Aucun livre disponible<p>
+    <!-- BREADCRUMBS -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card radius-top">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+                        <div class="row">
+                            <div class="col-auto">
+                                <i class="fa fa-star circular circular-success"></i>
+                            </div>
+                            <div class="col pt-4">
+                                <h4 class="card-title">Tous les genres</h4>
+                                <p class="text-muted">Liste des différents genres des livres</p>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="breadcrumbs-container bg-light">
+                {{ wo_render_breadcrumbs() }}
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMBS -->
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row portfolio-grid">
+                                {% for type in pagination %}
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                        <a href="{{ path('dashboard_livre_index') }}">
+                                            <figure class="effect-text-in">
+                                                <img src="{{ asset('vich/upload/image/') }}{{ type.image }}" alt="{{ type.nom }}">
+                                                <figcaption>
+                                                    <h4>{{ type.nom }}</h4>
+                                                    {% if type.nbLivres == 1 %}
+                                                    <p>{{ type.nbLivres }} livre</p>
+                                                    {% elseif type.nbLivres > 1 %}
+                                                    <p>{{ type.nbLivres }} livres</p>
+                                                    {% else %}
+                                                    <p>Aucun livre disponible
+                                                    <p>
                                                         {% endif %}
-                                                    </figcaption>
-                                                </figure>
-                                                </a>
-                                            </div>
-                                        {% endfor %}
+                                                </figcaption>
+                                            </figure>
+                                        </a>
                                     </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        <!-- partial -->
-    </ul>
+        </div>
+    </div>
+
 {% endblock %}
 
 

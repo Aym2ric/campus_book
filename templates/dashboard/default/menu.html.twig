@@ -11,19 +11,19 @@
         <li class="nav-item {% if currentPath == path('dashboard_livre_index') %}active{% endif %}">
             <a class="nav-link" href="{{ path('dashboard_livre_index') }}">
                 <i class="fa fa-book menu-icon"></i>
-                <span class="menu-title">Livres</span>
-            </a>
-        </li>
-        <li class="nav-item {% if currentPath == path('dashboard_livre_reserved') %}active{% endif %}">
-            <a class="nav-link" href="{{ path('dashboard_livre_reserved') }}">
-                <i class="fa fa-bookmark menu-icon"></i>
-                <span class="menu-title">Mes Livres</span>
+                <span class="menu-title">Tous les livres</span>
             </a>
         </li>
         <li class="nav-item {% if currentPath == path('dashboard_type_index') %}active{% endif %}">
             <a class="nav-link" href="{{ path('dashboard_type_index') }}">
-                <i class="fa fa-folder menu-icon"></i>
-                <span class="menu-title">Type</span>
+                <i class="fa fa-star menu-icon"></i>
+                <span class="menu-title">Tous les genres</span>
+            </a>
+        </li>
+        <li class="nav-item {% if currentPath == path('dashboard_livre_reserved') %}active{% endif %}">
+            <a class="nav-link" href="{{ path('dashboard_livre_reserved') }}">
+                <i class="fa fa-cog menu-icon"></i>
+                <span class="menu-title">Gérer mes livres</span>
             </a>
         </li>
     </ul>

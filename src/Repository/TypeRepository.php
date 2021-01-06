@@ -41,7 +41,7 @@ class TypeRepository extends ServiceEntityRepository
     public function searchTypeNbBook($formData = [])
     {
         $qb = $this->createQueryBuilder('t')
-        ->select('t.id, t.nom, COUNT(l.id) as nbLivres')
+        ->select('t.id, t.image, t.nom, COUNT(l.id) as nbLivres')
         ->leftJoin('t.livres', 'l');
 
         if (isset($formData['nom']) && $formData['nom'] != null) {

@@ -55,6 +55,9 @@
                                         {{ form_widget(form.imageFile) }}
                                         {{ form_errors(form.imageFile) }}
                                     </div>
+                                    <img class="max-width-10em" id="img-preview"
+                                         {% if form.imageFile.vars.download_uri != null %}src="{{ form.imageFile.vars.download_uri }}"
+                                         alt="{{ form.imageFile.vars.name }}"{% endif %} />
                                 </div>
                             </div>
 
@@ -147,4 +150,17 @@
         </div>
     </div>
     <!-- FORMULAIRE ADD OBJETS -->
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        // preview image before upload
+        $('#type_edit_imageFile_file').change(function () {
+            var reader = new FileReader();
+            reader.onload = e => {
+                $('#img-preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL($('#type_edit_imageFile_file').prop('files')[0]);
+        });
+    </script>
 {% endblock %}
