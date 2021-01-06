@@ -1,0 +1,46 @@
+{% extends 'dashboard/base_dashboard.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <ul>
+        <!-- partial -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row portfolio-grid">
+                                        {% for type in pagination %}
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                            <a href="{{ path('dashboard_livre_index') }}">
+                                                <figure class="effect-text-in">
+                                                    <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
+                                                    <figcaption>
+                                                        <h4>{{ type.nom }}</h4>
+                                                        {% if type.nbLivres == 1  %}
+                                                            <p>{{ type.nbLivres }} livre</p>
+                                                        {% elseif type.nbLivres > 1 %}
+                                                            <p>{{ type.nbLivres }} livres</p>
+                                                        {% else %}
+                                                            <p>Aucun livre disponible<p>
+                                                        {% endif %}
+                                                    </figcaption>
+                                                </figure>
+                                                </a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- partial -->
+    </ul>
+{% endblock %}
+
+
+

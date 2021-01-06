@@ -20,5 +20,11 @@
                 <span class="menu-title">Mes Livres</span>
             </a>
         </li>
+        <li class="nav-item {% if currentPath == path('dashboard_type_index') %}active{% endif %}">
+            <a class="nav-link" href="{{ path('dashboard_type_index') }}">
+                <i class="fa fa-folder menu-icon"></i>
+                <span class="menu-title">Type</span>
+            </a>
+        </li>
     </ul>
 </nav>

@@ -32,6 +32,27 @@ class TypeRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    /*
+    SELECT type.id, type.nom, COUNT(livre.id)
+    FROM type
+    LEFT JOIN livre ON livre.type_id = type.id
+    GROUP BY type.id
+    */
+    public function searchTypeNbBook($formData = [])
+    {
+        $qb = $this->createQueryBuilder('t')
+        ->select('t.id, t.nom, COUNT(l.id) as nbLivres')
+        ->leftJoin('t.livres', 'l');
+
+        if (isset($formData['nom']) && $formData['nom'] != null) {
+            $qb
+                ->andWhere('t.nom LIKE :nom')
+                ->setParameter('nom', '%' . $formData['nom'] . '%');
+        }
+
+        return $qb->groupBy('t.id');
+    }
+
     // /**
     //  * @return Type[] Returns an array of Type objects
     //  */

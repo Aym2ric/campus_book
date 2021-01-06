@@ -91,6 +91,7 @@
                                         {{ form_widget(form.imageFile) }}
                                         {{ form_errors(form.imageFile) }}
                                     </div>
+                                        <img class="max-width-10em" id="img-preview" />
                                 </div>
                             </div>
                         </div>
@@ -161,6 +162,15 @@
                     alert("An error ocurred while loading data ...");
                 }
             });
+        });
+
+        // preview image before upload
+        $('#livre_create_imageFile_file').change(function () {
+            var reader = new FileReader();
+            reader.onload = e => {
+                $('#img-preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL($('#livre_create_imageFile_file').prop('files')[0]);
         });
     </script>
 {% endblock %}
