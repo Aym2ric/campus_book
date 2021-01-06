@@ -6,6 +6,7 @@ use App\Entity\Etat\LivreEtat;
 use App\Entity\Livre;
 use App\Entity\Theme;
 use App\Entity\Type;
+use App\Entity\User;
 use App\Repository\ThemeRepository;
 use App\Repository\TypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,6 +57,15 @@ class LivreCreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('preterPar', EntityType::class, [
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Nom...',
+                    'class' => 'form-control'
+                ],
+                'class' => User::class,
+                'choice_label' => 'nomComplet',
+            ])
             ->add('nom', TextType::class, [
                 'required' => true,
                 'attr' => [
@@ -82,13 +92,6 @@ class LivreCreateType extends AbstractType
             ])
             ->add('etat', ChoiceType::class, [
                 'choices' => LivreEtat::getEtatsForSelect(),
-            ])
-            ->add('nbJoursPret', NumberType::class, [
-                'required' => true,
-                'attr' => [
-                    'placeholder' => 'Nombre de jours de prêt...',
-                    'class' => 'form-control'
-                ]
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image',

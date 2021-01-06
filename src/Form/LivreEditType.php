@@ -6,6 +6,7 @@ use App\Entity\Etat\LivreEtat;
 use App\Entity\Livre;
 use App\Entity\Theme;
 use App\Entity\Type;
+use App\Entity\User;
 use App\Repository\ThemeRepository;
 use App\Repository\TypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,6 +57,15 @@ class LivreEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('preterPar', EntityType::class, [
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Nom...',
+                    'class' => 'form-control'
+                ],
+                'class' => User::class,
+                'choice_label' => 'nomComplet',
+            ])
             ->add('nom', TextType::class, [
                 'required' => true,
                 'attr' => [
@@ -83,13 +93,6 @@ class LivreEditType extends AbstractType
             ->add('etat', ChoiceType::class, [
                 'choices' => LivreEtat::getEtatsForSelect(),
             ])
-            ->add('nbJoursPret', NumberType::class, [
-                'required' => true,
-                'attr' => [
-                    'placeholder' => 'Nombre de jours de prêt...',
-                    'class' => 'form-control'
-                ]
-            ])
             ->add('bloquerProchaineReservation', ChoiceType::class, [
                 'choices' => [
                     'Oui' => 1,
@@ -110,7 +113,14 @@ class LivreEditType extends AbstractType
                 ],
                 'allow_delete' => false,
                 'download_label' => false,
-                'image_uri' => false
+                'image_uri' => false,
+                'required' => false
+            ])
+            ->add('reserverPar', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'nomComplet',
+                'required' => false,
+                'empty_data' => null
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));

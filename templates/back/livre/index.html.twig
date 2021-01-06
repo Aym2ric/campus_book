@@ -93,6 +93,9 @@
                         {{ knp_pagination_sortable(pagination, 'Nom', 'l.nom') }}
                     </th>
                     <th>
+                        Prêté par
+                    </th>
+                    <th>
                         {{ knp_pagination_sortable(pagination, 'Etat', 'l.etat') }}
                     </th>
                     <th>
@@ -109,7 +112,22 @@
                     <tr>
                         <td><img class="max-width-200px" src="{{ vich_uploader_asset(livre, 'imageFile') }}"/></td>
                         <td>{{ livre.nom }}</td>
-                        <td>{{ livre.etat }}</td>
+                        <td>
+                            {% if livre.preterPar is not null %}
+                                {{ livre.preterPar.username }}<br/>
+                                {{ livre.preterPar.prenom }}
+                                {{ livre.preterPar.nom }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if livre.etat == 'Disponible' %}
+                                <span class="badge badge-success">{{ livre.etat }}</span>
+                            {% else %}
+                                <span class="badge badge-danger">{{ livre.etat }}</span>
+                            {% endif %}
+                        </td>
                         <td>
                             {% if livre.reserverPar is not null %}
                                 {{ livre.reserverPar.username }}<br/>

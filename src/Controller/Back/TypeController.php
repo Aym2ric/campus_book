@@ -3,6 +3,8 @@
 namespace App\Controller\Back;
 
 use App\Entity\Type;
+use App\Form\TypeCreateType;
+use App\Form\TypeEditType;
 use App\Form\TypeType;
 use App\Repository\TypeRepository;
 use App\Filter\TypeFilterType;
@@ -84,13 +86,14 @@ class TypeController extends AbstractController
         $breadcrumbs->addItem("Créer");
 
         $type = new Type();
-        $form = $this->createForm(TypeType::class, $type);
+        $form = $this->createForm(TypeCreateType::class, $type);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($type);
             $entityManager->flush();
 
+            $this->addFlash("success","Type créé.");
             return $this->redirectToRoute('type_index');
         }
 
@@ -113,18 +116,20 @@ class TypeController extends AbstractController
         Request $request,
         Breadcrumbs $breadcrumbs,
         EntityManagerInterface $entityManager,
-        Type $type): Response
+        Type $type
+    ): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
         $breadcrumbs->addItem("Types", $this->generateUrl('type_index'));
         $breadcrumbs->addItem("Modifier");
 
-        $form = $this->createForm(TypeType::class, $type);
+        $form = $this->createForm(TypeEditType::class, $type);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash("success","Type modifié.");
             return $this->redirectToRoute('type_index');
         }
 

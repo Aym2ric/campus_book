@@ -3,25 +3,110 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <ul>
-    {% for livre in pagination %}
-        <li>{{ livre.nom }} de <b>{{ livre.auteur }}</b> sortie le <i>{{ livre.dateSortie|date('d-m-Y') }}</i> <br/>
-        état : {{ livre.etat }} - <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}">VOIR</a>
-        <br/>
+    <!-- BREADCRUMBS -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card radius-top">
+                <div class="card-body">
 
-            <b>Reservé par</b>:
-            {% if livre.reserverPar is not null %}
-                {{ livre.reserverPar.username }}
-                {{ livre.reserverPar.prenom }}
-                {{ livre.reserverPar.nom }}
-                {% else %}
-                PERSONNE
+                    <div class="d-flex justify-content-between">
+                        <div class="row">
+                            <div class="col-auto">
+                                <i class="fa fa-bookmark circular circular-success"></i>
+                            </div>
+                            <div class="col pt-4">
+                                <h4 class="card-title">Mes livres</h4>
+                                <p class="text-muted">Liste des livres prêtés et empruntés</p>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="breadcrumbs-container bg-light">
+                {{ wo_render_breadcrumbs() }}
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMBS -->
+
+    <div class="row mt-4">
+        <div class="col-12">
+
+            <div class="card bg-gradient-warning text-white text-center card-shadow-primary">
+                <div class="card-body">
+                    <h6 class="font-weight-normal">Mes livres prêtés</h6>
+                </div>
+            </div>
+
+            {% if livresPretes|length > 0 %}
+                <div class="card-columns mt-4">
+                    {% for livre in livresPretes %}
+                        <div class="card">
+                            <div class="bg-dark text-center">
+                                <img class="card-img-top" src="{{ vich_uploader_asset(livre, 'imageFile') }}"
+                                     alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{ livre.nom }}</h4>
+                                <p class="card-text">{{ livre.description }}</p>
+                            </div>
+                            <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}"
+                               class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="mt-4">
+                    <div class="alert alert-primary">Vous ne prêter aucun livre.</div>
+                </div>
             {% endif %}
-            <br/>
-            <br/>
-        </li>
-    {% endfor %}
-    </ul>
+
+        </div>
+    </div>
+
+
+    <div class="row mt-4">
+        <div class="col-12">
+
+            <div class="card bg-gradient-danger text-white text-center card-shadow-primary">
+                <div class="card-body">
+                    <h6 class="font-weight-normal">Mes livres empruntés</h6>
+                </div>
+            </div>
+
+            {% if livresEmpruntes|length > 0 %}
+                <div class="card-columns mt-4">
+                    {% for livre in livresEmpruntes %}
+                        <div class="card">
+                            <div class="bg-dark text-center">
+                                <img class="card-img-top" src="{{ vich_uploader_asset(livre, 'imageFile') }}"
+                                     alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{ livre.nom }}</h4>
+                                <p class="card-text">{{ livre.description }}</p>
+                            </div>
+                            <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}"
+                               class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="mt-4">
+                    <div class="alert alert-primary">Vous n'emprunter aucun livre.</div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+
 {% endblock %}
 
 

@@ -3,30 +3,145 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <p><b>Nom</b>: {{ livre.nom }}</p>
-    <p><b>Auteur</b>: {{ livre.auteur }}</p>
-    <p><b>Date de sortie</b>: {{ livre.dateSortie|date('d-m-Y') }}</p>
-    <p><b>Etat</b>: {{ livre.etat }}</p>
-    <p><b>Reservé par</b>:
-        {% if livre.reserverPar is not null %}
-            {{ livre.reserverPar.username }}
-            {{ livre.reserverPar.prenom }}
-            {{ livre.reserverPar.nom }}
-        {% endif %}
-    </p>
 
-    {% if livre.reserverPar is not null and (livre.reserverPar is same as(app.user) or is_granted('ROLE_SUPER_ADMIN')) %}
-        <p><b>RENDRE CE LIVRE EN SCANNANT LE QR CODE</b> <br/>
+    <!-- BREADCRUMBS -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card radius-top">
+                <div class="card-body">
 
-            <a href="{{ path('dashboard_livre_reserver', {'hash': livre.hash}) }}">URL QR CODE</a></p>
-    {% elseif livre.reserverPar is null %}
+                    <div class="d-flex justify-content-between">
+                        <div class="row">
+                            <div class="col-auto">
+                                <i class="fa fa-info-circle circular circular-success"></i>
+                            </div>
+                            <div class="col pt-4">
+                                <h4 class="card-title">Informations du livre</h4>
+                                <p class="text-muted">Informations et précisions sur le livre</p>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex">
 
-        <p><b>RESERVE EN SCANNANT LE QR CODE</b> <br/>
-            <a href="{{ path('dashboard_livre_reserver', {'hash': livre.hash}) }}">URL QR CODE</a></p>
-    {% else %}
-        <p>Livre déjà réservé</p>
-    {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-12">
+            <div class="breadcrumbs-container bg-light">
+                {{ wo_render_breadcrumbs() }}
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMBS -->
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="border-bottom text-center pb-3">
+                                <img src="{{ vich_uploader_asset(livre, 'imageFile') }}" alt="profile"
+                                     class="mb-3" style="max-width: 100%;">
+                            </div>
+                            <div class="border-bottom py-4">
+                                <p>Tags</p>
+                                <div>
+                                    <label class="badge badge-outline-dark">{{ livre.type.nom }}</label>
+                                    <label class="badge badge-outline-dark">{{ livre.theme.nom }}</label>
+
+
+                                </div>
+                            </div>
+
+                            {% if livre.reserverPar is same as(app.user) %}
+                            <div class="py-4 border-bottom">
+
+                                    <p class="clearfix">
+                                        <span class="float-left">Propriétaire</span>
+                                        <span class="float-right text-muted">Vous êtes le propriétaire de ce livre</span>
+                                    </p>
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    <p class="clearfix">
+                                        <span class="float-left">Réserver par</span>
+                                        {% if livre.reserverPar is not null %}
+                                            <span class="float-right text-muted">
+                                            {{ livre.reserverPar.username }}
+                                                {{ livre.reserverPar.prenom }}
+                                                {{ livre.reserverPar.nom }}
+                                        </span>
+                                        {% else %}
+                                            <span class="float-right text-muted">N/A</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                                    <p class="clearfix">
+                                        <span class="float-left">Prochaine réservation bloquée</span>
+                                        <span class="float-right text-muted">
+                                            {{ livre.bloquerProchaineReservation ? '<span class="badge badge-danger">Oui</span>' : '<span class="badge badge-success">Non</span>' }}
+                                        </span>
+                                    </p>
+                                <p class="clearfix mt-4">
+                                    <span class="float-left">Souhaitez-vous bloqué la prochaine réservation, afin de récupérer votre livre lorsqu'il
+                                    sera de retour ?</span>
+                                </p>
+                                <a class="btn btn-primary btn-block" href="#">Oui #TO DO: L'action</a>
+                            </div>
+                            {% endif %}
+
+                            <div class="py-4 border-bottom">
+
+                                {% if livre.reserverPar is not null and (livre.reserverPar is same as(app.user) or is_granted('ROLE_SUPER_ADMIN')) %}
+                                    <a class="btn btn-warning btn-block text-white"
+                                       href="{{ path('api_livre_rendre', {'hash': livre.hash}) }}">Rendre le livre</a>
+                                {% elseif livre.reserverPar is null %}
+                                    <a class="btn btn-primary btn-block"
+                                       href="{{ path('api_livre_rendre', {'hash': livre.hash}) }}">Réserver le livre</a>
+                                {% else %}
+                                    <button class="btn btn-grey btn-block disabled">Livre déjà réservé</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="d-block d-md-flex justify-content-between mt-4 mt-md-0">
+                                <div>
+                                    <h3 class="text-md-left">{{ livre.nom }}</h3>
+                                    <div class="d-flex align-items-center">
+                                        <h5 class="mb-0 mr-2 text-muted">{{ livre.auteur }}</h5>
+
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4 mt-md-0">
+
+                                </div>
+                            </div>
+                            <div class="mt-4 py-2 border-top border-bottom">
+                                <ul class="nav profile-navbar">
+                                    <li class="nav-item">
+                                        <i class="fa fa-info-circle"></i> Informations
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="profile-feed">
+                                <div class="d-flex profile-feed-item">
+
+                                    <div class="">
+                                        <p>La date de sortie du livre est le {{ livre.dateSortie|date('d-m-Y') }}.</p>
+                                        <p>{{ livre.description }}</p>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 

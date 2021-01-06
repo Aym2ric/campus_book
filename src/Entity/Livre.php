@@ -53,11 +53,6 @@ class Livre
     private $hash;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $nbJoursPret;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="livres")
      */
     private $reserverPar;
@@ -97,10 +92,15 @@ class Livre
     private $imageFile;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @var \DateTime
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="livresPrets")
+     */
+    private $preterPar;
 
     public function __construct()
     {
@@ -168,18 +168,6 @@ class Livre
     public function setEtat(string $etat): self
     {
         $this->etat = $etat;
-
-        return $this;
-    }
-
-    public function getNbJoursPret(): ?int
-    {
-        return $this->nbJoursPret;
-    }
-
-    public function setNbJoursPret(int $nbJoursPret): self
-    {
-        $this->nbJoursPret = $nbJoursPret;
 
         return $this;
     }
@@ -308,5 +296,17 @@ class Livre
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function getPreterPar(): ?User
+    {
+        return $this->preterPar;
+    }
+
+    public function setPreterPar(?User $preterPar): self
+    {
+        $this->preterPar = $preterPar;
+
+        return $this;
     }
 }

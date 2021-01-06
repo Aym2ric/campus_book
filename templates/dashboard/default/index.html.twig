@@ -34,6 +34,30 @@
         </div>
     </div>
     <!-- BREADCRUMBS -->
+
+    <div class="row mt-4">
+        <div class="col-6">
+
+            <div class="card bg-gradient-warning text-white text-center card-shadow-primary">
+                <div class="card-body">
+                    <h6 class="font-weight-normal">Livres prêtés</h6>
+                    <h2 class="mb-0">{{ livresPretes|length }}</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-6">
+
+            <div class="card bg-gradient-danger text-white text-center card-shadow-primary">
+                <div class="card-body">
+                    <h6 class="font-weight-normal">Livres empruntés</h6>
+                    <h2 class="mb-0">{{ livresEmpruntes|length }}</h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
 
 

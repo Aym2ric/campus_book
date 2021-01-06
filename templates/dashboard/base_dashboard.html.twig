@@ -38,6 +38,11 @@
                         {{ message }}
                     </div>
                 {% endfor %}
+                {% for message in app.flashes('danger') %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <!-- FLASHS -->
                 {% block body %}
 

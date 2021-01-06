@@ -25,13 +25,13 @@
 
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('dashboard_password') }}">
+                        <a class="dropdown-item" href="{{ path('admin_index') }}">
                             <i class="fa fa-cog text-primary"></i> Switch vers Admin
                         </a>
                     {% endif %}
                     
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ path('dashboard_logout') }}">
+                    <a class="dropdown-item" href="{{ path('app_logout') }}">
                         <i class="fa fa-sign-out text-primary"></i> Déconnexion
                     </a>
                     <div class="dropdown-divider"></div>

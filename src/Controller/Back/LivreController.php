@@ -92,7 +92,7 @@ class LivreController extends AbstractController
             $entityManager->persist($livre);
             $entityManager->flush();
 
-            $this->addFlash("success","Livre créé");
+            $this->addFlash("success","Livre créé.");
             return $this->redirectToRoute('livre_index');
         }
 
@@ -125,7 +125,7 @@ class LivreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash("success","Livre modifié");
+            $this->addFlash("success","Livre modifié.");
             return $this->redirectToRoute('livre_index');
         }
 
@@ -154,11 +154,11 @@ class LivreController extends AbstractController
     /**
      * @Route("/ajax/themesFromType", name="livre_ajax_themes_from_type", methods={"GET"})
      * @param Request $request
+     * @param ThemeRepository $themeRepository
      * @return JsonResponse
      */
     public function themesFromType(
         Request $request,
-        EntityManagerInterface $entityManager,
         ThemeRepository $themeRepository
     )
     {

@@ -81,6 +81,9 @@
                 <thead>
                 <tr>
                     <th>
+                        Image
+                    </th>
+                    <th>
                         {{ knp_pagination_sortable(pagination, 'Nom', 't.nom') }}
                     </th>
                     <th>Actions</th>
@@ -89,6 +92,7 @@
                 <tbody>
                 {% for type in pagination %}
                     <tr>
+                        <td><img class="max-width-10em" src="{{ vich_uploader_asset(type, 'imageFile') }}"/></td>
                         <td>{{ type.nom }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">

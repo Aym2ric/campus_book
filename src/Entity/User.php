@@ -33,7 +33,6 @@ class User implements UserInterface
      */
     private $roles = [];
 
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
@@ -66,11 +65,17 @@ class User implements UserInterface
      */
     private $historiques;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Livre::class, mappedBy="preterPar")
+     */
+    private $livresPrets;
+
     public function __construct()
     {
         $this->setRoles(["ROLE_USER"]);
         $this->livres = new ArrayCollection();
         $this->historiques = new ArrayCollection();
+        $this->livresPrets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -240,6 +245,41 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($historique->getUser() === $this) {
                 $historique->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNomComplet(): ?string
+    {
+        return $this->prenom . ' ' . $this->nom . ' - ' . $this->username;
+    }
+
+    /**
+     * @return Collection|Livre[]
+     */
+    public function getLivresPrets(): Collection
+    {
+        return $this->livresPrets;
+    }
+
+    public function addLivresPret(Livre $livresPret): self
+    {
+        if (!$this->livresPrets->contains($livresPret)) {
+            $this->livresPrets[] = $livresPret;
+            $livresPret->setPreterPar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivresPret(Livre $livresPret): self
+    {
+        if ($this->livresPrets->removeElement($livresPret)) {
+            // set the owning side to null (unless already changed)
+            if ($livresPret->getPreterPar() === $this) {
+                $livresPret->setPreterPar(null);
             }
         }
 

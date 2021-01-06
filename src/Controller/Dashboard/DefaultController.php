@@ -19,11 +19,17 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="dashboard_index")
+     * @param LivreRepository $livreRepository
+     * @return Response
      */
-    public function index(): Response
+    public function index(LivreRepository $livreRepository): Response
     {
+        $livresPretes = $livreRepository->livresPreterDeUtilisateur($this->getUser()->getId());
+        $livresEmpruntes = $livreRepository->livresEmprunterDeUtilisateur($this->getUser()->getId());
+
         return $this->render('dashboard/default/index.html.twig', [
-            'controller_name' => 'DashboardController',
+            'livresPretes' => $livresPretes,
+            'livresEmpruntes' => $livresEmpruntes,
         ]);
     }
 }

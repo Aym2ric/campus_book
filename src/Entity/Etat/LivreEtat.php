@@ -9,25 +9,22 @@ namespace App\Entity\Etat;
  */
 final class LivreEtat
 {
-    const DISPONIBLE = 'disponible';
-    const PRETE = 'indisponible';
-    const STOCK = 'stock';
+    const DISPONIBLE = 'Disponible'; // dispo à la réservation
+    const INDISPONIBLE = 'Indisponible'; // réservé par quelqu'un
 
     public static function getEtats()
     {
         return [
             self::DISPONIBLE,
-            self::PRETE,
-            self::STOCK
+            self::INDISPONIBLE
         ];
     }
 
     public static function getEtatsForSelect()
     {
         return [
-            self::DISPONIBLE => 'disponible',
-            self::PRETE => 'indisponible',
-            self::STOCK => 'stock',
+            self::DISPONIBLE => 'Disponible',
+            self::INDISPONIBLE => 'Indisponible'
         ];
     }
 

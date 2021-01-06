@@ -58,15 +58,23 @@ class LivreRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function livresParUtilisateur(string $userId)
+    public function livresEmprunterDeUtilisateur(string $userId)
     {
         $qb = $this->createQueryBuilder('l')
             ->andWhere('l.reserverPar = :reserverPar')
             ->setParameter('reserverPar', $userId);
 
-        return $qb;
+        return $qb->getQuery()->getResult();
     }
 
+    public function livresPreterDeUtilisateur(string $userId)
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->andWhere('l.preterPar = :preterPar')
+            ->setParameter('preterPar', $userId);
+
+        return $qb->getQuery()->getResult();
+    }
 
     // /**
     //  * @return Livre[] Returns an array of Livre objects
