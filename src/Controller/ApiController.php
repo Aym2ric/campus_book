@@ -25,7 +25,7 @@ class ApiController extends AbstractController
      */
     public function reserver(Livre $livre, EntityManagerInterface $entityManager): Response
     {
-        if ($livre->getEtat() === LivreEtat::DISPONIBLE && $livre->getReserverPar() === null) {
+        if ($livre->getEtat() === LivreEtat::DISPONIBLE && $livre->getReserverPar() === null && !$livre->getBloquerProchaineReservation()) {
 
             $livre->setEtat(LivreEtat::INDISPONIBLE);
             $livre->setReserverPar($this->getUser());
@@ -64,6 +64,46 @@ class ApiController extends AbstractController
         }
 
         $this->addFlash("danger", "Impossible de rendre ce livre.");
+        return $this->redirectToRoute('dashboard_livre_show', ['hash' => $livre->getHash()]);
+    }
+
+    /**
+     * @Route("/livre/{hash}/bloquer-prochaine-reservation", name="api_livre_bloquer_prochaine_reservation", methods={"GET", "POST"})
+     * @param Livre $livre
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function bloquerProchaineReservation(Livre $livre, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isGranted('ROLE_SUPER_ADMIN') || $livre->getPreterPar() === $this->getUser()) {
+            $livre->setBloquerProchaineReservation(true);
+            $entityManager->flush();
+
+            $this->addFlash("success", "Prochaine reservation bloquée avec succès.");
+            return $this->redirectToRoute('dashboard_livre_reserved');
+        }
+
+        $this->addFlash("danger", "Impossible de bloquer la prochaine réservation ce livre.");
+        return $this->redirectToRoute('dashboard_livre_show', ['hash' => $livre->getHash()]);
+    }
+
+    /**
+     * @Route("/livre/{hash}/debloquer-prochaine-reservation", name="api_livre_debloquer_prochaine_reservation", methods={"GET", "POST"})
+     * @param Livre $livre
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function debloquerProchaineReservation(Livre $livre, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isGranted('ROLE_SUPER_ADMIN') || $livre->getPreterPar() === $this->getUser()) {
+            $livre->setBloquerProchaineReservation(false);
+            $entityManager->flush();
+
+            $this->addFlash("success", "Prochaine reservation débloquée avec succès.");
+            return $this->redirectToRoute('dashboard_livre_reserved');
+        }
+
+        $this->addFlash("danger", "Impossible de débloquer les réservations de ce livre.");
         return $this->redirectToRoute('dashboard_livre_show', ['hash' => $livre->getHash()]);
     }
 }
