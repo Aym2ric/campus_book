@@ -64,6 +64,6 @@ class ApiController extends AbstractController
         }
 
         $this->addFlash("danger", "Impossible de rendre ce livre.");
-        return $this->redirectToRoute('dashboard_livre_show', ['id' => $livre->getId()]);
+        return $this->redirectToRoute('dashboard_livre_show', ['hash' => $livre->getHash()]);
     }
 }

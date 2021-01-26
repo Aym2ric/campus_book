@@ -59,10 +59,6 @@
                             {% if livre.reserverPar is same as(app.user) %}
                             <div class="py-4 border-bottom">
 
-                                    <p class="clearfix">
-                                        <span class="float-left">Propriétaire</span>
-                                        <span class="float-right text-muted">Vous êtes le propriétaire de ce livre</span>
-                                    </p>
                                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                                     <p class="clearfix">
                                         <span class="float-left">Réserver par</span>
@@ -73,7 +69,7 @@
                                                 {{ livre.reserverPar.nom }}
                                         </span>
                                         {% else %}
-                                            <span class="float-right text-muted">N/A</span>
+                                            <span class="float-right text-muted">Non réservé</span>
                                         {% endif %}
                                     </p>
                                 {% endif %}
@@ -83,11 +79,18 @@
                                             {{ livre.bloquerProchaineReservation ? '<span class="badge badge-danger">Oui</span>' : '<span class="badge badge-success">Non</span>' }}
                                         </span>
                                     </p>
-                                <p class="clearfix mt-4">
+                                {% if livre.preterPar is same as(app.user) %}
+                                    <p class="clearfix mt-4">
+                                        <span class="float-left">Propriétaire</span>
+                                        <span class="float-right text-muted">Vous êtes le propriétaire de ce livre</span>
+                                    </p>
+                                <p class="clearfix ">
                                     <span class="float-left">Souhaitez-vous bloqué la prochaine réservation, afin de récupérer votre livre lorsqu'il
                                     sera de retour ?</span>
                                 </p>
-                                <a class="btn btn-primary btn-block" href="#">Oui #TO DO: L'action</a>
+
+                                <a class="btn btn-primary btn-block" href="#">Empêcher les futurs emprunts</a>
+                                {% endif %}
                             </div>
                             {% endif %}
 
@@ -98,7 +101,7 @@
                                        href="{{ path('api_livre_rendre', {'hash': livre.hash}) }}">Rendre le livre</a>
                                 {% elseif livre.reserverPar is null %}
                                     <a class="btn btn-primary btn-block"
-                                       href="{{ path('api_livre_rendre', {'hash': livre.hash}) }}">Réserver le livre</a>
+                                       href="{{ path('api_livre_reserver', {'hash': livre.hash}) }}">Réserver le livre</a>
                                 {% else %}
                                     <button class="btn btn-grey btn-block disabled">Livre déjà réservé</button>
                                 {% endif %}
