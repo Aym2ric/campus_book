@@ -4,6 +4,7 @@ namespace App\Controller\Dashboard;
 
 use App\Entity\Etat\LivreEtat;
 use App\Entity\Livre;
+use App\Filter\Dashboard\LivreFilterType;
 use App\Repository\LivreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -39,7 +40,15 @@ class LivreController extends AbstractController
         $breadcrumbs->addItem("Livres", $this->generateUrl('dashboard_livre_index'));
         $breadcrumbs->addItem("Livres disponibles");
 
+        $form = $this->createForm(LivreFilterType::class);
+        $form->handleRequest($request);
+
         $livres = $livreRepository->livresDisponibles();
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $livres = $livreRepository->searchDashboard($form->getData());
+        }
 
         $pagination = $paginator->paginate(
             $livres->getQuery(), /* query NOT result */
@@ -49,6 +58,7 @@ class LivreController extends AbstractController
 
         return $this->render('dashboard/livre/index.html.twig', [
             'pagination' => $pagination,
+            'form' => $form->createView()
         ]);
     }
 

@@ -20,7 +20,7 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 /**
  * Class DashboardController
  * @package App\Controller
- * @Route("/dashboard/type")
+ * @Route("/dashboard/genre")
  */
 class TypeController extends AbstractController
 {
@@ -43,17 +43,7 @@ class TypeController extends AbstractController
         $breadcrumbs->addItem("Types", $this->generateUrl('type_index'));
         $breadcrumbs->addItem("Liste");
 
-        $form = $this->createForm(TypeFilterType::class);
-        $form->handleRequest($request);
-
-        $isForm = false;
-        // $search = $typeRepository->search();
         $search = $typeRepository->searchTypeNbBook();
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $search = $typeRepository->search($form->getData());
-            $isForm = true;
-        }
 
         $pagination = $paginator->paginate(
             $search->getQuery(), /* query NOT result */
@@ -62,9 +52,7 @@ class TypeController extends AbstractController
         );
 
         return $this->render('dashboard/type/index.html.twig', [
-            'form' => $form->createView(),
             'pagination' => $pagination,
-            'isForm' => $isForm,
         ]);
     }
 }

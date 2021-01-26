@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Type;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -32,23 +33,15 @@ class TypeRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    /*
-    SELECT type.id, type.nom, COUNT(livre.id)
-    FROM type
-    LEFT JOIN livre ON livre.type_id = type.id
-    GROUP BY type.id
-    */
-    public function searchTypeNbBook($formData = [])
+    /**
+     * @return QueryBuilder
+     * Retourne les types (nom + image) + nombre de livres dans ce type
+     */
+    public function searchTypeNbBook()
     {
         $qb = $this->createQueryBuilder('t')
         ->select('t.id, t.image, t.nom, COUNT(l.id) as nbLivres')
         ->leftJoin('t.livres', 'l');
-
-        if (isset($formData['nom']) && $formData['nom'] != null) {
-            $qb
-                ->andWhere('t.nom LIKE :nom')
-                ->setParameter('nom', '%' . $formData['nom'] . '%');
-        }
 
         return $qb->groupBy('t.id');
     }

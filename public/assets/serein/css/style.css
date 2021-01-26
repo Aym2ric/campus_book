@@ -28577,6 +28577,16 @@ div.tagsinput span.tag a {
 .radius-top {
   border-radius:10px 10px 0px 0px !important;
 }
+.radius-bop {
+  border-radius:0px 0px 10px 10px !important;
+}
+.radius-left {
+  border-radius:10px 0px 0px 10px !important;
+}
+.radius-rigth {
+  border-radius:0px 10px 10px 0px !important;
+}
+
 
 .breadcrumbs-container a {
   color:#4540f7;
@@ -28608,3 +28618,12 @@ background-color:#000000;
 .w-100{
  width:100% !important;
  }
+
+.borders-hidden {
+  border:0px solid #ffffff !important;
+  outline:none !important;
+}
+
+.border-left-grey {
+  border-left:1px solid #f8f9fa !important;
+}
