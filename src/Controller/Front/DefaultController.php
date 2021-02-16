@@ -20,6 +20,22 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/mentions-legales", name="mentions")    
+     */
+    public function mentions()
+    {
+        return $this->render("front/default/mentions-legales.html.twig");
+    }
+
+    /**
+     * @Route("/contact", name="contact")    
+     */
+    public function contact()
+    {
+        return $this->render("front/default/contact.html.twig");
+    }
+
+    /**
      * @Route("/menu", name="menu")
      */
     public function menu()

@@ -9,10 +9,11 @@
     <meta name="keywords" content="" />
     <meta name="author" content="" />
 
-    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
     <!-- Magnific-popup -->
-    <link rel="stylesheet" href="{{ asset('assets/zentafy/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="
+    ">
 
     <!--Slider Css-->
     <link rel="stylesheet" href="{{ asset('assets/zentafy/css/owl.carousel.css') }}">
@@ -34,9 +35,9 @@
 </head>
 
     <body>
-    {% include('front/default/navbar.html.twig') %}
-    {% include('front/default/presentation.html.twig') %}
-    {% include('front/default/footer.html.twig') %}
+        {% include('front/default/navbar.html.twig') %}
+        {% block body %}{% endblock %}
+        {% include('front/default/footer.html.twig') %}
 
         <!-- JAVASCRIPTS -->
         <script src="{{ asset('assets/zentafy/js/jquery.min.js') }}"></script>
