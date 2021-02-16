@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="FR">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Campus Book {% block title %}{% endblock %}</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="author" content="" />
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="author" content=""/>
 
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
@@ -21,7 +21,7 @@
 
     <!-- Icon -->
     <link href="{{ asset('assets/zentafy/css/mobiriseicons.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/zentafy/css/materialdesignicons.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/zentafy/css/materialdesignicons.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/zentafy/css/animate.min.css') }}">
 
     <!--bootstrap Css-->
@@ -31,69 +31,123 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/zentafy/css/style.css') }}">
 
     <!-- Cookies Start -->
-        <script type="text/javascript" src="{{ asset('assets/js/tarteaucitron/tarteaucitron.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/tarteaucitron/tarteaucitron.js') }}"></script>
 
     <script type="text/javascript">
         tarteaucitron.init({
-    	  "privacyUrl": "", /* Privacy policy url */
+            "privacyUrl": "", /* Privacy policy url */
 
-    	  "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
-    	  "cookieName": "tarteaucitron", /* Cookie name */
-    
-    	  "orientation": "middle", /* Banner position (top - bottom) */
-                           
-    	  "showAlertSmall": false, /* Show the small banner on bottom right */
-    	  "cookieslist": false, /* Show the cookie list */
-                           
-          "closePopup": false, /* Show a close X on the banner */
+            "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
+            "cookieName": "tarteaucitron", /* Cookie name */
 
-          "showIcon": true, /* Show cookie icon to manage cookies */
-          "iconPosition": "BottomRight", /* BottomRight, BottomLeft, TopRight and TopLeft */
+            "orientation": "middle", /* Banner position (top - bottom) */
 
-    	  "adblocker": false, /* Show a Warning if an adblocker is detected */
-                           
-          "DenyAllCta" : true, /* Show the deny all button */
-          "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
-          "highPrivacy": true, /* HIGHLY RECOMMANDED Disable auto consent */
-                           
-    	  "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+            "showAlertSmall": false, /* Show the small banner on bottom right */
+            "cookieslist": false, /* Show the cookie list */
 
-    	  "removeCredit": false, /* Remove credit link */
-    	  "moreInfoLink": true, /* Show more info link */
+            "closePopup": false, /* Show a close X on the banner */
 
-          "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
-          "useExternalJs": false, /* If false, the tarteaucitron.js file will be loaded */
+            "showIcon": true, /* Show cookie icon to manage cookies */
+            "iconPosition": "BottomRight", /* BottomRight, BottomLeft, TopRight and TopLeft */
 
-    	  //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
-                          
-          "readmoreLink": "", /* Change the default readmore link */
+            "adblocker": false, /* Show a Warning if an adblocker is detected */
 
-          "mandatory": true, /* Show a message about mandatory cookies */
+            "DenyAllCta": true, /* Show the deny all button */
+            "AcceptAllCta": true, /* Show the accept all button when highPrivacy on */
+            "highPrivacy": true, /* HIGHLY RECOMMANDED Disable auto consent */
+
+            "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+
+            "removeCredit": false, /* Remove credit link */
+            "moreInfoLink": true, /* Show more info link */
+
+            "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
+            "useExternalJs": false, /* If false, the tarteaucitron.js file will be loaded */
+
+            //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
+
+            "readmoreLink": "", /* Change the default readmore link */
+
+            "mandatory": true, /* Show a message about mandatory cookies */
         });
     </script>
     <!-- Cookies End -->
 
 </head>
 
-    <body>
-        {% include('front/default/navbar.html.twig') %}
-        {% block body %}{% endblock %}
-        {% include('front/default/footer.html.twig') %}
+<body>
+<!-- START NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top custom_nav_menu sticky">
+    <div class="container">
+        <!-- LOGO -->
+        <a class="navbar-brand logo" href="{{ path("index") }}">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="img-fluid logo-light">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="img-fluid logo-dark">
+        </a>
 
-        <!-- JAVASCRIPTS -->
-        <script src="{{ asset('assets/zentafy/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/zentafy/js/popper.min.js') }}"></script>
-        <script src="{{ asset('assets/zentafy/js/bootstrap.min.js') }}"></script>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="mdi mdi-menu"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_register') }}">Inscription</a>
+                </li>
+            </ul>
 
-        <!--TESTISLIDER JS-->
-        <script src="{{ asset('assets/zentafy/js/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset('assets/zentafy/js/isotope.js') }}"></script>
-        <script src="{{ asset('assets/zentafy/js/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset('assets/zentafy/js/scrollspy.min.js') }}"></script>
-        <script src="{{ asset('assets/zentafy/js/jquery.easing.min.js') }}"></script>
-        <script src="{{ asset('assets/zentafy/js/custom.js') }}"></script>
+        </div>
+    </div>
+</nav>
+<!-- END NAVBAR -->
 
-    </body>
+{% block body %}{% endblock %}
+
+<!-- Footer Start -->
+<section class="section_all bg_footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="footer_heading_tag mt-6">
+                    <h6 class="font-weight-bold text-white">Informations</h6>
+                </div>
+                <div class="footer_links_all mt-6">
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="{{ path('index') }}">Haut</a></li>
+                        <li><a href="{{ path('mentions') }}">Mentions l&eacute;gales</a></li>
+                        <li><a href="{{ path('contact') }}">Nous contacter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <span class="text-white">Campus Book<br/>
+                    Tous droits réservés.<br/>
+                        Développé avec &hearts; par les élèves</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer End  -->
+
+<!-- JAVASCRIPTS -->
+<script src="{{ asset('assets/zentafy/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/zentafy/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/zentafy/js/bootstrap.min.js') }}"></script>
+
+<!--TESTISLIDER JS-->
+<script src="{{ asset('assets/zentafy/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('assets/zentafy/js/isotope.js') }}"></script>
+<script src="{{ asset('assets/zentafy/js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('assets/zentafy/js/scrollspy.min.js') }}"></script>
+<script src="{{ asset('assets/zentafy/js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('assets/zentafy/js/custom.js') }}"></script>
+
+</body>
 
 
 <!-- Mirrored from romantic-lalande-c64436.netlify.app/index-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 16 Feb 2021 09:56:23 GMT -->

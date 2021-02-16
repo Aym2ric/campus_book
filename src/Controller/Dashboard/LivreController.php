@@ -101,7 +101,11 @@ class LivreController extends AbstractController
                 $upload_path = $kernel->getProjectDir() . '/public/vich/upload/image/';
                 $filename = uniqid();
                 $ext = pathinfo($form->get('urlImage')->getData(), PATHINFO_EXTENSION);
+                if($ext == null) {
+                    $ext = 'PNG';
+                }
                 file_put_contents($upload_path . $filename . '.' . $ext, file_get_contents($form->get('urlImage')->getData()));
+                $livre->setUrlImage( '/vich/upload/image/'.$filename . '.' . $ext);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
