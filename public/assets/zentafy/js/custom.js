@@ -23,10 +23,6 @@ $('.navbar-nav a, .scroll_down a').on('click', function(event) {
     event.preventDefault();
 });
 
-$("#navbarCollapse").scrollspy({
-    offset: 20
-});
-
 $("#owl-demo").owlCarousel({
     autoPlay: 10000,
     items: 3,
@@ -84,7 +80,7 @@ $(window).on('load', function() {
 
 var a = 0;
 $(window).on('scroll', function() {
-    var oTop = $('#counter').offset().top - window.innerHeight;
+    var oTop = $('#counter').offset() - window.innerHeight;
     if (a == 0 && $(window).scrollTop() > oTop) {
         $('.counter_value').each(function() {
             var $this = $(this),
