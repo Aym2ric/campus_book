@@ -8,7 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Class ApiController
@@ -17,6 +19,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApiController extends AbstractController
 {
+    private $client;
+
+    public function __construct(HttpClientInterface $client)
+    {
+        $this->client = $client;
+    }
+
     /**
      * @Route("/livre/{hash}/reserver", name="api_livre_reserver", methods={"GET", "POST"})
      * @param Livre $livre
@@ -105,5 +114,30 @@ class ApiController extends AbstractController
 
         $this->addFlash("danger", "Impossible de débloquer les réservations de ce livre.");
         return $this->redirectToRoute('dashboard_livre_show', ['hash' => $livre->getHash()]);
+    }
+
+    /**
+     * @Route("/infos_livre", name="infos_livre", methods={"GET", "POST"})
+     */
+    public function infosLivre(Request $request): JsonResponse
+    {
+        $isbn = $request->request->get('isbn');
+        // if($isbn == null)
+        //     return false;
+
+        $response = $this->client->request(
+            'GET',
+            "https://www.googleapis.com/books/v1/volumes?q=isbn:" . $isbn
+        );
+
+        $statusCode = $response->getStatusCode();
+        // $statusCode = 200
+        $contentType = $response->getHeaders()['content-type'][0];
+        // $contentType = 'application/json'
+        // $content = $response->getContent();
+
+        // $content = $response->toArray();
+
+        return $content;
     }
 }

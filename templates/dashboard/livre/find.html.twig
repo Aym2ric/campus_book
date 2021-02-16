@@ -1,0 +1,92 @@
+{% extends 'dashboard/base_dashboard.html.twig' %}
+
+{% block title %}Créer un livre{% endblock %}
+
+{% block body %}
+
+    <!-- BREADCRUMBS -->
+    <div class="row pb-4">
+        <div class="col-auto">
+            <i class="fa fa-book circular circular-success"></i>
+        </div>
+        <div class="col pt-3">
+            <h1 class="h1 bdc-title">Créer un livre</h1>
+            <span class="text-grey">Gestion des livres</span>
+        </div>
+        <div class="col text-right">
+            <a href="{{ path('livre_index') }}" class="btn btn-success-light btn-md">
+                <i class="fa fa-table"></i>
+                <span class="px-2 font-weight-normal">Liste</span></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            {{ wo_render_breadcrumbs() }}
+        </div>
+    </div>
+    <!-- BREADCRUMBS -->
+
+    <!-- FORMULAIRE ADD OBJETS -->
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="box p-4">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="box p-4">
+                            <div class="box-header p-0 pb-2 mb-3"><h3>Informations générales</h3></div>
+                            {{ form_errors(form) }}
+
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label class="text-grey is-required">Nom</label>
+                                        {{ form_widget(form.isbn) }}
+                                        {{ form_errors(form.isbn) }}
+                                    </div>
+                                </div>
+
+                    <div class="col-12">
+                        <button type="button" onclick="searchByISBN();" class="btn btn-success-light ml-2">Rechercher</button>
+                        {{ form_end(form) }}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FORMULAIRE ADD OBJETS -->
+    <script type="text/javascript">
+        function searchByISBN() {
+            var isbn = $('#livre_isbn_isbn');
+
+            $.ajax({
+                url: "{{ path('infos_livre') }}", 
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    ISBN: isbn.val()
+                },
+                success: function (livres) {
+                    console.log(livres);
+                    /*var themeSelect = $("#livre_create_theme");
+                    themeSelect.html('');
+                    themeSelect.append('<option value> Veuillez choisir un Thème de ' + typeSelector.find("option:selected").text() + ' ...</option>');
+
+
+                    $.each(themes, function (key, theme) {
+                        themeSelect.append('<option value="' + theme.id + '">' + theme.nom + '</option>');
+                    });*/
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{# {% block javascript %} #}
+{# {% endblock %} #}
