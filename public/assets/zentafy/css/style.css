@@ -1,0 +1,1069 @@
+/*  Theme Name: zentafy - Responsive Bootstrap 4 Multipurpose Business Template
+    Author: VBThemes
+    Version: 1.0.0
+    Created:October 2018
+    File Description:Main Css file of the template
+*/
+
+
+/***************
+
+1.BASIC
+2.HELPER
+3.NAVBAR
+4.HOME
+5.SERVICES
+6.CTA
+7.FEATURES
+8.WORK PROCESS
+9.PORTFOLIO
+10.DESC SECTION
+11.TESTIMONIAL
+12.OUR TEAM
+13.COUNTER
+14.PRICING PLAN
+15.BLOG
+16.CONTACT US
+17.FOOTER
+18.RESPONSIVE
+
+*****************/
+
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:500,600|Roboto:400,500');
+
+/*=================
+    01.BASIC
+===================*/
+
+body {
+    font-family: "Roboto", sans-serif;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Libre Franklin", sans-serif;
+}
+
+h1.font-weight-bold,
+h2.font-weight-bold,
+h3.font-weight-bold,
+h4.font-weight-bold,
+h5.font-weight-bold,
+h6.font-weight-bold {
+    font-weight: 700 !important;
+}
+
+a,
+a:hover,
+a:focus,
+button {
+    text-decoration: none !important;
+    outline: none !important;
+}
+
+p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/*==================
+    02.HELPER
+====================*/
+
+.bg_overlay_cover_on {
+    background-color: rgba(40, 42, 45, 0.88);
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.text_custom {
+    color: #3dd68d;
+}
+
+.btn {
+    padding: 13px 32px;
+    font-size: 14px;
+    transition: all 0.5s;
+    letter-spacing: 0.6px;
+    color: #fff;
+    box-shadow: none !important;
+    text-transform: uppercase;
+    outline: none !important;
+}
+
+.btn_custom {
+    border: 1px solid #3dd68d;
+    background-color: #3dd68d;
+    border-radius: 0px;
+}
+
+.btn_custom:hover,
+.btn_custom:focus,
+.btn_custom:active,
+.btn_custom.active,
+.btn_custom.focus,
+.btn_custom:active,
+.btn_custom:focus,
+.btn_custom:hover,
+.open > .dropdown-toggle.btn_custom {
+    color: #f3f3f3;
+    background-color: #4de29b;
+    border-color: #4de29b;
+}
+
+.btn_outline_custom {
+    /*  border: 2px solid #f5f5f5;*/
+    background-color: #ffffff;
+    color: #3dd68d;
+}
+
+.btn_outline_custom:hover,
+.btn_outline_custom:focus,
+.btn_outline_custom:active,
+.btn_outline_custom.active,
+.btn_outline_custom.focus,
+.btn_outline_custom:active,
+.btn_outline_custom:focus,
+.btn_outline_custom:hover,
+.open > .dropdown-toggle.btn_outline_custom {
+    color: #3dd68d;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.full_height_100vh {
+    height: 100vh;
+}
+
+.vertical_content_manage {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+}
+
+.section_all {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background-color: #ffffff;
+}
+
+.section-title {
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.section-subtitle {
+    max-width: 550px;
+}
+
+.section_small_title {
+    background-color: #3dd68d;
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 12px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+.btn_small {
+    padding: 7px 14px;
+}
+
+.navbar-brand img {
+    height: 34px;
+}
+
+.btn-rounded {
+    border-radius: 35px;
+}
+
+
+/*======================
+    03  NAVBAR
+=======================*/
+
+.custom_nav_menu {
+    padding: 15px 0px;
+    width: 100%;
+    border-radius: 0px;
+    z-index: 999;
+    margin-bottom: 0px;
+    transition: all 0.5s ease-in-out;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.custom_nav_menu .social_menu .list-inline-item:not(:last-child) {
+    margin-right: 8px;
+}
+
+.custom_nav_menu .navbar-nav li a {
+    color: #fff;
+    font-size: 15px;
+    background-color: transparent !important;
+    padding: 15px 0;
+    margin: 0 7px;
+    transition: all 0.4s;
+}
+
+.navbar-toggler {
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: #ffffff;
+}
+
+.stickyadd .navbar-nav {
+    margin-top: 0px;
+}
+
+.stickyadd.custom_nav_menu .navbar-nav li a {
+    color: rgba(0, 0, 0, 0.75);
+}
+
+/*.custom_nav_menu .navbar-brand.logo img {
+    height: 26px;
+}*/
+
+.stickyadd.custom_nav_menu {
+    margin-top: 0px;
+    padding: 8px 0px;
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+    box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.1);
+}
+
+.custom_nav_menu .navbar-nav li.active a,
+.custom_nav_menu .navbar-nav li a:hover,
+.custom_nav_menu .navbar-nav li a:active {
+    color: #3dd68d !important;
+}
+
+.navbar-toggle {
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: #ffffff;
+}
+
+.custom_nav_menu .btn-custom {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.nav .open>a,
+.nav .open>a:focus,
+.nav .open>a:hover {
+    background-color: transparent;
+    border-color: #337ab7;
+}
+
+.logo .logo-light {
+    display: inline-block;
+}
+
+.stickyadd .logo .logo-dark {
+    display: inline-block;
+}
+
+.stickyadd .logo .logo-light {
+    display: none;
+}
+
+.logo .logo-dark {
+    display: none;
+}
+
+
+/*================
+    04.HOME
+==================*/
+
+.bg_home_landing {
+    background-image: url(../images/bg_home-1.jpg);
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+.home_title {
+    font-size: 48px;
+    line-height: 1.2;
+    max-width: 750px;
+    font-weight: bold;
+}
+
+.home_subtitle {
+    color: #dadada;
+    max-width: 600px;
+    line-height: 1.8;
+}
+
+.home_title span {
+    color: #3dd68d;
+    font-style: italic;
+}
+
+.home_table_cell_center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.home_table_cell {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.full_height_100vh_home {
+    height: 100vh;
+}
+
+.video-btn-white a {
+    color: #fff !important;
+    display: inline-block;
+}
+
+.video-btn-white p {
+    font-size: 18px;
+    letter-spacing: 4px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.play-btn-white i {
+    background: #3dd68d;
+    height: 70px;
+    width: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+    font-size: 26px;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+
+/*-----------------
+    HOME - 2
+------------------*/
+
+.home_half_cover {
+    padding: 175px 0px;
+}
+
+/*-------------------
+    HOME - 7
+--------------------*/
+
+.up-index {
+    z-index: 2;
+}
+
+
+/********************
+     0.5 ABOUT
+*********************/
+
+.about_agency {
+    padding: 40px;
+    border-radius: 15px;
+}
+
+.about_agency p {
+    max-width: 850px;
+}
+
+.about_header_main h4 {
+    line-height: 1.4;
+    font-size: 24px;
+}
+
+.video_section .presentation_icon {
+    position: absolute;
+    top: 50%;
+    left: 51%;
+    margin-left: -40px;
+    margin-top: -40px;
+}
+
+.presentation_icon {
+    outline: none !important;
+    width: 65px;
+    height: 65px;
+    padding-left: 2px;
+    border-radius: 50%;
+    z-index: 4;
+    background-color: #2ed078;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    color: #fff !important;
+    font-size: 35px;
+    line-height: 65px;
+}
+
+.about_agency h3{
+    font-size: 24px !important;
+    line-height: 1.4;
+}
+
+/*====================
+   0.5 SERVICES
+=====================*/
+
+.services_box {
+    box-shadow: 0 0px 26px -5px rgba(146, 147, 151, 0.12);
+}
+
+.services_box .service_icon i {
+    color: #3dd68d;
+    font-size: 32px;
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+    line-height: 66px;
+    border-radius: 50px;
+    border: 2px solid #3dd68d;
+}
+
+.services_box a:hover {
+    color: #3dd68d;
+}
+
+.services_box:hover .service_icon i {
+    transition: all 0.5s;
+    color: #fff;
+    background: #3dd68d;
+    box-shadow: 0 0 1px #3dd68d;
+    cursor: pointer;
+}
+
+
+/*===================
+    0.6  CTA
+====================*/
+
+.cta_details {
+    max-width: 635px;
+    line-height: 2.0;
+}
+
+.bg_creative_cta {
+    background-image: url(../images/creative-business.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.video-subtitle {
+    max-width: 600px;
+    text-align: center;
+}
+
+.bg_buss_cta_img {
+    background-image: url(../images/buss_cta_img.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+/*********************
+  0.8 WORK PROCESS
+**********************/
+
+.work_flow_content {
+    border-radius: 7px;
+    box-shadow: 0 4px 10px -1px rgba(169, 166, 167, 0.2);
+    padding: 26px;
+}
+
+.work_flow_number {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: bold;
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+    background: #3dd68d;
+    display: inline-block;
+    text-align: center;
+    border-radius: 35px;
+    box-shadow: 0 8px 20px -2px rgba(61, 214, 141, 0.28);
+}
+
+.workflow_header_main .workflow_icon_box i {
+    font-size: 34px;
+    background: rgba(61, 214, 141, 0.19);
+    height: 60px;
+    width: 60px;
+    display: inline-block;
+    text-align: center;
+    line-height: 60px;
+    border-radius: 50%;
+}
+
+.workflow_header_main h3 {
+    font-size: 24px;
+    line-height: 1.4;
+    max-width: 400px;
+}
+
+.workflow_header_main,
+.workflow_desc {
+    max-width: 480px;
+    line-height: 1.6;
+}
+
+.work_flow_detail .work_flow_desc {
+    line-height: 1.6;
+}
+
+.workflow_icon_box span {
+    position: relative;
+    top: -10px;
+}
+
+
+/*====================
+  07.  Features
+====================*/
+
+.features_type_box .features_icon_box {
+    font-size: 38px;
+}
+
+.active_features {
+    color: #ffffff;
+    background-color: #3dd68d;
+}
+
+.active_features .features_icon_box i {
+    color: #ffffff;
+}
+
+
+/*=========================
+  0.8 HOW TO WORK PROCESS
+==========================*/
+
+.bg_work_process {
+    background-image: url('../images/bg_pettern.html');
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+.how_it_work_box h5 {
+    color: #222;
+}
+
+.how_it_work_box .process_icon i {
+    font-size: 32px;
+    height: 65px;
+    width: 65px;
+    line-height: 65px;
+    display: inline-block;
+    background: #fff;
+    border-radius: 35px;
+    box-shadow: 0 8px 20px -2px rgba(158, 152, 153, 0.5);
+}
+
+
+/*=====================
+  0.9  PORTFOLIO
+======================*/
+
+.work_menu li a {
+    padding: 8px 16px;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    margin-bottom: 5px;
+    display: inline-block;
+    font-size: 14px;
+    transition: all 0.5s;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.5) !important;
+    margin-top: 5px;
+}
+
+.work_menu li {
+    margin-right: 0px !important;
+}
+
+.work_menu li:after {
+    content: "/";
+    color: #3dd68d;
+    margin: 0px 16px;
+    position: relative;
+    display: inline-block;
+    top: 1px;
+}
+
+.work_menu li:last-child:after {
+    content: "";
+    display: none;
+}
+
+.work_menu a.active,
+.work_menu a:hover {
+    font-weight: 700;
+    color: #fff !important;
+    background-color: #3dd68d;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.work_box .work_detail h4 {
+    font-size: 18px;
+    color: #000;
+}
+
+.work_box .work_detail p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+}
+
+.work_item {
+    padding: 15px;
+    position: relative;
+}
+
+.work_item .work_box {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.work_item .work_box .work_img {
+    transition: all 0.3s ease 0s;
+}
+
+.work_item .work_box img {
+    top: 0;
+    position: relative;
+}
+
+.work_item .work_box img {
+    cursor: pointer;
+    display: block;
+    opacity: 1;
+    width: 100%;
+    transition: all 0.3s ease 0s;
+}
+
+.work_item .work_box:hover img {
+    cursor: pointer;
+    opacity: 1;
+    transform: scale(1, 1);
+    top: -88px;
+}
+
+.work_item .work_detail {
+    height: auto;
+    position: absolute;
+    background-color: #fbfbfb;
+    opacity: 0;
+    bottom: -101px;
+    width: 100%;
+    padding: 20px 0px;
+}
+
+.work_box:hover .work_detail {
+    bottom: 0;
+}
+
+.work_box:hover .work_detail {
+    opacity: 1;
+    transition: all 0.3s ease 0s;
+}
+
+
+/*====================
+   10. DESC SECTION
+=====================*/
+
+.content_box i {
+    float: left;
+    font-size: 30px;
+    border: 2px solid #3dd68d;
+    border-radius: 50px;
+    line-height: 58px;
+    height: 60px;
+    width: 60px;
+    font-weight: 600;
+    text-align: center;
+    margin-right: 35px;
+}
+
+.content_details {
+    overflow: hidden;
+    line-height: 1.6;
+}
+
+.content_details p {
+    line-height: 1.6;
+}
+
+
+/*=====================
+  11.  TESTIMONIAL
+======================*/
+
+.testi_box_all {
+    padding: 22px 20px;
+    margin: 0px 15px;
+    border: solid 2px #f8f9fa !important;
+    border-radius: 15px;
+}
+
+.testi_box_all .testi_icons {
+    font-size: 65px;
+}
+
+.testi_box_all .client_img {
+    max-width: 70px;
+}
+
+.testi_box_all .client_name {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.owl-theme .owl-controls .owl-page span {
+    display: block;
+    width: 12px;
+    height: 7px;
+    margin: 20px 5px;
+    border: 1px solid #3dd68d;
+    background-color: #3dd68d;
+    opacity: 0.4;
+}
+
+
+/*====================
+  12. OUR TEAM
+=====================*/
+
+.team_box_all .team_img img {
+    max-width: 254px;
+}
+
+.team_box_all .team_follow {
+    padding: 5px 15px;
+    display: block;
+    font-size: 16px;
+    background: rgba(61, 214, 141, 0.66);
+    color: #fff;
+    letter-spacing: 2px;
+    font-weight: 500;
+    text-transform: capitalize;
+    border-radius: 30px;
+    display: inline-block;
+}
+
+.team_social ul {
+    border-top: 1px solid #d6d6d6;
+    border-bottom: 1px solid #d6d6d6;
+    border-left: 1px solid #d6d6d6;
+    border-right: 1px solid #d6d6d6;
+    display: inline-block;
+}
+
+.team_social ul li:not(:last-child) {
+    margin-right: 0px;
+}
+
+.team_social_border {
+    border-right: 1px solid #e2dfdf;
+}
+
+.team_social ul li a {
+    color: #979797;
+    display: inline-block;
+    transition: all 0.5s;
+    padding: 6px 32px;
+    text-align: center;
+}
+
+.team_social ul li:hover a {
+    color: #3dd68d;
+}
+
+
+/*==================
+  13. COUNTER
+===================*/
+
+.bg_counter_cover {
+  background-color: #3dd68d;
+}
+
+.counter_box .info_name {
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.counter_box .counter_icon {
+    font-size: 38px;
+}
+
+
+/*====================
+  14. PRICING PLAN
+=====================*/
+
+.business_price_box {
+    padding: 40px 25px;
+}
+
+.business_price_header {
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.business_price_icon i {
+    font-size: 42px;
+}
+
+.business_price_header span {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+/*===================
+   15. BLOG
+====================*/
+
+.blog_desc_box {
+    box-shadow: 0 4px 10px -1px rgba(169, 166, 167, 0.2);
+}
+
+.label {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 8px 22px;
+    text-align: center;
+    letter-spacing: 2px;
+    background: #3dd68d;
+}
+
+.blog_author_name {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/*=====================
+    16. CONTACT US
+======================*/
+
+.contact_info_content .add_head {
+    font-size: 18px;
+}
+
+.add_head {
+    font-weight: 500;
+}
+
+.contact_icon i {
+    font-size: 30px;
+    background: #ffffff;
+    font-weight: 500;
+    height: 72px;
+    width: 72px;
+    display: inline-block;
+    text-align: center;
+    line-height: 72px;
+    border-radius: 50px;
+}
+
+.corp_form_custom .form-control {
+    height: 50px;
+    font-size: 14px;
+    border-color: #eae7e7;
+}
+
+textarea.form-control {
+    height: auto !important;
+}
+
+.corp_form_custom .form-control:focus {
+    border-color: #3dd68d !important;
+    box-shadow: none;
+    outline: 0;
+}
+
+.corp_form_custom {
+    box-shadow: 0 0 35px 1px #efefef;
+    padding: 36px;
+}
+
+
+/*==================
+    17.FOOTER
+====================*/
+
+.bg_footer {
+    background-color: #2e3234;
+}
+
+.footer_heading_tag h6 {
+    letter-spacing: 2px;
+    font-size: 18px;
+}
+
+.footer_logo_img img {
+    max-width: 120px;
+}
+
+.footer_about_detail p {
+    color: #888;
+}
+
+.footer_links_all ul li a {
+    color: #888;
+    margin-bottom: 6px;
+    display: block;
+    transition: all 0.5s;
+}
+
+.footer_links_all ul li a:hover {
+    color: #d0d0d0;
+}
+
+.footer_alt_cpy {   
+    color: #888;
+}
+
+.footer_social_icon .social_icon {
+    border-radius: 35px;
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #3dd68d;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    font-size: 18px;
+    text-align: center;
+    transition: all 0.5s;
+}
+
+.footer_social_icon .social_icon:hover {
+    color: #fff !important;
+    background-color: #3dd68d;
+}
+
+
+/*=====================
+    18. RESPONSIVE
+=======================*/
+
+@media (max-width: 768px) {
+
+    .custom_nav_menu {
+        margin-top: 0px;
+        padding: 10px 0px !important;
+        background-color: #fff !important;
+    }
+    .vertical_content_manage {
+        display: inherit;
+    }
+    .home_title {
+        font-size: 34px;
+    }
+   .custom_nav_menu .navbar-nav li a {
+        margin: 0 0px;
+        padding: 6px 0;
+        color: rgba(0, 0, 0, 0.55) !important;
+    }
+    .custom_nav_menu .navbar-nav li.active a {
+        color: #3dd68d !important;
+    }
+    .custom_nav_menu>.container {
+        width: 90%;
+    }
+    .custom_nav_menu .logo .logo-dark {
+        display: inline-block;
+    }
+    .custom_nav_menu .logo .logo-light {
+        display: none;
+    }
+    .custom_nav_menu .navbar-brand.logo img {
+        height: 26px;
+    }
+    .navbar-nav {
+        margin-top: 0px;
+    }
+    .navbar-toggler {
+        font-size: 28px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        color: #000;
+    }
+    .h-100vh,
+    .full_height_100vh_home {
+        height: auto;
+    }
+    .full_height_100vh_home {
+        padding: 125px 0px;
+    }
+    .home_half_cover {
+        padding: 125px 0 130px 0;
+    }
+    .about_agency h3{
+        font-size: 22px !important;
+        line-height: 1.4;
+    }
+    .about_header_main h4 {
+        line-height: 1.4;
+        font-size: 22px;
+    }
+    .workflow_heading{
+        max-width: 480px;
+        line-height: 1.4;
+        font-size: 22px;
+    }
+    .cta_heading {
+        font-size: 24px;
+    }
+
+}
+
+@media (max-width: 1024px) {
+
+
+.team_social ul li a {
+    color: #979797;
+    display: inline-block;
+    transition: all 0.5s;
+    padding: 6px 20px;
+    text-align: center;
+}
+
+.team_box_all .team_img img {
+    max-width: 214px;
+}
+
+
+}
