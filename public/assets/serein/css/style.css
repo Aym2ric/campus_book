@@ -28627,3 +28627,9 @@ background-color:#000000;
 .border-left-grey {
   border-left:1px solid #f8f9fa !important;
 }
+
+.max-width-20em {
+  max-width: 20em !important;
+}
+
+@media screen and (max-width: 767px) { .mobile-space {margin-top:1rem;} }

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ nomdusite }} | {% block title %}{% endblock %}</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="{{ asset('assets/font-awesome/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/fontawesome5152/css/all.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/serein/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/serein/css/vendor.bundle.addons.css') }}">
     <!-- endinject -->
@@ -79,6 +79,8 @@
 <!-- Custom js for this page-->
 <script src="{{ asset('assets/serein/js/dashboard.js') }}"></script>
 <!-- End custom js for this page-->
+{% block javascript %}
+{% endblock %}
 </body>
 </html>
 

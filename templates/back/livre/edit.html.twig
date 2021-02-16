@@ -1,6 +1,6 @@
 {% extends 'back/base_admin.html.twig' %}
 
-{% block title %}Créer un livre{% endblock %}
+{% block title %}Modifier un livre{% endblock %}
 
 {% block body %}
 
@@ -10,7 +10,7 @@
             <i class="fa fa-book circular circular-success"></i>
         </div>
         <div class="col pt-3">
-            <h1 class="h1 bdc-title">Modifier un Livre</h1>
+            <h1 class="h1 bdc-title">Modifier un livre</h1>
             <span class="text-grey">Gestion des livres</span>
         </div>
         <div class="col text-right">
@@ -27,13 +27,43 @@
     </div>
     <!-- BREADCRUMBS -->
 
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <div class="box p-4">
+
+                <div class="box-header p-0 pb-2 mb-3">
+                    <h3>Pré-remplir les informations de votre livre</h3>
+                    <p class="text-muted font-italic">Pré-remplir les informations via l'ISBN du livre (via la
+                        bibliothèque Google Book)</p>
+                </div>
+
+
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="form-group mb-0">
+                            <label class="text-grey is-required">ISBN</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" id="searchInputIsbn" class="form-control" placeholder="ISBN...">
+                    </div>
+                    <div class="col-md-4 mobile-space">
+                        <button type="button" id="searchButtonIsbn" class="btn btn-success-light btn-block">Rechercher
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- FORMULAIRE ADD OBJETS -->
     <div class="row">
         <div class="col-12 col-lg-12">
             <div class="box p-4">
                 <div class="row">
-
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-8 col-sm-12">
                         <div class="box p-4">
                             <div class="box-header p-0 pb-2 mb-3"><h3>Informations générales</h3></div>
                             {{ form_errors(form) }}
@@ -57,8 +87,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="text-grey is-required">Date de sortie</label>
-                                        {{ form_widget(form.dateSortie) }}
-                                        {{ form_errors(form.dateSortie) }}
+                                        {{ form_widget(form.anneeSortie) }}
+                                        {{ form_errors(form.anneeSortie) }}
                                     </div>
                                 </div>
 
@@ -72,36 +102,54 @@
                                         {{ form_errors(form.description) }}
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="text-grey is-required">Type</label>
-                                        {{ form_widget(form.type) }}
-                                        {{ form_errors(form.type) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="text-grey is-required">Thème</label>
                                         {{ form_widget(form.theme) }}
                                         {{ form_errors(form.theme) }}
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-grey is-required">Ou ajouter un nouveau Thème</label>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="inputNewTheme"
+                                                       placeholder="Nouveau thème..."/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button type="button" id="buttonNewTheme"
+                                                        class="btn btn-success-light btn-block mobile-space">Ajouter
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="text-grey is-required">Image</label>
                                         {{ form_widget(form.imageFile) }}
                                         {{ form_errors(form.imageFile) }}
                                     </div>
-                                    <img class="max-width-10em" id="img-preview"
-                                         {% if form.imageFile.vars.download_uri != null %}src="{{ form.imageFile.vars.download_uri }}"
-                                         alt="{{ form.imageFile.vars.name }}"{% endif %} />
+                                    <img class="max-width-10em" id="img-preview-file"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-grey is-required">Url image</label>
+                                        {{ form_widget(form.urlImage) }}
+                                        {{ form_errors(form.urlImage) }}
+                                    </div>
+                                    <img class="max-width-10em" id="img-preview-url"/>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
 
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <div class="box p-4">
                             <div class="box-header p-0 pb-2 mb-3"><h3>Informations réservation</h3></div>
 
@@ -120,6 +168,7 @@
                                         {{ form_errors(form.etat) }}
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -146,7 +195,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-12">
                         <button type="submit" class="btn btn-success-light">Sauvegarder</button>
                         {{ form_end(form) }}
@@ -162,39 +210,142 @@
 
 {% block javascript %}
     <script type="text/javascript">
-        $('#livre_edit_type').change(function () {
-            var typeSelector = $(this);
+        $( document ).ready(function() {
+            var urlImage = '{{ livre.urlImage }}';
+            if(urlImage !== '') {
+                $('#img-preview-url').attr('src', '{{ livre.urlImage }}');
+            } else {
+                $('#img-preview-file').attr('src', '{{ vich_uploader_asset(livre, 'imageFile') }}');
+            }
+        });
 
+        function checkUrlImage(url) {
+            $("#saveButton").attr('disabled', 'disabled');
+            if (url !== "") {
+                $.ajax({
+                    url: url,
+                    type: 'HEAD',
+                    success: function () {
+                        $("#saveButton").removeAttr('disabled');
+                    }
+                });
+            }
+        }
+
+        function removeSelectOption() {
+            $('#livre_edit_theme option:selected').removeAttr('selected');
+        }
+
+        function updateTheme(value) {
             $.ajax({
-                url: "{{ path('livre_ajax_themes_from_type') }}",
+                url: "{{ path('api_theme_new') }}",
                 type: "GET",
-                dataType: "JSON",
                 data: {
-                    type_id: typeSelector.val()
+                    nomTheme: value
                 },
-                success: function (themes) {
-                    var themeSelect = $("#livre_edit_theme");
-                    themeSelect.html('');
-                    themeSelect.append('<option value> Veuillez choisir un Thème de ' + typeSelector.find("option:selected").text() + ' ...</option>');
-
-
-                    $.each(themes, function (key, theme) {
-                        themeSelect.append('<option value="' + theme.id + '">' + theme.nom + '</option>');
-                    });
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.duplicate === false) {
+                        $('#livre_edit_theme').append('<option value="' + response.id + '">' + value + '</option>');
+                        removeSelectOption();
+                        $('#livre_edit_theme option[value=' + response.id + ']').attr('selected', 'selected');
+                    } else {
+                        removeSelectOption();
+                        $('#livre_edit_theme option[value=' + response.id + ']').attr('selected', 'selected');
+                    }
                 },
                 error: function (err) {
                     alert("An error ocurred while loading data ...");
                 }
             });
+        }
+
+        $('#buttonNewTheme').on('click', function () {
+            var value = $('#inputNewTheme').val();
+            updateTheme(value);
+        });
+
+        function updateFormInputs(livre) {
+            $('#livre_edit_nom').val(livre["volumeInfo"]["title"]);
+
+
+            if (typeof livre["volumeInfo"]["authors"][0] != 'undefined') {
+                $('#livre_edit_auteur').val(livre["volumeInfo"]["authors"][0]);
+            }
+            $('#livre_edit_anneeSortie').val(livre["volumeInfo"]["publishedDate"]);
+
+            if (typeof livre["volumeInfo"]["description"] != 'undefined') {
+                $('#livre_edit_description').val(livre["volumeInfo"]["description"]);
+            } else {
+                $('#livre_edit_description').val('Aucune description trouvée pour ce livre');
+            }
+
+            if (typeof livre["volumeInfo"]["categories"] != 'undefined') {
+                updateTheme(livre["volumeInfo"]["categories"][0]);
+            } else {
+                updateTheme('Pas de catégorie');
+            }
+
+            if (typeof livre["volumeInfo"]["imageLinks"] != 'undefined') {
+                $('#img-preview-file').removeAttr('src');
+                $("#livre_edit_imageFile_file").val(null);
+                $('#livre_edit_urlImage').val(livre["volumeInfo"]["imageLinks"]["thumbnail"]);
+                $('#img-preview-url').attr('src', livre["volumeInfo"]["imageLinks"]["thumbnail"]);
+                $("#saveButton").removeAttr('disabled');
+            } else {
+                $('#img-preview-file').removeAttr('src');
+                $("#livre_edit_imageFile_file").val(null);
+                $('#livre_edit_urlImage').val('{{ absolute_url(asset('vich/livre_default.PNG')) }}');
+                $('#img-preview-url').attr('src', "{{ absolute_url(asset('vich/livre_default.PNG')) }}");
+            }
+        }
+
+        function getLivreDetails(isbn) {
+            var key = "AIzaSyDFvXcx7oLtA_Ibapb7KveL8FtZF-k1Fsc";
+            var url = "https://www.googleapis.com/books/v1/volumes?key=" + key + "&q=isbn:" + isbn;
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.totalItems) {
+                        var livre = response.items[0];
+                        updateFormInputs(livre);
+                    } else {
+
+                    }
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            });
+        }
+
+        $('#searchButtonIsbn').on('click', function () {
+            var value = $('#searchInputIsbn').val();
+            getLivreDetails(value);
+        });
+
+        // preview image file before upload
+        $(document).on('change', '#livre_edit_imageFile_file', function () {
+            var reader = new FileReader();
+            reader.onload = e => {
+                $('#img-preview-file').attr('src', e.target.result);
+            };
+            reader.readAsDataURL($('#livre_edit_imageFile_file').prop('files')[0]);
+            $('#livre_edit_urlImage').val(null);
+            $('#img-preview-url').removeAttr('src');
+            $("#saveButton").removeAttr('disabled');
         });
 
         // preview image before upload
-        $('#livre_edit_imageFile_file').change(function () {
-            var reader = new FileReader();
-            reader.onload = e => {
-                $('#img-preview').attr('src', e.target.result);
-            }
-            reader.readAsDataURL($('#livre_edit_imageFile_file').prop('files')[0]);
+        $(document).on('change', '#livre_edit_urlImage', function () {
+            var url = $(this).val();
+            checkUrlImage(url);
+            $('#img-preview-url').attr('src', url);
+            $("#livre_edit_imageFile_file").val(null);
+            $('#img-preview-file').removeAttr('src');
         });
     </script>
 {% endblock %}

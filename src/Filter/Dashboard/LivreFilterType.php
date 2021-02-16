@@ -4,7 +4,6 @@ namespace App\Filter\Dashboard;
 
 use App\Entity\Etat\LivreEtat;
 use App\Entity\Theme;
-use App\Entity\Type;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\ChoiceFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,14 +29,14 @@ class LivreFilterType extends AbstractType
                 ],
                 'required' => false
             ])
-            ->add('type', EntityType::class, [
-                'class' => Type::class,
+            ->add('theme', EntityType::class, [
+                'class' => Theme::class,
                 'choice_label' => 'nom',
                 'label' => false,
                 'label_attr' => [
                     'class' => ''
                 ],
-                "placeholder" => "Type...",
+                "placeholder" => "Thème...",
                 "attr" => [
                     'class' => 'borders-hidden h-100'
                 ],

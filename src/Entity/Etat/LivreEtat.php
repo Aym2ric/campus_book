@@ -11,12 +11,14 @@ final class LivreEtat
 {
     const DISPONIBLE = 'Disponible'; // dispo à la réservation
     const INDISPONIBLE = 'Indisponible'; // réservé par quelqu'un
+    const DEMAMDE_VALIDATION = 'Validation'; // demande de prêt, il faut valider le livre
 
     public static function getEtats()
     {
         return [
             self::DISPONIBLE,
-            self::INDISPONIBLE
+            self::INDISPONIBLE,
+            self::DEMAMDE_VALIDATION
         ];
     }
 
@@ -24,7 +26,8 @@ final class LivreEtat
     {
         return [
             self::DISPONIBLE => 'Disponible',
-            self::INDISPONIBLE => 'Indisponible'
+            self::INDISPONIBLE => 'Indisponible',
+            self::DEMAMDE_VALIDATION => 'Validation'
         ];
     }
 

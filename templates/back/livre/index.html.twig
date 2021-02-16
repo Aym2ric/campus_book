@@ -110,7 +110,7 @@
                 <tbody>
                 {% for livre in pagination %}
                     <tr>
-                        <td><img class="max-width-10em" src="{{ vich_uploader_asset(livre, 'imageFile') }}"/></td>
+                        <td><img class="max-width-10em" src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}"/></td>
                         <td>{{ livre.nom }}</td>
                         <td>
                             {% if livre.preterPar is not null %}

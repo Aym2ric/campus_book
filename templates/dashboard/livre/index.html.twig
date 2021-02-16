@@ -42,7 +42,7 @@
             {{ form_widget(form.nom) }}
         </div>
         <div class="col-4 bg-white border-left-grey">
-            {{ form_widget(form.type) }}
+            {{ form_widget(form.theme) }}
         </div>
         <div class="col-4 bg-light text-right radius-rigth d-inline-flex p-0">
             <button class="btn btn-link text-primary pr-0" type="submit"><i class="fa fa-search"></i></button>
@@ -56,7 +56,7 @@
         {% for livre in pagination %}
             <div class="card">
                 <div class="bg-dark text-center">
-                    <img class="card-img-top" src="{{ vich_uploader_asset(livre, 'imageFile') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}" alt="Card image cap">
                 </div>
                 <div class="card-body">
                     <h4 class="card-title">{{ livre.nom }}</h4>

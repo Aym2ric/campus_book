@@ -149,33 +149,4 @@ class LivreController extends AbstractController
         $this->addFlash("success", "Livre supprimé.");
         return $this->redirectToRoute('livre_index');
     }
-
-
-    /**
-     * @Route("/ajax/themesFromType", name="livre_ajax_themes_from_type", methods={"GET"})
-     * @param Request $request
-     * @param ThemeRepository $themeRepository
-     * @return JsonResponse
-     */
-    public function themesFromType(
-        Request $request,
-        ThemeRepository $themeRepository
-    )
-    {
-        $themes = $themeRepository->createQueryBuilder("q")
-            ->where("q.type = :type_id")
-            ->setParameter("type_id", $request->query->get("type_id"))
-            ->getQuery()
-            ->getResult();
-
-        $responseArray = array();
-        foreach($themes as $theme){
-            $responseArray[] = array(
-                "id" => $theme->getId(),
-                "nom" => $theme->getNom()
-            );
-        }
-
-        return new JsonResponse($responseArray);
-    }
 }

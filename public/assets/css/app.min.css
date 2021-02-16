@@ -16279,5 +16279,5 @@ textarea.md-input {
 }
 
 .max-width-10em {
-    max-width: 10em !important;
+    max-width: 100% !important;
 }

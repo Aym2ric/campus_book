@@ -6,9 +6,12 @@ use App\Repository\ThemeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ThemeRepository::class)
+ * @Vich\Uploadable
  */
 class Theme
 {
@@ -28,12 +31,6 @@ class Theme
      * @ORM\OneToMany(targetEntity=Livre::class, mappedBy="theme")
      */
     private $livres;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="themes")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $type;
 
     public function __construct()
     {
@@ -83,18 +80,6 @@ class Theme
                 $livre->setTheme(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getType(): ?Type
-    {
-        return $this->type;
-    }
-
-    public function setType(?Type $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }

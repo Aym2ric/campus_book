@@ -32,10 +32,10 @@ class LivreRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%' . $formData['nom'] . '%');
         }
 
-        if (isset($formData['type']) && $formData['type'] != null) {
+        if (isset($formData['theme']) && $formData['theme'] != null) {
             $qb
-                ->andWhere('l.type = :type')
-                ->setParameter('type',  $formData['type']);
+                ->andWhere('l.theme = :theme')
+                ->setParameter('theme',  $formData['theme']);
         }
 
         return $qb;
