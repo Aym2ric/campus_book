@@ -1,10 +1,3 @@
-/*  Theme Name: zentafy - Responsive Bootstrap 4 Multipurpose Business Template
-    Author: VBThemes
-    Version: 1.0.0
-    Created:September 2018
-    File Description:Main Css file of the template
-*/
-
 $(window).on('scroll', function() {
     var scroll = $(window).scrollTop();
 

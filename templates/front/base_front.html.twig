@@ -64,9 +64,9 @@
             "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
             "useExternalJs": false, /* If false, the tarteaucitron.js file will be loaded */
 
-            //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
+    	  //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
 
-            "readmoreLink": "", /* Change the default readmore link */
+          "readmoreLink": "https://www.cnil.fr/fr/cookies-et-autres-traceurs/", /* Change the default readmore link */
 
             "mandatory": true, /* Show a message about mandatory cookies */
         });
@@ -76,63 +76,9 @@
 </head>
 
 <body>
-<!-- START NAVBAR -->
-<nav class="navbar navbar-expand-lg fixed-top custom_nav_menu sticky">
-    <div class="container">
-        <!-- LOGO -->
-        <a class="navbar-brand logo" href="{{ path("index") }}">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="img-fluid logo-light">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="img-fluid logo-dark">
-        </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="mdi mdi-menu"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a href="{{ path('app_login') }}">Connexion</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path('app_register') }}">Inscription</a>
-                </li>
-            </ul>
-
-        </div>
-    </div>
-</nav>
-<!-- END NAVBAR -->
-
-{% block body %}{% endblock %}
-
-<!-- Footer Start -->
-<section class="section_all bg_footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="footer_heading_tag mt-6">
-                    <h6 class="font-weight-bold text-white">Informations</h6>
-                </div>
-                <div class="footer_links_all mt-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="{{ path('index') }}">Haut</a></li>
-                        <li><a href="{{ path('mentions') }}">Mentions l&eacute;gales</a></li>
-                        <li><a href="{{ path('contact') }}">Nous contacter</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="text-center">
-                    <span class="text-white">Campus Book<br/>
-                    Tous droits réservés.<br/>
-                        Développé avec &hearts; par les élèves</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Footer End  -->
+    {% include('front/default/navbar.html.twig') %}
+    {% block body %}{% endblock %}
+    {% include('front/default/footer.html.twig') %}
 
 <!-- JAVASCRIPTS -->
 <script src="{{ asset('assets/zentafy/js/jquery.min.js') }}"></script>
