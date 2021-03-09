@@ -3,6 +3,8 @@
 namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,23 +17,12 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="index")
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @param MailerInterface $mailer
+     * @return RedirectResponse
+     * @throws TransportExceptionInterface
      */
     public function index(MailerInterface $mailer)
     {
-        $email = (new Email())
-            ->from('hello@example.com')
-            ->to('aym2ric@live.fr')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-
-        $mailer->send($email);
-
         return $this->redirectToRoute('app_login');
         //return $this->render("front/default/index.html.twig");
     }
