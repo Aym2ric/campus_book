@@ -206,6 +206,21 @@
         </div>
     </div>
     <!-- FORMULAIRE ADD OBJETS -->
+
+    <div id="modalResponse" class="modal" tabindex="-1" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">Résultat de votre recherche ISBN</h4></div>
+                <div class="modal-body text-center p-lg">
+                    <p>Aucune donnée ne correspondent à cet ISBN sur Google Books</p>
+                    <p>Veuillez écrire manuellement les informations ou recherche l'ISBN avec le nom du livre sur <a class="text-primary" target="_blank" href="https://books.google.com/">https://books.google.com</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-grey p-x-md" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascript %}
@@ -255,7 +270,7 @@
                     }
                 },
                 error: function (err) {
-                    alert("An error ocurred while loading data ...");
+                    alert("Une erreur est survenue pendant le chargement des données. Essayer de vider le cache de votre navigateur internet.");
                 }
             });
         }
@@ -264,6 +279,17 @@
             var value = $('#inputNewTheme').val();
             updateTheme(value);
         });
+
+        function clearFormInputs() {
+            $('#livre_edit_nom').val(null);
+            $('#livre_edit_auteur').val(null);
+            $('#livre_edit_anneeSortie').val(null);
+            $('#livre_edit_description').val(null);
+            $('#livre_edit_theme').val(null);
+            $('#livre_edit_urlImage').val(null);
+            $('#img-preview-url').removeAttr('src');
+            $('#img-preview-file').removeAttr('src');
+        }
 
         function updateFormInputs(livre) {
             $('#livre_edit_nom').val(livre["volumeInfo"]["title"]);
@@ -283,7 +309,7 @@
             if (typeof livre["volumeInfo"]["categories"] != 'undefined') {
                 updateTheme(livre["volumeInfo"]["categories"][0]);
             } else {
-                updateTheme('Pas de catégorie');
+                updateTheme('Pas de thème');
             }
 
             if (typeof livre["volumeInfo"]["imageLinks"] != 'undefined') {
@@ -313,17 +339,18 @@
                         var livre = response.items[0];
                         updateFormInputs(livre);
                     } else {
-
+                        $('#modalResponse').modal('show');
                     }
                 },
                 error: function (err) {
-                    alert("An error ocurred while loading data ...");
+                    alert("Une erreur est survenue pendant le chargement des données. Essayer de vider le cache de votre navigateur internet.");
                 }
             });
         }
 
         $('#searchButtonIsbn').on('click', function () {
             var value = $('#searchInputIsbn').val();
+            clearFormInputs();
             getLivreDetails(value);
         });
 
