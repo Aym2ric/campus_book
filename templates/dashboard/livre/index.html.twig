@@ -52,21 +52,24 @@
     {{ form_end(form) }}
     <!-- FORMULAIRE DE FILTRE -->
 
-    <div class="card-columns mt-4">
+    <div class="row">
         {% for livre in pagination %}
-            <div class="card">
-                <div class="bg-dark text-center">
-                    <img class="card-img-top" src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}" alt="Card image cap">
+            <div class="col-md-4 col-xs-12 mt-4">
+                <div class="card">
+                    <div class="bg-dark text-center">
+                        <img class="card-img-top"
+                             src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}"
+                             alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ livre.nom }}</h4>
+                        <p class="card-text">{{ livre.description|slice(0, 250) }}...</p>
+                    </div>
+                    <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}" class="btn btn-primary w-100"><i
+                                class="fa fa-arrow-right"></i></a>
                 </div>
-                <div class="card-body">
-                    <h4 class="card-title">{{ livre.nom }}</h4>
-                    <p class="card-text">{{ livre.description }}</p>
-                </div>
-                <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}" class="btn btn-primary w-100"><i
-                            class="fa fa-arrow-right"></i></a>
             </div>
-                {% else %}
-
+        {% else %}
         {% endfor %}
     </div>
 

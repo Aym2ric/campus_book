@@ -46,31 +46,34 @@
             </div>
 
             {% if livresPretes|length > 0 %}
-                <div class="card-columns mt-4">
+                <div class="row">
                     {% for livre in livresPretes %}
-                        <div class="card">
-                            <div class="bg-dark text-center">
-                                <img class="card-img-top" src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}"
-                                     alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">{{ livre.nom }}</h4>
+                        <div class="col-md-4 col-xs-12 mt-4">
+                            <div class="card">
+                                <div class="bg-dark text-center">
+                                    <img class="card-img-top"
+                                         src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}"
+                                         alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ livre.nom }}</h4>
 
                                     {% if livre.etat == 'Validation' %}
-                                <label class="badge badge-warning text-white">En cours de validation</label>
+                                        <label class="badge badge-warning text-white">En cours de validation</label>
                                     {% endif %}
 
-                                {% if livre.etat == 'Disponible' %}
+                                    {% if livre.etat == 'Disponible' %}
                                         <label class="badge badge-success text-white">{{ livre.etat }}</label>
                                     {% endif %}
 
-                                {% if livre.etat == 'Indisponible' %}
-                                    <label class="badge badge-danger">Prêté</label>
-                                {% endif %}
-                                <p class="card-text">{{ livre.description }}</p>
+                                    {% if livre.etat == 'Indisponible' %}
+                                        <label class="badge badge-danger">Prêté</label>
+                                    {% endif %}
+                                    <p class="card-text">{{ livre.description|slice(0, 250) }}...</p>
+                                </div>
+                                <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}"
+                                   class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></a>
                             </div>
-                            <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}"
-                               class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></a>
                         </div>
                     {% endfor %}
                 </div>
@@ -94,19 +97,22 @@
             </div>
 
             {% if livresEmpruntes|length > 0 %}
-                <div class="card-columns mt-4">
+                <div class="row">
                     {% for livre in livresEmpruntes %}
-                        <div class="card">
-                            <div class="bg-dark text-center">
-                                <img class="card-img-top" src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}"
-                                     alt="Card image cap">
+                        <div class="col-md-4 col-xs-12 mt-4">
+                            <div class="card">
+                                <div class="bg-dark text-center">
+                                    <img class="card-img-top"
+                                         src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}"
+                                         alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ livre.nom }}</h4>
+                                    <p class="card-text">{{ livre.description }}</p>
+                                </div>
+                                <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}"
+                                   class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></a>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">{{ livre.nom }}</h4>
-                                <p class="card-text">{{ livre.description }}</p>
-                            </div>
-                            <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}"
-                               class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></a>
                         </div>
                     {% endfor %}
                 </div>
