@@ -33,9 +33,9 @@ class Livre
     private $auteur;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string")
      */
-    private $dateSortie;
+    private $anneeSortie;
 
     /**
      * @ORM\Column(type="text")
@@ -74,26 +74,25 @@ class Livre
     private $bloquerProchaineReservation = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="livres")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $type;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
     private $image;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $urlImage;
+
+    /**
      * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
-     * @var File
+     * @var File|null
      */
     private $imageFile;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true, nullable=true)
+     * @var \DateTime|null
      */
     private $updatedAt;
 
@@ -136,16 +135,14 @@ class Livre
         return $this;
     }
 
-    public function getDateSortie(): ?\DateTimeInterface
+    public function getAnneeSortie()
     {
-        return $this->dateSortie;
+        return $this->anneeSortie;
     }
 
-    public function setDateSortie(\DateTimeInterface $dateSortie): self
+    public function setAnneeSortie($anneeSortie): void
     {
-        $this->dateSortie = $dateSortie;
-
-        return $this;
+        $this->anneeSortie = $anneeSortie;
     }
 
     public function getDescription(): ?string
@@ -258,18 +255,6 @@ class Livre
         $this->hash = $hash;
     }
 
-    public function getType(): ?Type
-    {
-        return $this->type;
-    }
-
-    public function setType(?Type $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     public function setImageFile(File $image = null)
     {
         $this->imageFile = $image;
@@ -309,4 +294,21 @@ class Livre
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlImage()
+    {
+        return $this->urlImage;
+    }
+
+    /**
+     * @param mixed $urlImage
+     */
+    public function setUrlImage($urlImage): void
+    {
+        $this->urlImage = $urlImage;
+    }
+
 }

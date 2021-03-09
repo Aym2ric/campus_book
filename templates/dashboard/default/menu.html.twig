@@ -14,16 +14,16 @@
                 <span class="menu-title">Tous les livres</span>
             </a>
         </li>
-        <li class="nav-item {% if currentPath == path('dashboard_type_index') %}active{% endif %}">
-            <a class="nav-link" href="{{ path('dashboard_type_index') }}">
-                <i class="fa fa-star menu-icon"></i>
-                <span class="menu-title">Tous les genres</span>
-            </a>
-        </li>
         <li class="nav-item {% if currentPath == path('dashboard_livre_reserved') %}active{% endif %}">
             <a class="nav-link" href="{{ path('dashboard_livre_reserved') }}">
                 <i class="fa fa-cog menu-icon"></i>
                 <span class="menu-title">Gérer mes livres</span>
+            </a>
+        </li>
+        <li class="nav-item {% if currentPath == path('dashboard_livre_preter') %}active{% endif %}">
+            <a class="nav-link" href="{{ path('dashboard_livre_preter') }}">
+                <i class="fa fa-book-open menu-icon"></i>
+                <span class="menu-title">Prêter un livre</span>
             </a>
         </li>
     </ul>

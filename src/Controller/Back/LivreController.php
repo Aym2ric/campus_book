@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
@@ -69,11 +70,13 @@ class LivreController extends AbstractController
      * @Route("/new", name="livre_new", methods={"GET","POST"})
      * @param Request $request
      * @param Breadcrumbs $breadcrumbs
+     * @param KernelInterface $kernel
      * @return Response
      */
     public function new(
         Request $request,
-        Breadcrumbs $breadcrumbs
+        Breadcrumbs $breadcrumbs,
+        KernelInterface $kernel
     ): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
@@ -88,11 +91,23 @@ class LivreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form->get('urlImage')->getData() != null && $form->get('urlImage')->getData() != $request->getUriForPath('/vich/livre_default.PNG')) {
+                $upload_path = $kernel->getProjectDir() . '/public/vich/upload/image/';
+                $filename = uniqid();
+                $ext = pathinfo($form->get('urlImage')->getData(), PATHINFO_EXTENSION);
+                if($ext == null) {
+                    $ext = 'PNG';
+                }
+                file_put_contents($upload_path . $filename . '.' . $ext, file_get_contents($form->get('urlImage')->getData()));
+                $livre->setUrlImage( '/vich/upload/image/'.$filename . '.' . $ext);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livre);
             $entityManager->flush();
 
-            $this->addFlash("success","Livre créé.");
+            $this->addFlash("success", "Livre créé.");
             return $this->redirectToRoute('livre_index');
         }
 
@@ -125,7 +140,7 @@ class LivreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash("success","Livre modifié.");
+            $this->addFlash("success", "Livre modifié.");
             return $this->redirectToRoute('livre_index');
         }
 
@@ -148,34 +163,5 @@ class LivreController extends AbstractController
 
         $this->addFlash("success", "Livre supprimé.");
         return $this->redirectToRoute('livre_index');
-    }
-
-
-    /**
-     * @Route("/ajax/themesFromType", name="livre_ajax_themes_from_type", methods={"GET"})
-     * @param Request $request
-     * @param ThemeRepository $themeRepository
-     * @return JsonResponse
-     */
-    public function themesFromType(
-        Request $request,
-        ThemeRepository $themeRepository
-    )
-    {
-        $themes = $themeRepository->createQueryBuilder("q")
-            ->where("q.type = :type_id")
-            ->setParameter("type_id", $request->query->get("type_id"))
-            ->getQuery()
-            ->getResult();
-
-        $responseArray = array();
-        foreach($themes as $theme){
-            $responseArray[] = array(
-                "id" => $theme->getId(),
-                "nom" => $theme->getNom()
-            );
-        }
-
-        return new JsonResponse($responseArray);
     }
 }

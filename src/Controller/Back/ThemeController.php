@@ -3,8 +3,6 @@
 namespace App\Controller\Back;
 
 use App\Entity\Theme;
-use App\Entity\Type;
-use App\Form\Theme1Type;
 use App\Form\ThemeType;
 use App\Repository\ThemeRepository;
 use Doctrine\ORM\EntityManagerInterface;

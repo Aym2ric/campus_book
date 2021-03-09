@@ -20,6 +20,27 @@ class LivreRepository extends ServiceEntityRepository
         parent::__construct($registry, Livre::class);
     }
 
+    public function searchDashboard($formData = [])
+    {
+        $qb = $this->createQueryBuilder('l')
+        ->andWhere('l.etat = :etat')
+        ->setParameter('etat', LivreEtat::DISPONIBLE);
+
+        if (isset($formData['nom']) && $formData['nom'] != null) {
+            $qb
+                ->andWhere('l.nom LIKE :nom')
+                ->setParameter('nom', '%' . $formData['nom'] . '%');
+        }
+
+        if (isset($formData['theme']) && $formData['theme'] != null) {
+            $qb
+                ->andWhere('l.theme = :theme')
+                ->setParameter('theme',  $formData['theme']);
+        }
+
+        return $qb;
+    }
+
     public function search($formData = [])
     {
         $qb = $this->createQueryBuilder('l');

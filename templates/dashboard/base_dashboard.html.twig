@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ nomdusite }} | {% block title %}{% endblock %}</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="{{ asset('assets/font-awesome/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/fontawesome5152/css/all.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/serein/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/serein/css/vendor.bundle.addons.css') }}">
     <!-- endinject -->
@@ -51,8 +51,10 @@
             <!-- content-wrapper ends -->
             <!-- partial:partials/_footer.html -->
             <footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-
+                <div class="text-center">
+                    <span class="text-muted">Campus Book<br/>
+                    Tous droits réservés.<br/>
+                        Développé avec &hearts; par les élèves</span>
                 </div>
             </footer>
             <!-- partial -->
@@ -79,6 +81,8 @@
 <!-- Custom js for this page-->
 <script src="{{ asset('assets/serein/js/dashboard.js') }}"></script>
 <!-- End custom js for this page-->
+{% block javascript %}
+{% endblock %}
 </body>
 </html>
 

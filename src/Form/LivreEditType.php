@@ -5,10 +5,8 @@ namespace App\Form;
 use App\Entity\Etat\LivreEtat;
 use App\Entity\Livre;
 use App\Entity\Theme;
-use App\Entity\Type;
 use App\Entity\User;
 use App\Repository\ThemeRepository;
-use App\Repository\TypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -38,19 +36,12 @@ class LivreEditType extends AbstractType
     private $themeRepository;
 
     /**
-     * @var TypeRepository
-     */
-    private $typeRepository;
-
-    /**
      * LivreCreateType constructor.
      * @param EntityManagerInterface $entityManager
-     * @param TypeRepository $typeRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, TypeRepository $typeRepository, ThemeRepository $themeRepository)
+    public function __construct(EntityManagerInterface $entityManager, ThemeRepository $themeRepository)
     {
         $this->entityManager = $entityManager;
-        $this->typeRepository = $typeRepository;
         $this->themeRepository = $themeRepository;
     }
 
@@ -80,8 +71,21 @@ class LivreEditType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('dateSortie', DateType::class, [
-                'years' => range(date('Y') - 200, date('Y') + 5)
+            ->add('anneeSortie', TextType::class, [
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Année...',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('theme', EntityType::class, [
+                'required' => true,
+                'class' => Theme::class,
+                'choice_label' => 'nom',
+                'attr' => [
+                    'placeholder' => 'Thème...',
+                    'class' => 'form-control'
+                ]
             ])
             ->add('description', TextareaType::class, [
                 'required' => true,
@@ -121,82 +125,14 @@ class LivreEditType extends AbstractType
                 'choice_label' => 'nomComplet',
                 'required' => false,
                 'empty_data' => null
-            ]);
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
-
-    }
-
-    protected function addElements(FormInterface $form, Type $type = null)
-    {
-        $form
-            ->add('type', EntityType::class, [
-                'label' => 'Type',
-                'label_attr' => [
-                    'class' => 'font-weight-bold'
-                ],
-                'class' => Type::class,
+            ])
+            ->add('urlImage', TextType::class, [
+                'required' => false,
                 'attr' => [
-                    'class' => 'form-select',
-                    'data-placeholder' => 'Type...'
-                ],
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('t')->orderBy('t.nom', 'ASC');;
-                },
-                'choice_label' => 'nom',
-                'placeholder' => ''
+                    'placeholder' => 'Url Image...',
+                    'class' => 'form-control'
+                ]
             ]);
-
-        $themes = [];
-
-        if ($type) {
-            $qb = $this->themeRepository->createQueryBuilder("t")
-                ->where("t.type = :type_id")
-                ->setParameter("type_id", $type->getId());
-
-            $themes = $qb->getQuery()->getResult();
-        }
-
-        $form->add('theme', EntityType::class, [
-            'label' => 'Thème',
-            'label_attr' => [
-                'class' => 'font-weight-bold'
-            ],
-            'class' => Theme::class,
-            'attr' => [
-                'class' => 'form-select',
-                'data-placeholder' => 'Thème...'
-            ],
-            'choices' => $themes,
-            'choice_label' => 'nom',
-            'placeholder' => ''
-        ]);
-    }
-
-    function onPreSubmit(FormEvent $event)
-    {
-        $form = $event->getForm();
-        $data = $event->getData();
-
-        $qb = $this->typeRepository->createQueryBuilder("t")
-            ->where("t.id = :type_id")
-            ->setParameter("type_id", $data['type']);
-
-        $type = $qb->getQuery()->getOneOrNullResult();
-
-        $this->addElements($form, $type);
-    }
-
-    function onPreSetData(FormEvent $event)
-    {
-        $livre = $event->getData();
-        $form = $event->getForm();
-
-        // When you create a new person, the City is always empty
-        $type = $livre->getType() ? $livre->getType() : null;
-
-        $this->addElements($form, $type);
     }
 
     public function configureOptions(OptionsResolver $resolver)

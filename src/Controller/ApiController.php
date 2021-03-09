@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Etat\LivreEtat;
 use App\Entity\Livre;
+use App\Entity\Theme;
+use App\Repository\ThemeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -19,11 +21,45 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class ApiController extends AbstractController
 {
-    private $client;
-
-    public function __construct(HttpClientInterface $client)
+    /**
+     * @Route("/ajax/theme/new", name="api_theme_new", methods={"GET", "POST"})
+     * @param EntityManagerInterface $entityManager
+     * @param ThemeRepository $themeRepository
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function newTheme(
+        EntityManagerInterface $entityManager,
+        ThemeRepository $themeRepository,
+        Request $request
+    )
     {
-        $this->client = $client;
+        $nomTheme = $request->query->get("nomTheme");
+
+        $existe = $themeRepository->findOneBy(['nom' => $nomTheme]);
+
+        if (!$existe && $nomTheme != null) {
+            $newTheme = new Theme();
+            $newTheme->setNom($nomTheme);
+            $entityManager->persist($newTheme);
+            $entityManager->flush();
+
+            $response = [
+                'duplicate' => false,
+                'id' => $newTheme->getId()
+            ];
+
+        } else {
+
+            $response = [
+                'duplicate' => true,
+                'id' => $existe->getId()
+            ];
+
+        }
+
+        return new JsonResponse($response);
+
     }
 
     /**

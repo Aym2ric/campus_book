@@ -16,7 +16,7 @@
                             </div>
                             <div class="col pt-4">
                                 <h4 class="card-title">Livres disponibles</h4>
-                                <p class="text-muted">Liste des livres disponibles à l'emprunt</p>
+                                <p class="text-muted font-italic">Liste des livres disponibles à l'emprunt</p>
                             </div>
                         </div>
                         <div class="d-inline-flex">
@@ -35,21 +35,47 @@
     </div>
     <!-- BREADCRUMBS -->
 
-    <div class="card-columns mt-4">
+    <!-- FORMULAIRE DE FILTRE -->
+    {{ form_start(form) }}
+    <div class="row mx-0 mt-4">
+        <div class="col-4 bg-white radius-left">
+            {{ form_widget(form.nom) }}
+        </div>
+        <div class="col-4 bg-white border-left-grey">
+            {{ form_widget(form.theme) }}
+        </div>
+        <div class="col-4 bg-light text-right radius-rigth d-inline-flex p-0">
+            <button class="btn btn-link text-primary pr-0" type="submit"><i class="fa fa-search"></i></button>
+            <a href="{{ app.request.pathinfo }}" class="btn btn-link text-primary"><i class="fa fa-times"></i></a>
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <!-- FORMULAIRE DE FILTRE -->
 
+    <div class="card-columns mt-4">
         {% for livre in pagination %}
             <div class="card">
                 <div class="bg-dark text-center">
-                    <img class="card-img-top" src="{{ vich_uploader_asset(livre, 'imageFile') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ livre.urlImage ? livre.urlImage : vich_uploader_asset(livre, 'imageFile') }}" alt="Card image cap">
                 </div>
                 <div class="card-body">
                     <h4 class="card-title">{{ livre.nom }}</h4>
                     <p class="card-text">{{ livre.description }}</p>
                 </div>
-                <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}" class="btn btn-primary w-100"><i class="fa fa-arrow-right"></i></a>
+                <a href="{{ path('dashboard_livre_show', {'hash': livre.hash}) }}" class="btn btn-primary w-100"><i
+                            class="fa fa-arrow-right"></i></a>
             </div>
-        {% endfor %}
+                {% else %}
 
+        {% endfor %}
     </div>
+
+    {% if pagination|length == 0 %}
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning">Aucun livre ne correspond à votre recherche</div>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}
