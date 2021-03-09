@@ -108,10 +108,10 @@
                                     <br/>
                                     {% if livre.bloquerProchaineReservation == false %}
                                         <a class="btn btn-warning btn-block text-white"
-                                        href="{{ path('api_livre_bloquer_prochaine_reservation', {'hash': livre.hash}) }}">Bloquer la prochiane r&eacute;servation du livre</a>
+                                        href="{{ path('api_livre_bloquer_prochaine_reservation', {'hash': livre.hash}) }}">Bloquer la prochaine r&eacute;servation du livre</a>
                                     {% else %}
                                         <a class="btn btn-danger btn-block text-white"
-                                        href="{{ path('api_livre_debloquer_prochaine_reservation', {'hash': livre.hash}) }}">D&eacute;bloquer la prochiane r&eacute;servation du livre</a>
+                                        href="{{ path('api_livre_debloquer_prochaine_reservation', {'hash': livre.hash}) }}">D&eacute;bloquer la prochaine r&eacute;servation du livre</a>
                                     {% endif %}
                                 {% endif %}
                             </div>

@@ -8,6 +8,7 @@ use App\Form\UserCreateType;
 use App\Form\UserEditPasswordType;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
+use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -99,7 +100,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash("success","Utilisateur créé");
+            $this->addFlash("success", "Utilisateur créé");
             return $this->redirectToRoute('user_index');
         }
 
@@ -115,13 +116,16 @@ class UserController extends AbstractController
      * @param User $user
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Breadcrumbs $breadcrumbs
+     * @param MailerService $mailerService
      * @return Response
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     public function edit(
         Request $request,
         User $user,
         UserPasswordEncoderInterface $passwordEncoder,
-        Breadcrumbs $breadcrumbs
+        Breadcrumbs $breadcrumbs,
+        MailerService $mailerService
     ): Response
     {
         $breadcrumbs->addItem("Administration", $this->generateUrl('admin_index'));
@@ -132,10 +136,21 @@ class UserController extends AbstractController
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
+        if ($user->getEnabled() === false) {
+            $isDisabled = true;
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash("success","Utilisateur modifié");
+            if ($user->getEnabled() === true) {
+                $isDisabled = false;
+                if ($isDisabled === false) {
+                    $mailerService->activationCompte($user->getUsername(), 'CAMPUS BOOK - ACTIVIATION DE VOTRE COMPTE');
+                }
+            }
+
+            $this->addFlash("success", "Utilisateur modifié");
             return $this->redirectToRoute('user_index');
         }
 
@@ -149,7 +164,7 @@ class UserController extends AbstractController
             $user->setPassword($password);
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash("success","Mot de passe modifié");
+            $this->addFlash("success", "Mot de passe modifié");
             return $this->redirectToRoute('user_index');
         }
 

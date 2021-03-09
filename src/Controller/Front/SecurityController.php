@@ -6,11 +6,14 @@ use App\Entity\User;
 use App\Form\UserCreateType;
 use App\Form\UserRegisterType;
 use App\Repository\UserRepository;
+use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,14 +49,15 @@ class SecurityController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Request $request
+     * @param MailerService $mailerService
      * @return Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws TransportExceptionInterface
      */
     public function register(
-        UserRepository $userRepository,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        Request $request
+        Request $request,
+        MailerService $mailerService
     )
     {
         $user = new User();
@@ -69,7 +73,8 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash("success","Demande de création de compte enregistrée, votre compte sera activé par les administrateurs prochainement.");
+            $this->addFlash("success","Demande de création de compte enregistrée, votre compte sera activé par CAMPUS BOOK prochainement.");
+            $mailerService->demandeInscription($user->getUsername(), "CAMPUS BOOK - DEMANDE D'INSCRIPTION");
             return $this->redirectToRoute('app_login');
         }
 
