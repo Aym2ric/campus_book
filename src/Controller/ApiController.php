@@ -76,7 +76,7 @@ class ApiController extends AbstractController
             $livre->setReserverPar($this->getUser());
             $entityManager->flush();
 
-            $this->addFlash("success", "Livre réserver avec succès.");
+            $this->addFlash("success", "Livre réservé avec succès.");
             return $this->redirectToRoute('dashboard_livre_reserved');
         }
 
